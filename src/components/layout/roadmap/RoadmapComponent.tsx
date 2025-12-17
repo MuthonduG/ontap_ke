@@ -98,31 +98,35 @@ const RoadmapComponent = () => {
     }
   ];
 
-  // Calculate positions along the curve
+  // Calculate positions along the curve with better visibility
   const calculateCardPositions = () => {
     const positions = [];
     const totalSteps = roadmapSteps.length;
-    const curveHeight = 100; // Height of the curve in pixels
-    const containerWidth = 100; // Percentage width
+    const curveHeight = 80; // Reduced curve height for better visibility
+    const containerHeight = 500; // Fixed container height
     
     for (let i = 0; i < totalSteps; i++) {
       // Calculate x position (equally spaced with padding)
       const x = (i / (totalSteps - 1)) * 80 + 10; // 10% padding on each side
       
       // Calculate y position using a sine wave for alternating pattern
-      // This creates the curved effect
       const angle = (i / (totalSteps - 1)) * Math.PI;
       const y = Math.sin(angle) * curveHeight;
       
       // Alternate between top and bottom positioning
       const isTop = i % 2 === 0;
       
+      // Adjust Y positions to ensure cards are fully visible
+      const yPosition = isTop 
+        ? `calc(40% - ${y}px - 30px)`  // Move top cards higher
+        : `calc(60% + ${Math.abs(y)}px + 30px)`; // Move bottom cards lower
+      
       positions.push({
         x: `${x}%`,
-        y: isTop ? `calc(50% - ${y}px - 100px)` : `calc(50% + ${Math.abs(y)}px + 60px)`,
+        y: yPosition,
         rotation: i === 0 || i === totalSteps - 1 ? "0deg" : 
-                 i < totalSteps / 2 ? `${Math.sin(angle) * 2}deg` : 
-                 `${Math.sin(angle) * -2}deg`
+                 i < totalSteps / 2 ? `${Math.sin(angle) * 1.5}deg` : 
+                 `${Math.sin(angle) * -1.5}deg` // Reduced rotation
       });
     }
     
@@ -232,12 +236,12 @@ const RoadmapComponent = () => {
   return (
     <div 
       ref={roadmapRef}
-      className="w-full py-20 bg-gradient-to-b from-white to-gray-50 overflow-hidden h-fit"
+      className="w-full py-20 bg-gradient-to-b from-white to-gray-50"
     >
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 border border-emerald-200/50 mb-4">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r gap-4 from-emerald-100 to-teal-100 border border-emerald-200/50 mb-4">
             <span className="text-sm font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
               🚀 USER JOURNEY
             </span>
@@ -320,7 +324,7 @@ const RoadmapComponent = () => {
         </div>
 
         {/* Main Roadmap Container */}
-        <div className="relative h-[600px] w-full mb-8">
+        <div className="relative min-h-[800px] w-full mb-8">
           {/* Curved Connecting Line */}
           <div className="absolute inset-0 pointer-events-none">
             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -453,18 +457,11 @@ const RoadmapComponent = () => {
                     </div>
                   </div>
 
-                  {/* Active Step Indicator */}
-                  {isActive && (
-                    <>
-                      <div className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 animate-ping"></div>
-                    </>
-                  )}
-
                   {/* Connection line to the curve */}
-                  <div className={`absolute left-1/2 transform -translate-x-1/2 w-1 h-10 transition-all duration-300 ${
+                  <div className={`absolute left-1/2 transform -translate-x-1/2 w-1 h-12 transition-all duration-300 ${
                     isActive ? 'opacity-100' : 'opacity-50'
                   }`} style={{
-                    top: index % 2 === 0 ? 'calc(100% + 4px)' : '-44px',
+                    top: index % 2 === 0 ? 'calc(100% + 4px)' : '-48px',
                     background: isActive 
                       ? 'linear-gradient(to bottom, #10b981, #3b82f6)' 
                       : 'linear-gradient(to bottom, #d1d5db, #9ca3af)'
@@ -477,7 +474,7 @@ const RoadmapComponent = () => {
           })}
         </div>
 
-        {/* Mobile Layout (stacked cards) - fallback */}
+        {/* Mobile Layout (stacked cards) */}
         <div className="md:hidden space-y-8">
           {roadmapSteps.map((step, index) => (
             <div
