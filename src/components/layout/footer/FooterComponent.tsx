@@ -9,7 +9,6 @@ import {
   FaEnvelope,
   FaPhone,
   FaMapMarkerAlt,
-  FaRss,
   FaChevronRight,
   FaApple,
   FaGooglePlay
