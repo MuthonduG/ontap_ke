@@ -70,7 +70,7 @@ const PricingComponent = () => {
         { name: "Advanced security features", included: false }
       ],
       ctaText: "Start 14-day Trial",
-      highlight: "Most popular choice"
+      highlight: "Popular"
     },
     {
       name: "Silver",
@@ -363,18 +363,6 @@ const PricingComponent = () => {
                 )}
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Animation Status */}
-        <div className="text-center mt-12 mb-8">
-          <div className={`inline-flex items-center gap-3 bg-gradient-to-r from-emerald-50/50 to-teal-50/50 px-6 py-3 rounded-full border border-emerald-100 transition-all duration-500 ${
-            isInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-          }`}>
-            <div className="size-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full animate-pulse"></div>
-            <span className="text-sm text-gray-600 font-medium">
-              {isInView ? 'Cards revealed! • Hover for details' : 'Scroll into view to reveal cards'}
-            </span>
           </div>
         </div>
       </div>
