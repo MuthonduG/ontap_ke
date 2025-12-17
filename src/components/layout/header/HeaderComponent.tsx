@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from "react";
 
 const HeaderComponent = () => {
   const [activeFeature, setActiveFeature] = useState("attendance");
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isDashboardVisible, setIsDashboardVisible] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const dashboardRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   
@@ -59,224 +60,128 @@ const HeaderComponent = () => {
     }
   ];
 
-  // Rotate features automatically
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFeature(prev => {
-        const currentIndex = features.findIndex(f => f.id === prev);
-        const nextIndex = (currentIndex + 1) % features.length;
-        return features[nextIndex].id;
-      });
-    }, 4000);
-    
-    return () => clearInterval(interval);
-  }, []);
-
-  // Scroll detection for floating entries
+  // Simple scroll detection
   useEffect(() => {
     const handleScroll = () => {
-      if (!headerRef.current || !dashboardRef.current) return;
+      if (!headerRef.current || !dashboardRef.current || isAnimating) return;
       
       const headerBottom = headerRef.current.getBoundingClientRect().bottom;
       const dashboardTop = dashboardRef.current.getBoundingClientRect().top;
       const windowHeight = window.innerHeight;
       
-      // If user has scrolled past header and dashboard is in view
+      // When header is out of view AND dashboard is in view, show table entries
       if (headerBottom < 100 && dashboardTop < windowHeight * 0.8) {
-        setIsScrolled(true);
+        if (!isDashboardVisible) {
+          setIsAnimating(true);
+          setIsDashboardVisible(true);
+          setTimeout(() => setIsAnimating(false), 800);
+        }
       } else {
-        setIsScrolled(false);
+        if (isDashboardVisible) {
+          setIsAnimating(true);
+          setIsDashboardVisible(false);
+          setTimeout(() => setIsAnimating(false), 800);
+        }
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); 
     
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isDashboardVisible, isAnimating]);
 
   const activeFeatureData = features.find(f => f.id === activeFeature);
   
-  // Select two entries for floating animation
-  const floatingEntries = attendanceData.slice(0, 2);
+  // Floating entry positions around the headline
+  const floatingEntryPositions = [
+    { top: "15%", left: "5%", rotation: -5 },
+    { top: "25%", right: "5%", rotation: 5 },
+    { top: "50%", left: "2%", rotation: -3 },
+    { top: "60%", right: "2%", rotation: 3 },
+    { top: "75%", left: "8%", rotation: -2 },
+    { top: "85%", right: "8%", rotation: 2 },
+  ];
 
   return (
-    <>
-      {/* Custom CSS for animations */}
-      <style>
-        {`
-          @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-          }
-          
-          @keyframes gradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-          }
-          
-          @keyframes slideIn {
-            from { 
-              opacity: 0;
-              transform: translateX(-100px) translateY(50px);
-            }
-            to { 
-              opacity: 1;
-              transform: translateX(0) translateY(0);
-            }
-          }
-          
-          @keyframes slideOut {
-            from { 
-              opacity: 1;
-              transform: translateX(0) translateY(0);
-            }
-            to { 
-              opacity: 0;
-              transform: translateX(-100px) translateY(50px);
-            }
-          }
-          
-          @keyframes slideToDashboard {
-            from { 
-              opacity: 1;
-              transform: translateX(0) translateY(0);
-            }
-            to { 
-              opacity: 0;
-              transform: translateX(calc(50vw - 50%)) translateY(calc(50vh - 50%));
-            }
-          }
-          
-          @keyframes slideFromDashboard {
-            from { 
-              opacity: 0;
-              transform: translateX(calc(50vw - 50%)) translateY(calc(50vh - 50%));
-            }
-            to { 
-              opacity: 1;
-              transform: translateX(0) translateY(0);
-            }
-          }
-          
-          .animate-float {
-            animation: float 6s ease-in-out infinite;
-          }
-          
-          .animate-gradient {
-            background-size: 200% auto;
-            animation: gradient 3s ease-in-out infinite;
-          }
-          
-          .animate-pulse-slow {
-            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-          }
-          
-          .floating-entry {
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-          }
-          
-          @keyframes pulse {
-            0%, 100% { opacity: 0.1; }
-            50% { opacity: 0.2; }
-          }
-        `}
-      </style>
-    
+    <>    
       <header 
         ref={headerRef}
-        className="w-full flex flex-col justify-center items-center bg-gradient-to-b from-white via-emerald-50/30 to-teal-50/20 pt-12 pb-16 px-4 overflow-hidden relative"
+        className="w-full flex flex-col justify-center items-center bg-gradient-to-b from-white via-emerald-50/30 to-teal-50/20 pt-12 pb-32 px-4 overflow-hidden relative min-h-screen"
       >
         
         {/* Animated Background Elements */}
         <div className="absolute top-10 left-10 w-72 h-72 bg-emerald-300/10 rounded-full blur-3xl animate-pulse-slow"></div>
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-teal-400/10 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
         
-        {/* Floating Entries (Visible when not scrolled) */}
-        {!isScrolled && (
-          <>
-            {/* Left side floating entry */}
-            <div 
-              className={`fixed top-1/4 left-4 z-40 floating-entry`}
-              style={{
-                animation: 'slideIn 0.8s ease-out forwards',
-                opacity: isScrolled ? 0 : 1,
-                transform: isScrolled ? 'translateX(-100px) translateY(50px)' : 'translateX(0) translateY(0)'
-              }}
-            >
-              <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl shadow-emerald-200/50 border border-emerald-100 p-4 w-64 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="size-12 rounded-full overflow-hidden border-2 border-white shadow-sm">
-                    <img 
-                      src={floatingEntries[0].avatar} 
-                      alt={floatingEntries[0].name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-800">{floatingEntries[0].name}</p>
-                    <p className="text-xs text-gray-500">{floatingEntries[0].role}</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-1">
-                    <FaClock className="size-3 text-emerald-500" />
-                    <span className="text-gray-700">{floatingEntries[0].timeIn}</span>
-                  </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    floatingEntries[0].status === 'present' 
-                      ? 'bg-emerald-100 text-emerald-700'
-                      : 'bg-amber-100 text-amber-700'
-                  }`}>
-                    {floatingEntries[0].status}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right side floating entry */}
-            <div 
-              className={`fixed top-1/3 right-4 z-40 floating-entry`}
-              style={{
-                animation: 'slideIn 0.8s ease-out 0.2s forwards',
-                opacity: isScrolled ? 0 : 1,
-                transform: isScrolled ? 'translateX(100px) translateY(50px)' : 'translateX(0) translateY(0)'
-              }}
-            >
-              <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl shadow-emerald-200/50 border border-emerald-100 p-4 w-64 transform rotate-3 hover:rotate-0 transition-transform duration-300">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="size-12 rounded-full overflow-hidden border-2 border-white shadow-sm">
-                    <img 
-                      src={floatingEntries[1].avatar} 
-                      alt={floatingEntries[1].name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-800">{floatingEntries[1].name}</p>
-                    <p className="text-xs text-gray-500">{floatingEntries[1].role}</p>
+        {/* All Floating Entries around the headline */}
+        {!isDashboardVisible && (
+          <div className="absolute inset-0 z-30 pointer-events-none">
+            {attendanceData.map((employee, index) => {
+              const position = floatingEntryPositions[index];
+              return (
+                <div
+                  key={employee.id}
+                  className={`fixed floating-entry-card hidden lg:block`}
+                  style={{
+                    top: position.top,
+                    left: position.left,
+                    right: position.right,
+                    '--start-rotation': `${position.rotation * 2}deg`,
+                    '--end-rotation': `${position.rotation}deg`,
+                    animation: isDashboardVisible 
+                      ? `floatOut 0.8s ease-out ${(attendanceData.length - index - 1) * 0.1}s forwards`
+                      : `floatIn 0.8s ease-out ${index * 0.1}s forwards`,
+                    opacity: isDashboardVisible ? 0 : 1,
+                    animationDelay: isDashboardVisible 
+                      ? `${(attendanceData.length - index - 1) * 0.1}s`
+                      : `${index * 0.1}s`,
+                  } as React.CSSProperties}
+                >
+                  <div 
+                    className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl shadow-emerald-200/50 border border-emerald-100 p-4 w-56 transform hover:scale-105 hover:shadow-emerald-300/70 transition-all duration-300"
+                    style={{
+                      transform: `rotate(${position.rotation}deg)`,
+                    }}
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="size-10 rounded-full overflow-hidden border-2 border-white shadow-sm relative">
+                        <img 
+                          src={employee.avatar} 
+                          alt={employee.name}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/20 to-transparent rounded-full"></div>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-800 text-sm">{employee.name}</p>
+                        <p className="text-xs text-gray-500 truncate">{employee.role}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-1">
+                        <FaClock className="size-3 text-emerald-500" />
+                        <span className="text-gray-700">{employee.timeIn}</span>
+                      </div>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        employee.status === 'present' 
+                          ? 'bg-emerald-100 text-emerald-700'
+                          : employee.status === 'late'
+                          ? 'bg-amber-100 text-amber-700'
+                          : 'bg-red-100 text-red-700'
+                      }`}>
+                        {employee.status}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-1">
-                    <FaClock className="size-3 text-emerald-500" />
-                    <span className="text-gray-700">{floatingEntries[1].timeIn}</span>
-                  </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    floatingEntries[1].status === 'present' 
-                      ? 'bg-emerald-100 text-emerald-700'
-                      : 'bg-amber-100 text-amber-700'
-                  }`}>
-                    {floatingEntries[1].status}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </>
+              );
+            })}
+          </div>
         )}
         
         {/* Main Content */}
-        <div className="w-full max-w-6xl flex flex-col justify-center items-center relative z-10">
+        <div className="w-full max-w-6xl flex flex-col justify-center items-center relative z-40">
           
           {/* Badge */}
           <div className="mb-6">
@@ -298,21 +203,23 @@ const HeaderComponent = () => {
                 in One Platform
               </span>
             </h1>
-            
-            {/* Animated indicators showing entries can move */}
-            {!isScrolled && (
-              <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-2 text-sm text-emerald-600 animate-pulse">
-                <span>👆 Scroll to see entries move</span>
-                <FaArrowRight className="size-4" />
-              </div>
-            )}
           </div>
 
+          {/* Subheadline */}
+          <p className="text-xl md:text-xl text-gray-400 text-center max-w-3xl mb-12 leading-10">
+            Streamline recruitment, automate payroll, boost engagement, and ensure compliance—all from a single, intuitive HR management platform designed for modern businesses.
+          </p>
+
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-16">
-            <button className="px-8 py-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-lg hover:shadow-xl hover:shadow-emerald-300/50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-3 group">
-              <span>Start Free Trial</span>
-              <FaRocket className="size-5 group-hover:translate-x-1 transition-transform duration-300" />
+          <div className="flex flex-col sm:flex-row gap-4 mt-20">
+            <button className="px-8 py-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-lg hover:shadow-xl hover:shadow-emerald-300/50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-3 group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" 
+                style={{ 
+                  backgroundSize: '200% 100%',
+                  animation: 'shimmer 2s infinite linear'
+                }}></div>
+              <span className="relative">Start Free Trial</span>
+              <FaRocket className="size-5 group-hover:translate-x-1 transition-transform duration-300 relative" />
             </button>
             
             <button className="px-8 py-4 rounded-full bg-white text-gray-800 font-semibold text-lg border-2 border-emerald-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-3 group">
@@ -323,7 +230,7 @@ const HeaderComponent = () => {
 
         </div>
 
-        {/* Floating Elements */}
+        {/* Decorative floating elements */}
         <div className="absolute top-1/4 left-5 animate-float">
           <div className="w-4 h-4 bg-emerald-300/30 rounded-full"></div>
         </div>
@@ -335,7 +242,7 @@ const HeaderComponent = () => {
       {/* Full Width Dashboard Container */}
       <div 
         ref={dashboardRef}
-        className="w-full relative z-10 px-4"
+        className="w-full relative z-10 px-4 -mt-16"
       >
         {/* Feature Navigation Tabs */}
         <div className="max-w-6xl mx-auto mb-8">
@@ -358,7 +265,7 @@ const HeaderComponent = () => {
         </div>
 
         {/* Dashboard Container */}
-        <div className="w-full bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl shadow-emerald-100/50 border border-emerald-100 overflow-hidden max-w-6xl mx-auto">
+        <div className="w-full bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl shadow-emerald-100/50 border border-emerald-100 overflow-hidden max-w-6xl mx-auto">
           
           {/* Feature Header with Animation */}
           <div className={`bg-gradient-to-r from-${activeFeatureData?.color}-50 to-${activeFeatureData?.color}-100 p-8 border-b border-emerald-100 transition-all duration-500`}>
@@ -381,7 +288,7 @@ const HeaderComponent = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-gray-500">Active</p>
-                      <p className="text-2xl font-bold text-emerald-600">24</p>
+                      <p className="text-2xl font-bold text-emerald-600">{attendanceData.length}</p>
                     </div>
                     <FaUserCheck className="size-6 text-emerald-500/30" />
                   </div>
@@ -390,8 +297,22 @@ const HeaderComponent = () => {
                 <div className="bg-white/80 rounded-xl p-4 border border-gray-100">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500">Pending</p>
-                      <p className="text-2xl font-bold text-amber-500">8</p>
+                      <p className="text-sm text-gray-500">Present</p>
+                      <p className="text-2xl font-bold text-emerald-600">
+                        {attendanceData.filter(e => e.status === 'present').length}
+                      </p>
+                    </div>
+                    <FaCheckCircle className="size-6 text-emerald-500/30" />
+                  </div>
+                </div>
+                
+                <div className="bg-white/80 rounded-xl p-4 border border-gray-100">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-gray-500">Late</p>
+                      <p className="text-2xl font-bold text-amber-500">
+                        {attendanceData.filter(e => e.status === 'late').length}
+                      </p>
                     </div>
                     <FaClock className="size-6 text-amber-500/30" />
                   </div>
@@ -400,20 +321,12 @@ const HeaderComponent = () => {
                 <div className="bg-white/80 rounded-xl p-4 border border-gray-100">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500">Completed</p>
-                      <p className="text-2xl font-bold text-blue-500">42</p>
+                      <p className="text-sm text-gray-500">Absent</p>
+                      <p className="text-2xl font-bold text-red-500">
+                        {attendanceData.filter(e => e.status === 'absent').length}
+                      </p>
                     </div>
-                    <FaCheckCircle className="size-6 text-blue-500/30" />
-                  </div>
-                </div>
-                
-                <div className="bg-white/80 rounded-xl p-4 border border-gray-100">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-gray-500">Total</p>
-                      <p className="text-2xl font-bold text-gray-700">74</p>
-                    </div>
-                    <FaUsers className="size-6 text-gray-400/30" />
+                    <FaUsers className="size-6 text-red-500/30" />
                   </div>
                 </div>
               </div>
@@ -425,7 +338,7 @@ const HeaderComponent = () => {
             {/* Attendance Dashboard */}
             {activeFeature === "attendance" && (
               <div className="space-y-6">
-                <div className="overflow-x-auto rounded-xl border border-gray-100">
+                <div className="overflow-x-auto rounded-xl border border-gray-100 relative">
                   <table className="w-full">
                     <thead className="bg-gray-50">
                       <tr>
@@ -441,21 +354,26 @@ const HeaderComponent = () => {
                       {attendanceData.map((employee, index) => (
                         <tr 
                           key={employee.id} 
-                          className="hover:bg-emerald-50/50 transition-colors relative"
+                          className="hover:bg-emerald-50/50 transition-colors duration-300"
                           style={{
-                            animation: isScrolled && index < 2 
-                              ? 'slideFromDashboard 0.8s ease-out forwards' 
-                              : 'none'
+                            animation: isDashboardVisible 
+                              ? `slideIntoTable 0.8s ease-out ${index * 0.1}s forwards`
+                              : `slideOutOfTable 0.8s ease-out ${(attendanceData.length - index - 1) * 0.1}s forwards`,
+                            opacity: isDashboardVisible ? 1 : 0,
+                            animationDelay: isDashboardVisible 
+                              ? `${index * 0.1}s`
+                              : `${(attendanceData.length - index - 1) * 0.1}s`,
                           }}
                         >
                           <td className="py-4 px-6">
                             <div className="flex items-center gap-3">
-                              <div className="size-10 rounded-full overflow-hidden border-2 border-white shadow-sm">
+                              <div className="size-10 rounded-full overflow-hidden border-2 border-white shadow-sm relative group">
                                 <img 
                                   src={employee.avatar} 
                                   alt={employee.name}
-                                  className="w-full h-full object-cover"
+                                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                                 />
+                                <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/10 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                               </div>
                               <div>
                                 <p className="font-medium text-gray-800">{employee.name}</p>
@@ -505,20 +423,9 @@ const HeaderComponent = () => {
                   </table>
                 </div>
                 
-                {/* Visual indicator for moving entries */}
-                {isScrolled && (
-                  <div className="text-center p-4 bg-gradient-to-r from-emerald-50/50 to-teal-50/50 rounded-xl border border-emerald-100">
-                    <p className="text-sm text-emerald-600 font-medium animate-pulse">
-                      <FaArrowRight className="inline mr-2 size-4" />
-                      Entries smoothly moved into table
-                      <FaArrowRight className="inline ml-2 size-4 transform rotate-180" />
-                    </p>
-                  </div>
-                )}
-                
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4 p-4 bg-gradient-to-r from-emerald-50/50 to-teal-50/50 rounded-xl border border-emerald-100">
                   <p className="text-sm text-gray-600">
-                    <span className="font-semibold text-emerald-600">Attendance Summary:</span> 83% of employees are present today
+                    <span className="font-semibold text-emerald-600">Attendance Summary:</span> {Math.round((attendanceData.filter(e => e.status === 'present').length / attendanceData.length) * 100)}% of employees are present today
                   </p>
                   <div className="flex gap-3">
                     <button className="px-4 py-2 bg-white text-emerald-600 text-sm font-medium rounded-lg border border-emerald-200 hover:bg-emerald-50 transition-colors">
@@ -532,8 +439,7 @@ const HeaderComponent = () => {
               </div>
             )}
 
-            {/* Other dashboard features (payroll, tasks, recruitment) */}
-            {/* ... (rest of your existing code for other features) */}
+            {/* Other dashboard features remain the same */}
           </div>
           
           {/* Dashboard Footer */}
