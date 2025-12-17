@@ -197,7 +197,7 @@ const IntegrationsComponent = () => {
           </h2>
           
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Integrate OnTapHR with the tools your team already loves. Streamline workflows and 
+            Integrate OnTap with the tools your team already loves. Streamline workflows and 
             boost productivity with seamless connections.
           </p>
         </div>
@@ -349,20 +349,6 @@ const IntegrationsComponent = () => {
       <div className="absolute right-8 bottom-1/4 animate-float delay-700">
         <div className="w-6 h-6 bg-teal-400/20 rounded-full"></div>
       </div>
-
-      {/* Custom Styles
-      <style>
-        {`
-          @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-          }
-          
-          .animate-float {
-            animation: float 6s ease-in-out infinite;
-          }
-        `} */}
-      {/* </style> */}
     </div>
   );
 };
