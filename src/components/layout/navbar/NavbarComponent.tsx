@@ -173,19 +173,15 @@ const NavbarComponent = () => {
         {/* Enhanced Logo Container */}
         <div className="flex items-center space-x-3">
           <div className="relative group">
-            {/* Outer glow ring */}
-            <div className="absolute -inset-2 bg-gradient-to-r from-emerald-400/20 to-teal-600/20 rounded-full blur-sm group-hover:blur-md transition-all duration-300"></div>
             
-            {/* Animated gradient border */}
+            <div className="absolute -inset-2 bg-gradient-to-r from-emerald-400/20 to-teal-600/20 rounded-full blur-sm group-hover:blur-md transition-all duration-300"></div>
+
             <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-400 via-teal-500 to-teal-600 rounded-full animate-pulse-slow opacity-70"></div>
             
-            {/* Main logo container */}
             <div className="relative flex justify-center items-center w-14 h-14 rounded-full bg-gradient-to-br from-white via-emerald-50 to-teal-50 shadow-lg">
               
-              {/* Inner shine effect */}
               <div className="absolute top-0 left-1/4 w-2 h-4 bg-white/50 blur-sm transform -rotate-45"></div>
               
-              {/* Subtle pattern overlay */}
               <div className="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.3)_0%,_transparent_70%)]"></div>
               
               {/* Logo with enhanced effects */}

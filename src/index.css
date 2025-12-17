@@ -25,3 +25,31 @@
     visibility: hidden;
     scroll-behavior: smooth;
 }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+          
+@keyframes gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+          
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+          
+.animate-gradient {
+  background-size: 200% auto;
+  animation: gradient 3s ease-in-out infinite;
+}
+          
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+          
+@keyframes pulse {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.2; }
+}
