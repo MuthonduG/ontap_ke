@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Your custom styles below */
+* {
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    visibility: hidden;
+    scroll-behavior: smooth;
+}
