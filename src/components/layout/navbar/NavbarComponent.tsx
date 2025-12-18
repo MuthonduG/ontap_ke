@@ -168,7 +168,7 @@ const NavbarComponent = () => {
   return (
     <>
       {/* Navigation Bar */}
-      <nav className="w-full flex justify-between items-center px-6 py-3 border-b border-gray-200/50 bg-white/95 backdrop-blur-sm relative z-50">
+      <nav className="w-full fixed flex justify-between items-center px-6 py-3 border-b border-gray-200/50 bg-white/95 backdrop-blur-sm z-50 shadow-md drop-shadow-gray-400">
         
         {/* Enhanced Logo Container */}
         <div className="flex items-center space-x-3">

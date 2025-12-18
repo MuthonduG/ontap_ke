@@ -7,7 +7,7 @@ import {
   FaYoutube,
   FaArrowUp,
   FaEnvelope,
-  FaPhone,
+  FaPhoneAlt,
   FaMapMarkerAlt,
   FaChevronRight,
   FaApple,
@@ -130,7 +130,7 @@ const FooterComponent = () => {
   // Contact info
   const contactInfo = [
     { icon: <FaEnvelope />, text: "support@workforce.com" },
-    { icon: <FaPhone />, text: "+1 (555) 123-4567" },
+    { icon: <FaPhoneAlt />, text: "+1 (555) 123-4567" },
     { icon: <FaMapMarkerAlt />, text: "123 Innovation Street, Tech City" },
   ];
 

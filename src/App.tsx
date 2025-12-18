@@ -1,12 +1,23 @@
 import './App.css'
-import LandingPage from './pages/landing-page/LandingPage'
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import routes from "./routing"; // Make sure this import path is correct
+import NavbarComponent from './components/layout/navbar/NavbarComponent';
 
 function App() {
-
   return (
     <>
-       <LandingPage/>
+      <Router>
+        <NavbarComponent/>
+        <Routes>
+          {routes.map((route, index) => (
+            <Route 
+              key={index} 
+              path={route.path} 
+              element={route.element} 
+            />
+          ))}
+        </Routes>
+      </Router>
     </>
   )
 }
