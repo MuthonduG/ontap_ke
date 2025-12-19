@@ -1,62 +1,111 @@
 @import "tailwindcss";
 
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
 }
-          
+
 @keyframes gradient {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
-          
+
 @keyframes floatIn {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(100px) scale(0.8) rotate(var(--start-rotation));
   }
-  to { 
+  to {
     opacity: 1;
     transform: translateY(0) scale(1) rotate(var(--end-rotation));
   }
 }
-          
+
 @keyframes floatOut {
-  from { 
+  from {
     opacity: 1;
     transform: translateY(0) scale(1) rotate(var(--end-rotation));
   }
-  to { 
+  to {
     opacity: 0;
     transform: translateY(-100px) scale(0.8) rotate(calc(var(--end-rotation) + 10deg));
   }
 }
-          
+
 @keyframes slideIntoTable {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(-30px);
   }
-  to { 
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-          
+
 @keyframes slideOutOfTable {
-  from { 
+  from {
     opacity: 1;
     transform: translateY(0);
   }
-  to { 
+  to {
     opacity: 0;
     transform: translateY(30px);
   }
 }
 
-/* NEW ANIMATIONS */
 @keyframes spreadFromCenter {
   0% {
     opacity: 0;
@@ -75,29 +124,131 @@
   }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { 
-    opacity: 0.2;
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+@keyframes floatParticle {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
   }
-  50% { 
-    opacity: 0.4;
-    box-shadow: 0 0 40px rgba(16, 185, 129, 0.3);
+  25% {
+    transform: translateY(-20px) translateX(10px);
+  }
+  50% {
+    transform: translateY(0) translateX(20px);
+  }
+  75% {
+    transform: translateY(20px) translateX(10px);
   }
 }
 
-@keyframes centerPulse {
-  0%, 100% { 
-    transform: scale(1);
-    opacity: 0.8;
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
   }
-  50% { 
-    transform: scale(1.2);
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes bounceSlow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
     opacity: 1;
   }
+  50% {
+    opacity: 0.7;
+  }
 }
 
-@keyframes fadeInUp {
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+  }
+}
+
+@keyframes pulseBorder {
+  0%, 100% {
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    border-color: rgba(16, 185, 129, 0.6);
+  }
+}
+
+@keyframes testimonialBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  30% {
+    transform: translateY(-15px) scale(1.05);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.02);
+  }
+  70% {
+    transform: translateY(-10px) scale(1.03);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinOrb {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(360deg) scale(1.2);
+  }
+}
+
+@keyframes pulseOrb {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.2;
+  }
+}
+
+@keyframes gradientFlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes textReveal {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -108,53 +259,277 @@
   }
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 0.1; }
-  50% { opacity: 0.2; }
+@keyframes flowLine {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes cardLift {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes featureReveal {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes staggerCard {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes featureTag {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes growth {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes buttonsStagger {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseText {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes pulseNumber {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 @keyframes shimmer {
-  0% { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
 }
 
-/* ANIMATION CLASSES */
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-          
-.animate-gradient {
-  background-size: 200% auto;
-  animation: gradient 3s ease-in-out infinite;
-}
-          
-.animate-pulse-slow {
-  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+/* Animation Classes */
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s ease-out forwards;
 }
 
-.animate-spread {
-  animation: spreadFromCenter 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+.animate-slide-in-right {
+  animation: slideInRight 0.8s ease-out forwards;
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-.animate-center-pulse {
-  animation: centerPulse 2s ease-in-out infinite;
+.animate-slide-in-up {
+  animation: slideInUp 0.8s ease-out forwards;
 }
 
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease-out forwards;
 }
 
+.animate-fade-in-delay {
+  animation: fadeInUp 0.8s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-particle {
+  animation: floatParticle 20s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.animate-pulse-border {
+  animation: pulseBorder 2s ease-in-out infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
 .animate-bounce {
-  animation: bounce 2s infinite;
+  animation: bounce 0.5s ease-in-out;
+}
+
+.animate-testimonial-bounce {
+  animation: testimonialBounce 0.6s ease-out;
+}
+
+.animate-bounce-slow {
+  animation: bounceSlow 2s ease-in-out infinite;
+}
+
+.animate-spin {
+  animation: spin 1s ease-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spinSlow 20s linear infinite;
+}
+
+.animate-spin-orb {
+  animation: spinOrb 30s linear infinite;
+}
+
+.animate-pulse-orb {
+  animation: pulseOrb 4s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% auto;
+  animation: gradient 3s ease-in-out infinite;
+}
+
+.animate-gradient-flow {
+  background-size: 200% auto;
+  animation: gradientFlow 3s ease infinite;
+}
+
+.animate-text-reveal {
+  animation: textReveal 0.6s ease-out forwards;
+}
+
+.animate-count-up {
+  animation: countUp 0.5s ease-out forwards;
+}
+
+.animate-improvement-pulse {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.animate-flow-line {
+  background-size: 200% 100%;
+  animation: flowLine 10s linear infinite;
+}
+
+.animate-card-lift {
+  animation: cardLift 0.3s ease-out forwards;
+}
+
+.animate-feature-reveal {
+  animation: featureReveal 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-stagger-card {
+  animation: staggerCard 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-feature-card {
+  animation: staggerCard 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-feature-tag {
+  animation: featureTag 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-growth {
+  animation: growth 1s ease-out;
+}
+
+.animate-buttons-stagger {
+  animation: buttonsStagger 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-pulse-text {
+  animation: pulseText 2s ease-in-out infinite;
+}
+
+.animate-pulse-number {
+  animation: pulseNumber 2s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.animate-stats-card {
+  animation: slideInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-spread {
+  animation: spreadFromCenter 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.hover\:animate-bounce:hover {
+  animation: bounce 0.8s ease-in-out;
+}
+
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Card animation delays */
