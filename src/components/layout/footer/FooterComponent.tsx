@@ -344,8 +344,7 @@ const FooterComponent = () => {
               style={fadeInUp(0.6)}
             >
               <div className="flex items-center gap-2">
-                © {new Date().getFullYear()} WorkforcePro. All rights reserved.
-                <FiHeart className="text-red-500 animate-pulse" />
+                © {new Date().getFullYear()} OnTap. All rights reserved.
               </div>
               <p className="mt-2 text-xs text-gray-600">
                 Made with passion for better workforce management.

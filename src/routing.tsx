@@ -3,6 +3,7 @@ import LandingPage from "./pages/landing-page/LandingPage";
 import AboutusPage from "./pages/about/AboutusPage";
 import HrAnalytics from "./pages/hr-analytics/HrAnalytics";
 import RecruitmentOnboardingPage from "./pages/recruitment/RecruitmentOnboardingPage";
+import EventsPage from "./pages/events/EventsPage";
 
 type RouteType = {
     path: string;
@@ -23,8 +24,12 @@ export const routes: RouteType[] = [
         element: <HrAnalytics/>
     },
     {
-        path: 'recruitment',
+        path: '/recruitment',
         element: <RecruitmentOnboardingPage/>
+    },
+    {
+        path: '/events',
+        element: <EventsPage/>
     }
 ]
 
