@@ -191,12 +191,12 @@ const PricingPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-emerald-50/20 via-white to-teal-50/20">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 animate-gradient">
-        <div className="absolute inset-0 animate-pulse-orb">
+        <div className="absolute inset-0 animate-pulse-orb ">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-emerald-300/10 rounded-full animate-pulse-orb"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-300/10 rounded-full animate-pulse-orb" style={{animationDelay: '1s'}}></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center">
+          <div className="text-center py-10">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white mb-6 animate-feature-tag">
               <FaCreditCard className="animate-spin-slow" />
               <span className="text-sm font-semibold">TRANSPARENT PRICING</span>

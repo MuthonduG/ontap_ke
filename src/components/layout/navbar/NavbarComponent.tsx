@@ -26,7 +26,7 @@ const platformItems: DropdownItem[] = [
   { 
     title: "Employee Lifecycle Management", 
     description: "From hiring to retirement tracking", 
-    href: "#", 
+    href: "/hrm_ai", 
     icon: <FaUsers className="text-blue-500 size-5" />
   },
   { 
@@ -38,7 +38,7 @@ const platformItems: DropdownItem[] = [
   { 
     title: "AI-Powered HR Assistant", 
     description: "Smart automation for HR tasks", 
-    href: "#", 
+    href: "/hrm_ai", 
     icon: <FaLightbulb className="text-amber-500 size-5" />
   }
 ];
@@ -107,7 +107,7 @@ const hrmFeaturesItems: DropdownItem[] = [
   { 
     title: "Attendance & Leave Management", 
     description: "Automated tracking & approvals", 
-    href: "#", 
+    href: "/hrm_ai", 
     icon: <FaCalendarAlt className="text-blue-500 size-5" />
   },
   { 
@@ -126,6 +126,7 @@ const hrmFeaturesItems: DropdownItem[] = [
 
 const navList: navProps[] = [
   { title: "Home", href: "/" },
+  { title: "About Us", href: "/about" },
   { 
     title: "Platform", 
     href: "#",
