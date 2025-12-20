@@ -39,7 +39,7 @@ export const routes: RouteType[] = [
         element: <EmployeeEngagementPage/>
     },
     {
-        path: 'compliance',
+        path: '/compliance',
         element: <HrCompliancePage/>
     },
     {

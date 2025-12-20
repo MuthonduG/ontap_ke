@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaPlay, FaCalendarAlt, FaClock, FaUsers, FaStar, FaChevronRight, FaRegCheckCircle, FaVideo, FaChalkboardTeacher, FaCertificate, FaQuoteLeft, FaRegCalendarCheck, FaLeaf, FaRocket, FaBrain, FaTrophy } from "react-icons/fa";
+import { FaPlay, FaCalendarAlt, FaClock, FaUsers, FaStar, FaChevronRight, FaRegCheckCircle, FaVideo, FaChalkboardTeacher, FaCertificate, FaQuoteLeft, FaRegCalendarCheck, FaLeaf, FaRocket, FaBrain } from "react-icons/fa";
 import FooterComponent from "../../components/layout/footer/FooterComponent";
 
 const EventsPage = () => {

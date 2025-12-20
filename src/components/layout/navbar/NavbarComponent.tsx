@@ -1,4 +1,5 @@
 import { FaRegArrowAltCircleRight, FaChevronDown, FaUsers, FaChartLine, FaFileAlt, FaLightbulb, FaHandshake, FaShieldAlt, FaUserTie, FaCalendarAlt, FaMoneyBillWave, FaGraduationCap } from "react-icons/fa";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import NavLogo from "../../../assets/full_logo.png";
 import { useState, type ReactNode } from "react";
 
@@ -19,7 +20,7 @@ const platformItems: DropdownItem[] = [
   { 
     title: "HR Analytics Dashboard", 
     description: "Real-time workforce insights & metrics", 
-    href: "#", 
+    href: "/hr_analytics", 
     icon: <FaChartLine className="text-emerald-500 size-5" />
   },
   { 
@@ -31,7 +32,7 @@ const platformItems: DropdownItem[] = [
   { 
     title: "Compliance & Documentation", 
     description: "Stay compliant with labor laws", 
-    href: "#", 
+    href: "/compliance", 
     icon: <FaFileAlt className="text-purple-500 size-5" />
   },
   { 
@@ -46,25 +47,25 @@ const solutionsItems: DropdownItem[] = [
   { 
     title: "Recruitment & Onboarding", 
     description: "Streamlined hiring process", 
-    href: "#", 
+    href: "/recruitment", 
     icon: <FaHandshake className="text-green-500 size-5" />
   },
   { 
     title: "Performance Management", 
     description: "Goal setting & performance reviews", 
-    href: "#", 
+    href: "/hr_analytics", 
     icon: <FaChartLine className="text-red-500 size-5" />
   },
   { 
     title: "Employee Engagement", 
     description: "Boost productivity & satisfaction", 
-    href: "#", 
+    href: "/employee_engagement", 
     icon: <FaUsers className="text-indigo-500 size-5" />
   },
   { 
     title: "HR Compliance Suite", 
     description: "Legal compliance made simple", 
-    href: "#", 
+    href: "/compliance", 
     icon: <FaShieldAlt className="text-cyan-500 size-5" />
   }
 ];
@@ -85,13 +86,13 @@ const resourcesItems: DropdownItem[] = [
   { 
     title: "HR Compliance Guides", 
     description: "Stay updated with labor laws", 
-    href: "#", 
+    href: "/compliance", 
     icon: <FaShieldAlt className="text-blue-600 size-5" />
   },
   { 
     title: "Webinars & Training", 
     description: "HR professional development", 
-    href: "#", 
+    href: "/events", 
     icon: <FaGraduationCap className="text-purple-600 size-5" />
   }
 ];
@@ -100,7 +101,7 @@ const hrmFeaturesItems: DropdownItem[] = [
   { 
     title: "Talent Acquisition", 
     description: "Smart recruitment & applicant tracking", 
-    href: "#", 
+    href: "/recruitment", 
     icon: <FaUserTie className="text-emerald-500 size-5" />
   },
   { 
@@ -118,13 +119,13 @@ const hrmFeaturesItems: DropdownItem[] = [
   { 
     title: "Learning Management", 
     description: "Employee training & development", 
-    href: "#", 
+    href: "/events", 
     icon: <FaGraduationCap className="text-purple-500 size-5" />
   }
 ];
 
 const navList: navProps[] = [
-  { title: "Home", href: "#" },
+  { title: "Home", href: "/" },
   { 
     title: "Platform", 
     href: "#",
@@ -145,8 +146,8 @@ const navList: navProps[] = [
     href: "#",
     dropdown: resourcesItems
   },
-  { title: "Pricing", href: "#" }
-]
+  { title: "Pricing", href: "/pricing" }
+];
 
 const NavbarComponent = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -185,20 +186,22 @@ const NavbarComponent = () => {
               <div className="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.3)_0%,_transparent_70%)]"></div>
               
               {/* Logo with enhanced effects */}
-              <img 
-                src={NavLogo} 
-                alt="Navigation Logo" 
-                className="w-16 h-16 object-contain relative z-10 p-1.5 transition-transform duration-300 group-hover:scale-105" 
-                style={{
-                  filter: `
-                    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))
-                    drop-shadow(0 4px 8px rgba(255, 255, 255, 0.5))
-                    drop-shadow(0 0 12px rgba(255, 255, 255, 0.3))
-                    brightness(1.05)
-                    contrast(1.1)
-                  `
-                }}
-              />
+              <Link to="/" onClick={closeAllDropdowns}>
+                <img 
+                  src={NavLogo} 
+                  alt="Navigation Logo" 
+                  className="w-16 h-16 object-contain relative z-10 p-1.5 transition-transform duration-300 group-hover:scale-105" 
+                  style={{
+                    filter: `
+                      drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))
+                      drop-shadow(0 4px 8px rgba(255, 255, 255, 0.5))
+                      drop-shadow(0 0 12px rgba(255, 255, 255, 0.3))
+                      brightness(1.05)
+                      contrast(1.1)
+                    `
+                  }}
+                />
+              </Link>
               
               {/* Floating particles effect */}
               <div className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-300 rounded-full animate-bounce"></div>
@@ -214,72 +217,83 @@ const NavbarComponent = () => {
               key={index}
               className="relative"
             >
-              <button
-                onClick={() => item.dropdown && toggleDropdown(item.title)}
-                className="text-gray-700 hover:text-emerald-600 font-medium text-sm tracking-wide transition-colors duration-200 relative group flex items-center space-x-1"
-              >
-                <span>{item.title}</span>
-                {item.dropdown && (
-                  <FaChevronDown className={`size-3 transition-transform duration-300 ${
-                    activeDropdown === item.title ? 'rotate-180' : ''
-                  }`} />
-                )}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full transition-all duration-300"></span>
-              </button>
+              {item.dropdown ? (
+                <>
+                  <button
+                    onClick={() => toggleDropdown(item.title)}
+                    className="text-gray-700 hover:text-emerald-600 font-medium text-sm tracking-wide transition-colors duration-200 relative group flex items-center space-x-1"
+                  >
+                    <span>{item.title}</span>
+                    <FaChevronDown className={`size-3 transition-transform duration-300 ${
+                      activeDropdown === item.title ? 'rotate-180' : ''
+                    }`} />
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full transition-all duration-300"></span>
+                  </button>
 
-              {/* Dropdown Menu */}
-              {item.dropdown && activeDropdown === item.title && (
-                <div className="absolute top-full left-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 animate-fadeIn z-50 overflow-hidden">
-                  {/* Dropdown header */}
-                  <div className="bg-gradient-to-r from-emerald-50 to-teal-50 p-4 border-b border-gray-100">
-                    <h3 className="font-bold text-gray-800 text-lg">{item.title}</h3>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {item.title === "HRM Features" 
-                        ? "Comprehensive HR management tools" 
-                        : `Explore our ${item.title.toLowerCase()} features`}
-                    </p>
-                  </div>
+                  {/* Dropdown Menu */}
+                  {activeDropdown === item.title && (
+                    <div className="absolute top-full left-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 animate-fadeIn z-50 overflow-hidden">
+                      {/* Dropdown header */}
+                      <div className="bg-gradient-to-r from-emerald-50 to-teal-50 p-4 border-b border-gray-100">
+                        <h3 className="font-bold text-gray-800 text-lg">{item.title}</h3>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {item.title === "HRM Features" 
+                            ? "Comprehensive HR management tools" 
+                            : `Explore our ${item.title.toLowerCase()} features`}
+                        </p>
+                      </div>
 
-                  {/* Dropdown items */}
-                  <div className="p-3">
-                    {item.dropdown.map((dropdownItem, idx) => (
-                      <a
-                        key={idx}
-                        href={dropdownItem.href}
-                        onClick={closeAllDropdowns}
-                        className="flex items-start p-3 rounded-lg hover:bg-emerald-50/50 transition-all duration-200 group border-b border-gray-100 last:border-b-0"
-                      >
-                        <div className="mr-3 flex items-center justify-center size-10 bg-gray-50 rounded-lg group-hover:bg-white group-hover:shadow-sm transition-all duration-300">
-                          {dropdownItem.icon}
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between">
-                            <h4 className="font-semibold text-gray-800 group-hover:text-emerald-700 transition-colors">
-                              {dropdownItem.title}
-                            </h4>
-                            <FaRegArrowAltCircleRight className="size-4 text-gray-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
-                          </div>
-                          <p className="text-sm text-gray-500 mt-1">{dropdownItem.description}</p>
-                        </div>
-                      </a>
-                    ))}
-                  </div>
+                      {/* Dropdown items */}
+                      <div className="p-3">
+                        {item.dropdown.map((dropdownItem, idx) => (
+                          <Link
+                            key={idx}
+                            to={dropdownItem.href}
+                            onClick={closeAllDropdowns}
+                            className="flex items-start p-3 rounded-lg hover:bg-emerald-50/50 transition-all duration-200 group border-b border-gray-100 last:border-b-0"
+                          >
+                            <div className="mr-3 flex items-center justify-center size-10 bg-gray-50 rounded-lg group-hover:bg-white group-hover:shadow-sm transition-all duration-300">
+                              {dropdownItem.icon}
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between">
+                                <h4 className="font-semibold text-gray-800 group-hover:text-emerald-700 transition-colors">
+                                  {dropdownItem.title}
+                                </h4>
+                                <FaRegArrowAltCircleRight className="size-4 text-gray-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
+                              </div>
+                              <p className="text-sm text-gray-500 mt-1">{dropdownItem.description}</p>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
 
-                  {/* Dropdown footer */}
-                  <div className="bg-gray-50 p-4 border-t border-gray-100">
-                    <a
-                      href="#"
-                      onClick={closeAllDropdowns}
-                      className="flex items-center justify-center text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors py-2 px-4 rounded-lg bg-white hover:bg-emerald-50 border border-emerald-100"
-                    >
-                      View all {item.title.toLowerCase()} features
-                      <FaRegArrowAltCircleRight className="size-4 ml-2" />
-                    </a>
-                  </div>
+                      {/* Dropdown footer */}
+                      <div className="bg-gray-50 p-4 border-t border-gray-100">
+                        <a
+                          href="#"
+                          onClick={closeAllDropdowns}
+                          className="flex items-center justify-center text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors py-2 px-4 rounded-lg bg-white hover:bg-emerald-50 border border-emerald-100"
+                        >
+                          View all {item.title.toLowerCase()} features
+                          <FaRegArrowAltCircleRight className="size-4 ml-2" />
+                        </a>
+                      </div>
 
-                  {/* Arrow pointer */}
-                  <div className="absolute -top-2 left-6 w-4 h-4 bg-white transform rotate-45 border-t border-l border-gray-100"></div>
-                </div>
+                      {/* Arrow pointer */}
+                      <div className="absolute -top-2 left-6 w-4 h-4 bg-white transform rotate-45 border-t border-l border-gray-100"></div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <Link
+                  to={item.href}
+                  onClick={closeAllDropdowns}
+                  className="text-gray-700 hover:text-emerald-600 font-medium text-sm tracking-wide transition-colors duration-200 relative group"
+                >
+                  <span>{item.title}</span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full transition-all duration-300"></span>
+                </Link>
               )}
             </div>
           ))}
@@ -287,10 +301,14 @@ const NavbarComponent = () => {
 
         {/* CTA Button */}
         <div className="flex items-center space-x-4">
-          <button className="hidden md:flex items-center space-x-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#17ae9e]/80 to-[#0f766e]/70 text-white font-semibold text-sm hover:shadow-md hover:shadow-teal-300/70 transition-all duration-300 group">
+          <Link 
+            to="/get-started"
+            onClick={closeAllDropdowns}
+            className="hidden md:flex items-center space-x-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#17ae9e]/80 to-[#0f766e]/70 text-white font-semibold text-sm hover:shadow-md hover:shadow-teal-300/70 transition-all duration-300 group"
+          >
             <span>Get Started</span>
             <FaRegArrowAltCircleRight className="size-5 group-hover:translate-x-1 transition-transform duration-300" />
-          </button>
+          </Link>
           
           {/* Mobile menu button */}
           <button 
@@ -325,9 +343,9 @@ const NavbarComponent = () => {
                     {activeDropdown === item.title && (
                       <div className="mt-2 ml-4 space-y-2 border-l-2 border-emerald-200 pl-4">
                         {item.dropdown.map((dropdownItem, idx) => (
-                          <a
+                          <Link
                             key={idx}
-                            href={dropdownItem.href}
+                            to={dropdownItem.href}
                             onClick={closeAllDropdowns}
                             className="flex items-start p-3 rounded-lg hover:bg-emerald-50 transition-colors"
                           >
@@ -338,28 +356,32 @@ const NavbarComponent = () => {
                               <h4 className="font-medium text-gray-800">{dropdownItem.title}</h4>
                               <p className="text-sm text-gray-600 mt-1">{dropdownItem.description}</p>
                             </div>
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     )}
                   </div>
                 ) : (
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     onClick={closeAllDropdowns}
                     className="block p-3 rounded-lg hover:bg-gray-100 transition-colors font-semibold text-gray-800"
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 )}
               </div>
             ))}
             
             {/* Mobile CTA Button */}
-            <button className="w-full mt-6 flex items-center justify-center space-x-2 px-5 py-3 rounded-full bg-gradient-to-r from-[#17ae9e]/80 to-[#0f766e]/70 text-white font-semibold text-sm">
+            <Link
+              to="/get-started"
+              onClick={closeAllDropdowns}
+              className="w-full mt-6 flex items-center justify-center space-x-2 px-5 py-3 rounded-full bg-gradient-to-r from-[#17ae9e]/80 to-[#0f766e]/70 text-white font-semibold text-sm"
+            >
               <span>Get Started Free</span>
               <FaRegArrowAltCircleRight className="size-5" />
-            </button>
+            </Link>
           </div>
         </div>
       )}
@@ -371,28 +393,8 @@ const NavbarComponent = () => {
           onClick={closeAllDropdowns}
         />
       )}
-
-      {/* Add custom animation */}
-      <style>
-        {`
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-              transform: translateY(-10px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          
-          .animate-fadeIn {
-            animation: fadeIn 0.2s ease-out;
-          }
-        `}
-      </style>
     </>
-  )
-}
+  );
+};
 
-export default NavbarComponent
+export default NavbarComponent;
