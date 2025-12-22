@@ -8,6 +8,7 @@ import EmployeeEngagementPage from "./pages/employee-enagement/EmployeeEngagemen
 import HrCompliancePage from "./pages/hr_compliance/HrCompliancePage";
 import PricingPage from "./pages/pricing/PricingPage";
 import AiTalentManagementPage from "./pages/ai_talent_management/AiTalentManagementPage";
+import BlogPage from "./pages/blog/BlogPage";
 
 type RouteType = {
     path: string;
@@ -50,6 +51,10 @@ export const routes: RouteType[] = [
     {
         path: "hrm_ai",
         element: <AiTalentManagementPage/>
+    },
+    {
+        path: "blogs",
+        element: <BlogPage/>
     }
 ]
 

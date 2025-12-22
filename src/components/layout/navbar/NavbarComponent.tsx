@@ -74,13 +74,13 @@ const resourcesItems: DropdownItem[] = [
   { 
     title: "HRM Whitepapers", 
     description: "Latest HR trends & research", 
-    href: "#", 
+    href: "/blogs", 
     icon: <FaFileAlt className="text-emerald-600 size-5" />
   },
   { 
     title: "HR Case Studies", 
     description: "Success stories from clients", 
-    href: "#", 
+    href: "/blogs", 
     icon: <FaLightbulb className="text-amber-600 size-5" />
   },
   { 
