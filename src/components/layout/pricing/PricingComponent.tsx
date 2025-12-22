@@ -179,7 +179,7 @@ const PricingComponent = () => {
   return (
     <div 
       ref={pricingSectionRef}
-      className="w-full py-20 bg-gradient-to-b from-white to-emerald-50/20 scroll-mt-16"
+      className="w-full py-20 bg-gradient-to-b from-white to-emerald-50/20 scroll-mt-16 mt-20"
     >
       <div className="max-w-7xl mx-auto px-4">
         {/* Header with fade-in animation */}

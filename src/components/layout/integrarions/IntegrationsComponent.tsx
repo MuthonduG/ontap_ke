@@ -12,18 +12,19 @@ import {
   FaDropbox,
   FaFigma,
   FaShopify,
-  FaSalesforce
+  FaSalesforce,
+  FaAndroid,
+  FaApple,
+  FaMobile
 } from "react-icons/fa";
-import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { SiNotion, SiAsana } from "react-icons/si";
 import { TbBrandZoom } from "react-icons/tb";
 
-
 const IntegrationsComponent = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
-  const intervalRef = useRef<number | null>(null);
+  const animationRef = useRef<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   
   // Integration data
   const integrations = [
@@ -125,58 +126,43 @@ const IntegrationsComponent = () => {
     },
   ];
 
-  const slidesPerView = 5;
-  const totalSlides = Math.ceil(integrations.length / slidesPerView);
-
-  // Auto slide functionality
+  // Create infinite array (duplicate 3 times for seamless looping)
+  const infiniteIntegrations = [...integrations, ...integrations, ...integrations];
+  
+  // Animation speed in pixels per second
+  const SPEED = 60; // pixels per second
+  
   useEffect(() => {
-    if (!isPaused) {
-      intervalRef.current = window.setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % totalSlides);
-      }, 3000);
-    }
-
+    let position = 0;
+    const itemWidth = 320; // Approximate width of each integration card with padding
+    const totalWidth = itemWidth * integrations.length;
+    
+    const animate = () => {
+      if (!isPaused && sliderRef.current) {
+        position -= SPEED / 60; // Divide by 60 for 60fps
+        
+        // When we've scrolled through one full set of integrations
+        if (Math.abs(position) >= totalWidth) {
+          position = 0;
+        }
+        
+        sliderRef.current.style.transform = `translateX(${position}px)`;
+      }
+      
+      animationRef.current = requestAnimationFrame(animate);
+    };
+    
+    animationRef.current = requestAnimationFrame(animate);
+    
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isPaused, totalSlides]);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % totalSlides);
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = window.setTimeout(() => {
-        if (!isPaused) {
-          intervalRef.current = window.setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % totalSlides);
-          }, 3000);
-        }
-      }, 1000);
-    }
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = window.setTimeout(() => {
-        if (!isPaused) {
-          intervalRef.current = window.setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % totalSlides);
-          }, 3000);
-        }
-      }, 1000);
-    }
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
+  }, [isPaused, integrations.length]);
 
   return (
-    <div className="w-full py-16 bg-gradient-to-b from-white to-emerald-50/30">
+    <div className="w-full py-16 bg-gradient-to-b from-white to-emerald-50/30 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
@@ -202,140 +188,182 @@ const IntegrationsComponent = () => {
           </p>
         </div>
 
-        {/* Slider Container */}
+        {/* Infinite Slider Container */}
         <div 
-          className="relative w-full overflow-hidden rounded-3xl bg-white/80 backdrop-blur-sm border border-emerald-100 shadow-xl shadow-emerald-100/50"
+          className="relative w-full overflow-hidden"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
+          ref={containerRef}
         >
-          {/* Slider Track */}
+          {/* Gradient overlays for seamless effect */}
+          <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+          
+          {/* Infinite Slider Track */}
           <div 
             ref={sliderRef}
-            className="flex w-full transition-transform duration-500 ease-out"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            className="flex items-center space-x-8 py-4"
+            style={{ 
+              willChange: 'transform',
+              width: 'max-content'
+            }}
           >
-            {Array.from({ length: totalSlides }).map((_, slideIndex) => (
-              <div key={slideIndex} className="w-full flex-shrink-0">
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 p-8">
-                  {integrations
-                    .slice(slideIndex * slidesPerView, (slideIndex + 1) * slidesPerView)
-                    .map((integration, index) => (
-                      <div
-                        key={`${slideIndex}-${index}`}
-                        className="group relative"
-                      >
-                        <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-100/50 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
-                          {/* Coming Soon Badge */}
-                          <div className="absolute -top-2 -right-2">
-                            <div className="relative">
-                              <div className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-semibold shadow-lg shadow-amber-200/50">
-                                Coming Soon
-                              </div>
-                              <div className="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full animate-ping opacity-70"></div>
-                            </div>
-                          </div>
-
-                          {/* Integration Icon */}
-                          <div className="flex flex-col items-center text-center">
-                            <div className="mb-4 relative">
-                              <div 
-                                className="absolute inset-0 rounded-2xl blur-xl opacity-20 transition-opacity duration-300 group-hover:opacity-30"
-                                style={{ backgroundColor: integration.color }}
-                              ></div>
-                              <div className="relative">
-                                {integration.icon}
-                              </div>
-                            </div>
-
-                            {/* Integration Name */}
-                            <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                              {integration.name}
-                            </h3>
-
-                            {/* Integration Description */}
-                            <p className="text-sm text-gray-500 mb-4">
-                              {integration.description}
-                            </p>
-
-                            {/* Progress Bar */}
-                            <div className="w-full bg-gray-200 rounded-full h-1.5 mb-2">
-                              <div 
-                                className="bg-gradient-to-r from-emerald-500 to-teal-500 h-1.5 rounded-full transition-all duration-300 group-hover:w-full"
-                                style={{ width: '70%' }}
-                              ></div>
-                            </div>
-
-                            {/* Progress Text */}
-                            <div className="flex justify-between w-full text-xs text-gray-400">
-                              <span>Integration</span>
-                              <span className="font-semibold text-emerald-600">70%</span>
-                            </div>
-                          </div>
+            {infiniteIntegrations.map((integration, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-72"
+              >
+                <div className="group relative">
+                  <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-100/50 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
+                    {/* Coming Soon Badge */}
+                    <div className="absolute -top-2 -right-2 z-20">
+                      <div className="relative">
+                        <div className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-semibold shadow-lg shadow-amber-200/50">
+                          Coming Soon
                         </div>
-
-                        {/* Hover Effect Line */}
-                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-t-lg group-hover:w-3/4 transition-all duration-300"></div>
+                        <div className="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full animate-ping opacity-70"></div>
                       </div>
-                    ))}
+                    </div>
+
+                    {/* Integration Icon */}
+                    <div className="flex flex-col items-center text-center">
+                      <div className="mb-4 relative">
+                        <div 
+                          className="absolute inset-0 rounded-2xl blur-xl opacity-20 transition-opacity duration-300 group-hover:opacity-30"
+                          style={{ backgroundColor: integration.color }}
+                        ></div>
+                        <div className="relative">
+                          {integration.icon}
+                        </div>
+                      </div>
+
+                      {/* Integration Name */}
+                      <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                        {integration.name}
+                      </h3>
+
+                      {/* Integration Description */}
+                      <p className="text-sm text-gray-500 mb-4">
+                        {integration.description}
+                      </p>
+
+                      {/* Progress Bar */}
+                      <div className="w-full bg-gray-200 rounded-full h-1.5 mb-2">
+                        <div 
+                          className="bg-gradient-to-r from-emerald-500 to-teal-500 h-1.5 rounded-full transition-all duration-300 group-hover:w-full"
+                          style={{ width: '70%' }}
+                        ></div>
+                      </div>
+
+                      {/* Progress Text */}
+                      <div className="flex justify-between w-full text-xs text-gray-400">
+                        <span>Integration</span>
+                        <span className="font-semibold text-emerald-600">70%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Hover Effect Line */}
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-t-lg group-hover:w-3/4 transition-all duration-300"></div>
                 </div>
               </div>
             ))}
           </div>
-
-          {/* Navigation Arrows */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm border border-emerald-200 shadow-lg hover:shadow-emerald-200/70 hover:bg-emerald-50 transition-all duration-300 flex items-center justify-center group z-10"
-            aria-label="Previous slide"
-          >
-            <MdOutlineKeyboardArrowLeft className="text-gray-700 group-hover:text-emerald-600 size-6 transition-colors" />
-          </button>
-
-          <button
-            onClick={nextSlide}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm border border-emerald-200 shadow-lg hover:shadow-emerald-200/70 hover:bg-emerald-50 transition-all duration-300 flex items-center justify-center group z-10"
-            aria-label="Next slide"
-          >
-            <MdOutlineKeyboardArrowRight className="text-gray-700 group-hover:text-emerald-600 size-6 transition-colors" />
-          </button>
         </div>
 
-        {/* Dots Indicator */}
-        <div className="flex justify-center items-center space-x-3 mt-8">
-          {Array.from({ length: totalSlides }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`transition-all duration-300 ${
-                index === currentSlide
-                  ? 'w-8 h-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full'
-                  : 'w-2 h-2 bg-gray-300 rounded-full hover:bg-gray-400'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* CTA Section */}
-        <div className="mt-12 text-center">
+          <div className="mt-12 text-center">
           <div className="bg-gradient-to-r from-emerald-50/80 to-teal-50/80 rounded-3xl p-8 border border-emerald-100 max-w-4xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">
-              Need a specific integration?
+              Take OnTap with you anywhere
             </h3>
-            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              We're constantly adding new integrations. Request your favorite tool and we'll 
-              prioritize it in our development roadmap.
+            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+              Access your workflows on the go with our mobile apps. Available soon on both Android and iOS.
             </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
+              {/* Android App Card */}
+              <div className="group relative">
+                <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-100/50 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
+                  <div className="absolute -top-2 -right-2">
+                    <div className="relative">
+                      <div className="px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-semibold shadow-lg shadow-emerald-200/50">
+                        Coming Soon
+                      </div>
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full animate-ping opacity-70"></div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col items-center text-center">
+                    <div className="mb-4 relative">
+                      <div className="absolute inset-0 rounded-2xl blur-xl opacity-20 bg-emerald-400 transition-opacity duration-300 group-hover:opacity-30"></div>
+                      <FaAndroid className="text-[#3DDC84] size-12 relative" />
+                    </div>
+                    
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                      Android App
+                    </h3>
+                    
+                    <p className="text-sm text-gray-500 mb-4">
+                      Optimized for Android devices
+                    </p>
+                    
+                    <div className="flex items-center justify-center space-x-2 text-sm text-emerald-600 font-semibold">
+                      <FaMobile className="size-4" />
+                      <span>Get early access</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* iOS App Card */}
+              <div className="group relative">
+                <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-100/50 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
+                  <div className="absolute -top-2 -right-2">
+                    <div className="relative">
+                      <div className="px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-semibold shadow-lg shadow-emerald-200/50">
+                        Coming Soon
+                      </div>
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full animate-ping opacity-70"></div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col items-center text-center">
+                    <div className="mb-4 relative">
+                      <div className="absolute inset-0 rounded-2xl blur-xl opacity-20 bg-gray-800 transition-opacity duration-300 group-hover:opacity-30"></div>
+                      <FaApple className="text-gray-900 size-12 relative" />
+                    </div>
+                    
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                      iOS App
+                    </h3>
+                    
+                    <p className="text-sm text-gray-500 mb-4">
+                      Designed for iPhone & iPad
+                    </p>
+                    
+                    <div className="flex items-center justify-center space-x-2 text-sm text-emerald-600 font-semibold">
+                      <FaMobile className="size-4" />
+                      <span>Get early access</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="px-8 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold hover:shadow-xl hover:shadow-emerald-300/50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-2 group">
-                <span>Request Integration</span>
+                <FaAndroid className="size-5" />
+                <span>Join Android Beta</span>
                 <svg className="size-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
-              <button className="px-8 py-3 rounded-full bg-white text-gray-800 font-semibold border-2 border-emerald-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-2">
-                <span>View API Docs</span>
-                <FaGithub className="size-5 text-gray-600" />
+              <button className="px-8 py-3 rounded-full bg-gradient-to-r from-gray-800 to-gray-900 text-white font-semibold hover:shadow-xl hover:shadow-gray-300/50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-2 group">
+                <FaApple className="size-5" />
+                <span>Join iOS Beta</span>
+                <svg className="size-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </button>
             </div>
           </div>

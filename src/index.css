@@ -344,6 +344,15 @@
   }
 }
 
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}
+
 @keyframes pulseText {
   0%, 100% {
     opacity: 1;
@@ -584,4 +593,19 @@
 
 .floating-entry-card {
   transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+        
+.infinite-slider {
+  animation: infinite-scroll 40s linear infinite;
+  display: flex;
+  width: max-content;
+}
+        
+.infinite-slider:hover {
+  animation-play-state: paused;
+}
+        
+.infinite-slider-track {
+  display: flex;
+  width: max-content;
 }

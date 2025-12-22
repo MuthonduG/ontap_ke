@@ -310,6 +310,15 @@ const NavbarComponent = () => {
             <span>Get Started</span>
             <FaRegArrowAltCircleRight className="size-5 group-hover:translate-x-1 transition-transform duration-300" />
           </Link>
+
+          <Link 
+            to="/get-started"
+            onClick={closeAllDropdowns}
+           className="hidden md:flex items-center space-x-2 px-5 py-2.5 rounded-full bg-gradient-to-r  bg-white text-gray-800 font-semibold text-sm border-2 border-emerald-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-3 group"
+          >
+            <span> Sign In </span>
+            <FaRegArrowAltCircleRight className="size-5 group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
           
           {/* Mobile menu button */}
           <button 

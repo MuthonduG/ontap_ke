@@ -299,7 +299,7 @@ const RoadmapComponent = () => {
         </div>
 
         {/* Progress Bar */}
-        <div className="relative h-2 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full mb-16 mx-4">
+        <div className="relative h-2 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full mx-4">
           <div 
             className="absolute top-0 left-0 h-full bg-gradient-to-r from-emerald-500 via-blue-500 to-purple-500 rounded-full transition-all duration-1000 ease-out"
             style={{ width: `${progress}%` }}
@@ -324,7 +324,7 @@ const RoadmapComponent = () => {
         </div>
 
         {/* Main Roadmap Container */}
-        <div className="relative min-h-[800px] w-full mb-8">
+        <div className="relative min-h-[800px] w-full -mt-20">
           {/* Curved Connecting Line */}
           <div className="absolute inset-0 pointer-events-none">
             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
