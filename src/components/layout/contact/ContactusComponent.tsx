@@ -8,8 +8,8 @@ import {
   FaMapMarkerAlt, 
   FaClock, 
   FaPhoneAlt,
-  FaGlobe
 } from "react-icons/fa";
+import { MdOutlineMarkEmailRead } from "react-icons/md";
 
 const ContactusComponent = () => {
   const [formData, setFormData] = useState({
@@ -101,14 +101,14 @@ const ContactusComponent = () => {
     {
       icon: <FaMapMarkerAlt className="size-5" />,
       title: "Visit Our Office",
-      details: ["123 Innovation Street", "Tech City, TC 10001"],
+      details: ["Ngong Road, Kingston Residence, 3rd Floor, Nairobi, Kenya"],
       color: "from-emerald-500 to-teal-500",
       bgColor: "bg-gradient-to-r from-emerald-100 to-teal-100"
     },
     {
       icon: <FaPhoneAlt className="size-5" />,
       title: "Call Us",
-      details: ["+1 (555) 123-4567", "+1 (555) 987-6543"],
+      details: ["+254768262704"],
       color: "from-blue-500 to-purple-500",
       bgColor: "bg-gradient-to-r from-blue-100 to-purple-100"
     },
@@ -120,19 +120,13 @@ const ContactusComponent = () => {
       bgColor: "bg-gradient-to-r from-amber-100 to-orange-100"
     },
     {
-      icon: <FaGlobe className="size-5" />,
-      title: "Global Support",
-      details: ["24/7 Online Support", "Multilingual Assistance"],
+      icon: <MdOutlineMarkEmailRead className="size-5" />,
+      title: "Email Us",
+      details: ["info@belfortech.dev, support@belfortech.dev"],
       color: "from-purple-500 to-pink-500",
       bgColor: "bg-gradient-to-r from-purple-100 to-pink-100"
     }
   ];
-
-  const fadeInUp = (delay: number) => ({
-    initial: { opacity: 0, y: 20 },
-    animate: isInView ? { opacity: 1, y: 0 } : {},
-    transition: { duration: 0.6, delay }
-  });
 
   return (
     <div 

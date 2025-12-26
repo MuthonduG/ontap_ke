@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import {
   FaUsers,
   FaMoneyBillWave,
@@ -28,6 +29,13 @@ import {
   FaNetworkWired,
   FaCode,
   FaLock,
+  FaHome,
+  FaCogs as FaCogsIcon,
+  FaChartPie,
+  FaTools,
+  FaHandHoldingUsd,
+  FaComments,
+  FaEnvelope,
   FaRobot as FaAi,
 } from "react-icons/fa";
 import {
@@ -80,6 +88,7 @@ const HrAnalytics = () => {
     predictionAccuracy: 0,
     employeeSatisfaction: 0
   });
+  const location = useLocation();
 
   // Target values for animation
   const targetValues = {
@@ -91,13 +100,54 @@ const HrAnalytics = () => {
     employeeSatisfaction: 4.7
   };
 
+  // Scroll to section based on hash when component mounts or location changes
+  useEffect(() => {
+    if (location.hash) {
+      const elementId = location.hash.replace('#', '');
+      const element = document.getElementById(elementId);
+      if (element) {
+        // Small delay to ensure page is fully rendered
+        setTimeout(() => {
+          element.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 300);
+      }
+    }
+  }, [location]);
+
+  // Scroll to section programmatically
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Update URL without page reload
+      window.history.pushState({}, '', `#${sectionId}`);
+    }
+  };
+
+  // Quick Navigation Links
+  const quickNavSections = [
+    { id: 'hero', label: 'Overview', icon: FaHome },
+    { id: 'features', label: 'Features', icon: FaCogsIcon },
+    { id: 'ai-capabilities', label: 'AI Capabilities', icon: FaRobot },
+    { id: 'analytics', label: 'Analytics', icon: FaChartPie },
+    { id: 'how-it-works', label: 'How It Works', icon: FaTools },
+    { id: 'cost-savings', label: 'Cost Savings', icon: FaHandHoldingUsd },
+    { id: 'testimonials', label: 'Testimonials', icon: FaComments },
+    { id: 'cta', label: 'Get Started', icon: FaEnvelope },
+  ];
+
   // Refs for intersection observer
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
   const aiCapabilitiesRef = useRef<HTMLDivElement>(null);
   const analyticsRef = useRef<HTMLDivElement>(null);
-  const chartsRef = useRef<HTMLDivElement>(null);
-  const predictionsRef = useRef<HTMLDivElement>(null);
+  const howItWorksRef = useRef<HTMLDivElement>(null);
+  const costSavingsRef = useRef<HTMLDivElement>(null);
+  const testimonialsRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
   // Animation for counting numbers
   useEffect(() => {
@@ -136,15 +186,19 @@ const HrAnalytics = () => {
     if (featuresRef.current) observer.observe(featuresRef.current);
     if (aiCapabilitiesRef.current) observer.observe(aiCapabilitiesRef.current);
     if (analyticsRef.current) observer.observe(analyticsRef.current);
-    if (chartsRef.current) observer.observe(chartsRef.current);
-    if (predictionsRef.current) observer.observe(predictionsRef.current);
+    if (howItWorksRef.current) observer.observe(howItWorksRef.current);
+    if (costSavingsRef.current) observer.observe(costSavingsRef.current);
+    if (testimonialsRef.current) observer.observe(testimonialsRef.current);
+    if (ctaRef.current) observer.observe(ctaRef.current);
 
     return () => {
       if (featuresRef.current) observer.unobserve(featuresRef.current);
       if (aiCapabilitiesRef.current) observer.unobserve(aiCapabilitiesRef.current);
       if (analyticsRef.current) observer.unobserve(analyticsRef.current);
-      if (chartsRef.current) observer.unobserve(chartsRef.current);
-      if (predictionsRef.current) observer.unobserve(predictionsRef.current);
+      if (howItWorksRef.current) observer.unobserve(howItWorksRef.current);
+      if (costSavingsRef.current) observer.unobserve(costSavingsRef.current);
+      if (testimonialsRef.current) observer.unobserve(testimonialsRef.current);
+      if (ctaRef.current) observer.unobserve(ctaRef.current);
     };
   }, []);
 
@@ -696,8 +750,29 @@ const HrAnalytics = () => {
 
   return (
     <>
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 overflow-hidden">
-      {/* Animated Background Elements */}
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 overflow-hidden relative">
+      {/* Quick Navigation (Fixed) */}
+      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-40 hidden lg:block">
+        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-2 border border-emerald-200">
+          <div className="space-y-2">
+            {quickNavSections.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => scrollToSection(section.id)}
+                className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-emerald-50 transition-colors group relative"
+                aria-label={`Jump to ${section.label}`}
+              >
+                <section.icon className="size-4 text-gray-600 group-hover:text-emerald-600" />
+                <div className="absolute right-full mr-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  {section.label}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+       {/* Animated Background Elements */}
       <div className="fixed inset-0 pointer-events-none z-0">
         {[...Array(15)].map((_, i) => (
           <div
@@ -719,7 +794,7 @@ const HrAnalytics = () => {
       </div>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="max-w-7xl mx-auto px-4 mb-16 mt-16 relative z-10">
+      <section ref={heroRef} id="hero" className="scroll-mt-24 max-w-7xl mx-auto px-4 mb-16 mt-16 relative z-10">
         {/* Floating Elements */}
         <div className="absolute top-20 right-20 animate-float">
           <FaGem className="text-emerald-300/30 size-16" />
@@ -747,8 +822,22 @@ const HrAnalytics = () => {
             Our AI-powered HR analytics platform turns complex workforce data into actionable intelligence, 
             helping you make informed decisions about payroll, attendance, compliance, and workforce optimization.
           </p>
+
+          {/* Quick jump links */}
+          <div className="flex flex-wrap justify-center gap-2 mt-6">
+            {quickNavSections.slice(1).map((section) => (
+              <button
+                key={section.id}
+                onClick={() => scrollToSection(section.id)}
+                className="px-3 py-1.5 bg-emerald-500/10 backdrop-blur-sm text-emerald-700 text-sm rounded-full hover:bg-emerald-500/20 transition-all flex items-center gap-2 border border-emerald-200"
+              >
+                <section.icon className="size-3" />
+                {section.label}
+              </button>
+            ))}
+          </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
             <button className="px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-semibold hover:shadow-lg hover:shadow-emerald-200/50 transition-all hover:scale-105 active:scale-95 transform-gpu">
               Start Free Trial
             </button>
@@ -793,13 +882,18 @@ const HrAnalytics = () => {
       </section>
 
       {/* Features Section */}
-      <section ref={featuresRef} className="max-w-7xl mx-auto px-4 mb-20 relative z-10">
-        <div className="text-center mb-12" style={scrollAnimation(0.2)}>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+      <section ref={featuresRef} id="features" className="scroll-mt-24 max-w-7xl mx-auto px-4 mb-20 relative z-10">
+        <div className="flex items-center justify-center mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
             Advanced HR Analytics <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Capabilities</span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Our platform provides comprehensive analytics across all aspects of human resource management
+        </div>
+        
+        <div className="text-center mb-12">
+          <p className="text-gray-600 max-w-2xl mx-auto leading-10">
+            Conduct continuous, KPI-driven performance reviews linked directly to tasks, goals, and
+            outcomes. Track productivity trends, departmental performance, appraisals, confirmations, and
+            promotions with data-backed insights - eliminating subjective evaluations.
           </p>
         </div>
 
@@ -870,17 +964,14 @@ const HrAnalytics = () => {
       </section>
 
       {/* AI Analytics Capabilities Section */}
-      <section ref={aiCapabilitiesRef} className="max-w-7xl mx-auto px-4 mb-20">
-        <div className="text-center mb-12" style={scrollAnimation(0.2)}>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 border border-purple-200/50 mb-4">
-            <FaRobot className="text-purple-600 animate-pulse" />
-            <span className="text-sm font-semibold text-purple-600">
-              AI ANALYTICS ENGINE
-            </span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+      <section ref={aiCapabilitiesRef} id="ai-capabilities" className="scroll-mt-24 max-w-7xl mx-auto px-4 mb-20">
+        <div className="flex items-center justify-center mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
             Advanced AI <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Capabilities</span>
           </h2>
+        </div>
+        
+        <div className="text-center mb-12">
           <p className="text-gray-600 max-w-2xl mx-auto">
             Cutting-edge artificial intelligence technologies powering our HR analytics platform
           </p>
@@ -959,11 +1050,14 @@ const HrAnalytics = () => {
       </section>
 
       {/* Analytics Showcase */}
-      <section ref={analyticsRef} className="max-w-7xl mx-auto px-4 mb-20 relative z-10">
-        <div className="text-center mb-12" style={scrollAnimation(0.2)}>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+      <section ref={analyticsRef} id="analytics" className="scroll-mt-24 max-w-7xl mx-auto px-4 mb-20 relative z-10">
+        <div className="flex items-center justify-center mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
             Real-time Analytics <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Dashboard</span>
           </h2>
+        </div>
+        
+        <div className="text-center mb-12">
           <p className="text-gray-600 max-w-2xl mx-auto">
             Interactive dashboards that bring your HR data to life with actionable insights
           </p>
@@ -1117,11 +1211,14 @@ const HrAnalytics = () => {
       </section>
 
       {/* How It Works */}
-      <section className="max-w-7xl mx-auto px-4 mb-20">
-        <div className="text-center mb-12" style={scrollAnimation(0.2)}>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+      <section ref={howItWorksRef} id="how-it-works" className="scroll-mt-24 max-w-7xl mx-auto px-4 mb-20">
+        <div className="flex items-center justify-center mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
             How Our <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Platform Works</span>
           </h2>
+        </div>
+        
+        <div className="text-center mb-12">
           <p className="text-gray-600 max-w-2xl mx-auto">
             Transform your HR operations in four simple steps
           </p>
@@ -1157,13 +1254,16 @@ const HrAnalytics = () => {
       </section>
 
       {/* Cost Savings Section */}
-      <section ref={predictionsRef} className="max-w-7xl mx-auto px-4 mb-20">
+      <section ref={costSavingsRef} id="cost-savings" className="scroll-mt-24 max-w-7xl mx-auto px-4 mb-20">
+        <div className="flex items-center justify-center mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+            Quantifiable <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Cost Savings</span>
+          </h2>
+        </div>
+        
         <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-8 border border-emerald-200 shadow-lg hover:shadow-xl transition-all duration-300">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div style={scrollAnimation(0.3)}>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-                Quantifiable <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Cost Savings</span>
-              </h2>
               <p className="text-gray-600 mb-6">
                 Our platform delivers measurable ROI through intelligent workforce optimization and automated processes
               </p>
@@ -1204,12 +1304,13 @@ const HrAnalytics = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="max-w-7xl mx-auto px-4 mb-20">
-        <div className="text-center mb-12" style={scrollAnimation(0.2)}>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+      <section ref={testimonialsRef} id="testimonials" className="scroll-mt-24 max-w-7xl mx-auto px-4 mb-20">
+        <div className="flex items-center justify-center mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
             Trusted by <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">HR Leaders</span>
           </h2>
         </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((testimonial, index) => (
             <div
@@ -1238,7 +1339,7 @@ const HrAnalytics = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="max-w-4xl mx-auto px-4 mb-20">
+      <section ref={ctaRef} id="cta" className="scroll-mt-24 max-w-4xl mx-auto px-4 mb-20">
         <div 
           className="rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 p-8 md:p-12 text-center relative overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500"
           style={scrollAnimation(0.3)}

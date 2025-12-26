@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { 
   FaCheck, 
   FaTimes, 
@@ -9,13 +9,8 @@ import {
   FaStar
 } from "react-icons/fa";
 
-
 const PricingComponent = () => {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("annual");
-  const [cardsVisible, setCardsVisible] = useState(false);
-  const [isInView, setIsInView] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const pricingSectionRef = useRef<HTMLDivElement>(null);
 
   const pricingPlans = [
     {
@@ -128,64 +123,11 @@ const PricingComponent = () => {
     }
   ];
 
-  // Intersection Observer for scroll animation - triggers every time
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsInView(true);
-            setCardsVisible(true);
-            
-            // Reset animation for re-triggering
-            if (containerRef.current) {
-              containerRef.current.classList.remove('animate-complete');
-            }
-            
-            // Add completion class after animation
-            setTimeout(() => {
-              if (containerRef.current && entry.isIntersecting) {
-                containerRef.current.classList.add('animate-complete');
-              }
-            }, 1500);
-          } else {
-            setIsInView(false);
-            setCardsVisible(false);
-            
-            // Reset for next animation
-            if (containerRef.current) {
-              containerRef.current.classList.remove('animate-complete');
-            }
-          }
-        });
-      },
-      { 
-        threshold: 0.3, 
-        rootMargin: '0px 0px -100px 0px' 
-      }
-    );
-
-    if (pricingSectionRef.current) {
-      observer.observe(pricingSectionRef.current);
-    }
-
-    return () => {
-      if (pricingSectionRef.current) {
-        observer.unobserve(pricingSectionRef.current);
-      }
-    };
-  }, []);
-
   return (
-    <div 
-      ref={pricingSectionRef}
-      className="w-full py-20 bg-gradient-to-b from-white to-emerald-50/20 scroll-mt-16 mt-20"
-    >
+    <div className="w-full py-28 bg-gradient-to-b from-white to-emerald-50/20 scroll-mt-16 mt-20">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Header with fade-in animation */}
-        <div className={`w-full text-center mb-16 transition-all duration-1000 ${
-          isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}>
+        {/* Header */}
+        <div className="w-full text-center mb-16">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 border border-emerald-200/50 mb-4">
             <span className="text-sm font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
               💎 TRANSPARENT PRICING
@@ -208,15 +150,13 @@ const PricingComponent = () => {
           </p>
 
           {/* Billing Toggle */}
-          <div className={`inline-flex items-center bg-white rounded-full p-1 border border-emerald-200 shadow-sm mb-8 transition-all duration-700 delay-300 ${
-            isInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-          }`}>
+          <div className="inline-flex items-center bg-white rounded-full p-1 border border-emerald-200 shadow-sm mb-8">
             <button
               onClick={() => setBillingCycle("monthly")}
               className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
                 billingCycle === "monthly"
                   ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md"
-                  : "text-gray-600 hover:text-gray-800"
+                  : "text-gray-600 hover:text-gray-800 hover:bg-gray-100"
               }`}
             >
               Monthly
@@ -226,7 +166,7 @@ const PricingComponent = () => {
               className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 ${
                 billingCycle === "annual"
                   ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md"
-                  : "text-gray-600 hover:text-gray-800"
+                  : "text-gray-600 hover:text-gray-800 hover:bg-gray-100"
               }`}
             >
               <span>Annual</span>
@@ -238,32 +178,17 @@ const PricingComponent = () => {
         </div>
 
         {/* Pricing Cards Container */}
-        <div 
-          ref={containerRef} 
-          className={`w-full p-6 relative ${!cardsVisible ? 'pre-animate' : ''}`}
-        >
-          {/* Animation Center Point */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className={`center-pulse size-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 ${
-              cardsVisible ? 'animate-center-pulse' : 'opacity-0'
-            }`}></div>
-          </div>
-
+        <div className="w-full p-6 relative">
           {/* Pricing Cards Grid */}
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
             {pricingPlans.map((plan, index) => (
               <div
                 key={plan.name}
-                className={`pricing-card card-translate-${index + 1} card-animation-delay-${index + 1} ${
-                  cardsVisible ? 'animate-spread' : ''
-                } relative w-full rounded-3xl border transition-all duration-500 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-200/50 ${
+                className={`relative w-full rounded-3xl border transition-all duration-500 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-200/50 ${
                   plan.popular
                     ? "border-emerald-300 shadow-2xl shadow-emerald-200/50 scale-105 z-10 bg-gradient-to-br from-emerald-50/80 to-teal-50/80"
                     : "border-gray-200 hover:border-emerald-200 bg-gradient-to-br from-white to-gray-50"
                 }`}
-                style={{
-                  animationPlayState: cardsVisible ? 'running' : 'paused',
-                }}
               >
                 {/* Popular Badge */}
                 {plan.popular && (
@@ -367,11 +292,11 @@ const PricingComponent = () => {
         </div>
       </div>
 
-      {/* Floating Elements */}
-      <div className="absolute left-10 top-1/4 animate-float">
+      {/* Static decorative elements without animations */}
+      <div className="absolute left-10 top-1/4">
         <div className="w-4 h-4 bg-emerald-300/30 rounded-full"></div>
       </div>
-      <div className="absolute right-8 bottom-1/4 animate-float delay-700">
+      <div className="absolute right-8 bottom-1/4">
         <div className="w-6 h-6 bg-teal-400/20 rounded-full"></div>
       </div>
     </div>

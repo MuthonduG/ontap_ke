@@ -13,8 +13,9 @@ import {
   FaApple,
   FaGooglePlay
 } from "react-icons/fa";
-import { FiMail, FiHeart } from "react-icons/fi";
-import Logo from "../../../assets/icon_logo.png"
+import { FiMail } from "react-icons/fi";
+import Logo from "../../../assets/icon_logo.png";
+import legal_svg from "../../../assets/odpc.CCu1HhRz_2ge6XY.svg";
 
 const FooterComponent = () => {
   const [email, setEmail] = useState("");
@@ -129,9 +130,9 @@ const FooterComponent = () => {
 
   // Contact info
   const contactInfo = [
-    { icon: <FaEnvelope />, text: "support@workforce.com" },
-    { icon: <FaPhoneAlt />, text: "+1 (555) 123-4567" },
-    { icon: <FaMapMarkerAlt />, text: "123 Innovation Street, Tech City" },
+    { icon: <FaEnvelope />, text: "support@belfortech.dev" },
+    { icon: <FaPhoneAlt />, text: "+254 (768) 262-704" },
+    { icon: <FaMapMarkerAlt />, text: "Ngong Road, Kingston Residence, 3rd Floor, Nairobi, Kenya" },
   ];
 
   // App store badges
@@ -263,7 +264,7 @@ const FooterComponent = () => {
                 <div className="mb-6">
                   <div className="inline-flex items-center gap-3 mb-4">
                     <div className="p-2 rounded-lg bg-gradient-to-r from-emerald-500/50 to-teal-500/50">
-                      <img src={Logo} alt="" className="size-6" />
+                      <img src={Logo} alt="OnTap Logo" className="size-6" />
                     </div>
                     <span className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
                       OnTap
@@ -309,11 +310,19 @@ const FooterComponent = () => {
                 </div>
               </div>
 
-              {/* Link Columns */}
+              {/* Link Columns - UPDATED TO FIX LEGAL SVG POSITION */}
               {Object.entries(footerLinks).map(([category, links], colIndex) => (
                 <div key={category} style={fadeInUp(0.2 + colIndex * 0.1)}>
-                  <h4 className="text-white font-semibold mb-4">
+                  <h4 className="text-white font-semibold mb-4 flex items-center gap-4">
                     {category}
+                    {/* Only show SVG for Legal category */}
+                    {category === "Legal" && (
+                      <img 
+                        src={legal_svg} 
+                        alt="Legal Compliance" 
+                        className="size-14 " 
+                      />
+                    )}
                   </h4>
                   <ul className="space-y-3">
                     {links.map((link, index) => (
@@ -371,8 +380,6 @@ const FooterComponent = () => {
               </div>
             </div>
           </div>
-
-
         </div>
       </footer>
     </>

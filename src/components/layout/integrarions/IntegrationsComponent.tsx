@@ -182,9 +182,12 @@ const IntegrationsComponent = () => {
             </span>
           </h2>
           
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Integrate OnTap with the tools your team already loves. Streamline workflows and 
-            boost productivity with seamless connections.
+          <p className="text-lg text-gray-600 max-w-5xl mx-auto leading-10">
+            Ontap Global Workspace is built to integrate effortlessly with the most widely used business
+            productivity, communication, and collaboration tools. Our integrations allow teams to
+            synchronize data, reduce manual work, and maintain a single source of truth across HR, payroll,
+            tasks, projects, and calendars. By connecting Ontap with your existing tools, you eliminate data silos, streamline workflows,
+            and improve productivity - without disrupting how your teams work today 
           </p>
         </div>
 
@@ -216,14 +219,14 @@ const IntegrationsComponent = () => {
                 <div className="group relative">
                   <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-100/50 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
                     {/* Coming Soon Badge */}
-                    <div className="absolute -top-2 -right-2 z-20">
+                    {/* <div className="absolute -top-2 -right-2 z-20">
                       <div className="relative">
                         <div className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-semibold shadow-lg shadow-amber-200/50">
                           Coming Soon
                         </div>
                         <div className="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full animate-ping opacity-70"></div>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Integration Icon */}
                     <div className="flex flex-col items-center text-center">

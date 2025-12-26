@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { 
   FaFileAlt, 
   FaChartLine, 
@@ -19,7 +20,12 @@ import {
   FaChevronRight,
   FaStar,
   FaPrint,
-  FaSearch
+  FaSearch,
+  FaChartBar,
+  FaGraduationCap,
+  FaRegStar,
+  FaBookReader,
+  FaFireAlt
 } from "react-icons/fa";
 import FooterComponent from "../../components/layout/footer/FooterComponent";
 
@@ -51,7 +57,45 @@ const BlogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [bookmarkedIds, setBookmarkedIds] = useState<number[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
-  
+  const location = useLocation();
+
+  // Scroll to section based on hash when component mounts or location changes
+  useEffect(() => {
+    if (location.hash) {
+      const elementId = location.hash.replace('#', '');
+      const element = document.getElementById(elementId);
+      if (element) {
+        // Small delay to ensure page is fully rendered
+        setTimeout(() => {
+          element.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 300);
+      }
+    }
+  }, [location]);
+
+  // Scroll to section programmatically
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Update URL without page reload
+      window.history.pushState({}, '', `#${sectionId}`);
+    }
+  };
+
+  // Quick Navigation Links
+  const quickNavSections = [
+    { id: 'hero', label: 'Top', icon: FaFireAlt },
+    { id: 'stats', label: 'Stats', icon: FaChartBar },
+    { id: 'categories', label: 'Categories', icon: FaFilter },
+    { id: 'featured', label: 'Featured', icon: FaRegStar },
+    { id: 'all-resources', label: 'All Resources', icon: FaBookReader },
+    { id: 'subscribe', label: 'Subscribe', icon: FaGraduationCap },
+  ];
+
   const [resources] = useState<Resource[]>([
     {
       id: 1,
@@ -360,8 +404,29 @@ const BlogPage = () => {
   return (
     <>
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-emerald-50/20">
+      {/* Quick Navigation (Fixed) */}
+      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-30 hidden lg:block">
+        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-2 border border-gray-200">
+          <div className="space-y-2">
+            {quickNavSections.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => scrollToSection(section.id)}
+                className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-emerald-50 transition-colors group relative"
+                aria-label={`Jump to ${section.label}`}
+              >
+                <section.icon className="size-4 text-gray-600 group-hover:text-emerald-600" />
+                <div className="absolute right-full mr-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  {section.label}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 animate-gradient">
+      <div id="hero" className="scroll-mt-24 relative overflow-hidden bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 animate-gradient">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.3)_0%,transparent_50%)]"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.2)_0%,transparent_50%)]"></div>
@@ -385,6 +450,20 @@ const BlogPage = () => {
               Discover comprehensive research, real-world case studies, and actionable insights 
               to transform your HR practices and drive organizational success.
             </p>
+
+            {/* Quick jump links */}
+            <div className="flex flex-wrap justify-center gap-2 mt-6 mb-8 animate-buttons-stagger">
+              {quickNavSections.map((section) => (
+                <button
+                  key={section.id}
+                  onClick={() => scrollToSection(section.id)}
+                  className="px-3 py-1.5 bg-white/20 backdrop-blur-sm text-white text-sm rounded-full hover:bg-white/30 transition-all flex items-center gap-2"
+                >
+                  <section.icon className="size-3" />
+                  {section.label}
+                </button>
+              ))}
+            </div>
             
             {/* Search Bar */}
             <div className="max-w-2xl mx-auto">
@@ -407,7 +486,7 @@ const BlogPage = () => {
       </div>
 
       {/* Stats Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
+      <div id="stats" className="scroll-mt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-white rounded-2xl shadow-xl p-6">
             <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
@@ -445,7 +524,7 @@ const BlogPage = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Categories */}
-        <div className="mb-12">
+        <div id="categories" className="scroll-mt-24 mb-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-800">Browse by Category</h2>
             <div className="flex items-center space-x-2 text-gray-600">
@@ -483,7 +562,7 @@ const BlogPage = () => {
         </div>
 
         {/* Featured Resources */}
-        <div className="mb-12">
+        <div id="featured" className="scroll-mt-24 mb-12">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Featured Resources</h2>
           <div className="grid lg:grid-cols-3 gap-6">
             {resources
@@ -579,7 +658,7 @@ const BlogPage = () => {
         </div>
 
         {/* All Resources */}
-        <div>
+        <div id="all-resources" className="scroll-mt-24">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-800">All Resources</h2>
             <div className="flex items-center space-x-4">
@@ -732,7 +811,27 @@ const BlogPage = () => {
         </div>
       </div>
 
-      {/* Resource Popup Modal - FIXED VISIBLE VERSION */}
+      {/* Footer CTA */}
+      <div id="subscribe" className="scroll-mt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="bg-gradient-to-r from-emerald-600 to-teal-500 rounded-2xl p-8 md:p-12 text-white text-center shadow-xl">
+          <h3 className="text-2xl md:text-3xl font-bold mb-4">Get Exclusive HR Insights</h3>
+          <p className="text-emerald-100 mb-6 max-w-2xl mx-auto">
+            Subscribe to receive curated white papers, case studies, and industry reports directly to your inbox.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <input 
+              type="email" 
+              placeholder="Your work email address" 
+              className="flex-grow px-5 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-emerald-500"
+            />
+            <button className="px-6 py-3 bg-white text-emerald-700 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+              Subscribe Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Resource Popup Modal */}
       {selectedResource && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           {/* Backdrop */}
@@ -741,13 +840,13 @@ const BlogPage = () => {
             onClick={closeResource}
           />
           
-          {/* Modal Container - Always visible and centered */}
+          {/* Modal Container */}
           <div className="flex items-center justify-center min-h-screen p-4">
             <div 
               ref={modalRef}
               className="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] my-8 animate-slide-in-up flex flex-col overflow-hidden"
             >
-              {/* Header - Fixed */}
+              {/* Header */}
               <div className={`p-6 md:p-8 ${selectedResource.type === 'whitepaper' ? 'bg-gradient-to-r from-blue-600 to-cyan-500' : 'bg-gradient-to-r from-emerald-600 to-teal-500'} flex-shrink-0`}>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1 min-w-0 mr-4">
@@ -882,7 +981,7 @@ const BlogPage = () => {
                 </div>
               </div>
               
-              {/* Footer - Fixed */}
+              {/* Footer */}
               <div className="border-t border-gray-200 p-6 bg-white flex-shrink-0">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="text-sm text-gray-600">
@@ -906,26 +1005,6 @@ const BlogPage = () => {
           </div>
         </div>
       )}
-
-      {/* Footer CTA */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="bg-gradient-to-r from-emerald-600 to-teal-500 rounded-2xl p-8 md:p-12 text-white text-center shadow-xl">
-          <h3 className="text-2xl md:text-3xl font-bold mb-4">Get Exclusive HR Insights</h3>
-          <p className="text-emerald-100 mb-6 max-w-2xl mx-auto">
-            Subscribe to receive curated white papers, case studies, and industry reports directly to your inbox.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <input 
-              type="email" 
-              placeholder="Your work email address" 
-              className="flex-grow px-5 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-emerald-500"
-            />
-            <button className="px-6 py-3 bg-white text-emerald-700 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
-              Subscribe Now
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
     <FooterComponent/>
     </>

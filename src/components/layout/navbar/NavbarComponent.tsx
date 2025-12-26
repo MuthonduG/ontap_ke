@@ -17,7 +17,7 @@ import {
   FaSpinner,
   FaRegLightbulb
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NavLogo from "../../../assets/full_logo.png";
 import { useState, type ReactNode, useRef, useEffect } from "react";
 
@@ -105,7 +105,7 @@ const resourcesItems: DropdownItem[] = [
   { 
     title: "HR Case Studies", 
     description: "Success stories from clients", 
-    href: "/blogs", 
+    href: "/blogs/#all-resources", 
     icon: <FaLightbulb className="text-amber-600 size-5" />
   },
   { 
@@ -138,7 +138,7 @@ const hrmFeaturesItems: DropdownItem[] = [
   { 
     title: "Payroll Processing", 
     description: "Automated salary & tax calculations", 
-    href: "#", 
+    href: "/pricing/#payroll", 
     icon: <FaMoneyBillWave className="text-green-500 size-5" />
   },
   { 
@@ -200,6 +200,59 @@ const NavbarComponent = () => {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+
+  // =================== SCROLL RESET FUNCTIONS ===================
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+    
+    if (document.documentElement) {
+      document.documentElement.scrollTop = 0;
+    }
+    if (document.body) {
+      document.body.scrollTop = 0;
+    }
+    
+    setTimeout(() => {
+      if (window.scrollY > 0) {
+        window.scrollTo(0, 0);
+      }
+    }, 10);
+  };
+
+  // Enhanced navigation handler with scroll reset
+  const handleNavigation = (href: string) => {
+    // Close mobile menu first
+    setIsMobileMenuOpen(false);
+    
+    // Scroll to top FIRST (before navigation)
+    scrollToTop();
+    
+    // Close all dropdowns
+    setActiveDropdown(null);
+    
+    // Navigate programmatically
+    navigate(href);
+    
+    // Additional scroll check after navigation
+    setTimeout(() => {
+      if (window.scrollY > 0) {
+        window.scrollTo(0, 0);
+      }
+    }, 50);
+  };
+
+  // Handle logo click with scroll reset
+  const handleLogoClick = () => {
+    scrollToTop();
+    setActiveDropdown(null);
+    setIsMobileMenuOpen(false);
+    navigate('/');
+  };
 
   const toggleDropdown = (title: string) => {
     if (activeDropdown === title) {
@@ -376,7 +429,7 @@ Need to check your current sick leave balance? I can help with that!`;
 
   return (
     <>
-      {/* AI Assistant Floating Button - Fixed Tooltip Position */}
+      {/* AI Assistant Floating Button */}
       <button
         onClick={() => setIsAssistantOpen(true)}
         className="fixed left-6 bottom-6 z-40 w-14 h-14 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 group flex items-center justify-center animate-pulse-glow"
@@ -387,14 +440,13 @@ Need to check your current sick leave balance? I can help with that!`;
         {/* Pulse animation */}
         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-400/30 to-teal-500/30 animate-ping opacity-70"></div>
         
-        {/* Tooltip - Positioned to the RIGHT side */}
+        {/* Tooltip */}
         <div className="absolute left-full ml-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none shadow-lg">
           <div className="flex items-center space-x-2">
             <FaRobot className="size-3 text-emerald-300" />
             <span>Ask me anything about HR</span>
           </div>
           <div className="text-xs text-emerald-200 mt-1 font-medium">HRM AI Assistant</div>
-          {/* Arrow pointer pointing LEFT towards button */}
           <div className="absolute top-1/2 right-full transform -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-t-transparent border-b-transparent border-r-gray-900"></div>
         </div>
       </button>
@@ -402,22 +454,22 @@ Need to check your current sick leave balance? I can help with that!`;
       {/* Navigation Bar */}
       <nav className="w-full fixed flex justify-between items-center px-6 py-3 border-b border-gray-200/50 bg-white/95 backdrop-blur-sm z-50 shadow-md drop-shadow-gray-400">
         
-        {/* Enhanced Logo Container */}
+        {/* Logo Container */}
         <div className="flex items-center space-x-3">
           <div className="relative group">
-            
             <div className="absolute -inset-2 bg-gradient-to-r from-emerald-400/20 to-teal-600/20 rounded-full blur-sm group-hover:blur-md transition-all duration-300"></div>
-
             <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-400 via-teal-500 to-teal-600 rounded-full animate-pulse-slow opacity-70"></div>
             
             <div className="relative flex justify-center items-center w-14 h-14 rounded-full bg-gradient-to-br from-white via-emerald-50 to-teal-50 shadow-lg">
-              
               <div className="absolute top-0 left-1/4 w-2 h-4 bg-white/50 blur-sm transform -rotate-45"></div>
-              
               <div className="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.3)_0%,_transparent_70%)]"></div>
               
-              {/* Logo with enhanced effects */}
-              <Link to="/" onClick={closeAllDropdowns}>
+              {/* Logo */}
+              <button
+                onClick={handleLogoClick}
+                className="focus:outline-none bg-transparent border-none p-0 cursor-pointer"
+                aria-label="Go to homepage"
+              >
                 <img 
                   src={NavLogo} 
                   alt="Navigation Logo" 
@@ -432,7 +484,7 @@ Need to check your current sick leave balance? I can help with that!`;
                     `
                   }}
                 />
-              </Link>
+              </button>
               
               <div className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-300 rounded-full animate-bounce"></div>
               <div className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-teal-300 rounded-full animate-bounce delay-150"></div>
@@ -474,11 +526,10 @@ Need to check your current sick leave balance? I can help with that!`;
 
                       <div className="p-3">
                         {item.dropdown.map((dropdownItem, idx) => (
-                          <Link
+                          <button
                             key={idx}
-                            to={dropdownItem.href}
-                            onClick={closeAllDropdowns}
-                            className="flex items-start p-3 rounded-lg hover:bg-emerald-50/50 transition-all duration-200 group border-b border-gray-100 last:border-b-0"
+                            onClick={() => handleNavigation(dropdownItem.href)}
+                            className="w-full flex items-start p-3 rounded-lg hover:bg-emerald-50/50 transition-all duration-200 group border-b border-gray-100 last:border-b-0 text-left bg-transparent border-none"
                           >
                             <div className="mr-3 flex items-center justify-center size-10 bg-gray-50 rounded-lg group-hover:bg-white group-hover:shadow-sm transition-all duration-300">
                               {dropdownItem.icon}
@@ -492,19 +543,18 @@ Need to check your current sick leave balance? I can help with that!`;
                               </div>
                               <p className="text-sm text-gray-500 mt-1">{dropdownItem.description}</p>
                             </div>
-                          </Link>
+                          </button>
                         ))}
                       </div>
 
                       <div className="bg-gray-50 p-4 border-t border-gray-100">
-                        <a
-                          href="#"
-                          onClick={closeAllDropdowns}
-                          className="flex items-center justify-center text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors py-2 px-4 rounded-lg bg-white hover:bg-emerald-50 border border-emerald-100"
+                        <button
+                          onClick={() => handleNavigation(item.dropdown?.[0]?.href || '#')}
+                          className="w-full flex items-center justify-center text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors py-2 px-4 rounded-lg bg-white hover:bg-emerald-50 border border-emerald-100"
                         >
                           View all {item.title.toLowerCase()} features
                           <FaRegArrowAltCircleRight className="size-4 ml-2" />
-                        </a>
+                        </button>
                       </div>
 
                       <div className="absolute -top-2 left-6 w-4 h-4 bg-white transform rotate-45 border-t border-l border-gray-100"></div>
@@ -512,38 +562,35 @@ Need to check your current sick leave balance? I can help with that!`;
                   )}
                 </>
               ) : (
-                <Link
-                  to={item.href}
-                  onClick={closeAllDropdowns}
-                  className="text-gray-700 hover:text-emerald-600 font-medium text-sm tracking-wide transition-colors duration-200 relative group"
+                <button
+                  onClick={() => handleNavigation(item.href)}
+                  className="text-gray-700 hover:text-emerald-600 font-medium text-sm tracking-wide transition-colors duration-200 relative group bg-transparent border-none p-0 cursor-pointer"
                 >
                   <span>{item.title}</span>
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 group-hover:w-full transition-all duration-300"></span>
-                </Link>
+                </button>
               )}
             </div>
           ))}
         </div>
 
-        {/* CTA Button */}
+        {/* CTA Buttons */}
         <div className="flex items-center space-x-4">
-          <Link 
-            to="/get-started"
-            onClick={closeAllDropdowns}
+          <button 
+            onClick={() => handleNavigation("/get-started")}
             className="hidden md:flex items-center space-x-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#17ae9e]/80 to-[#0f766e]/70 text-white font-semibold text-sm hover:shadow-md hover:shadow-teal-300/70 transition-all duration-300 group"
           >
             <span>Get Started</span>
             <FaRegArrowAltCircleRight className="size-5 group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
+          </button>
 
-          <Link 
-            to="/get-started"
-            onClick={closeAllDropdowns}
+          <button 
+            onClick={() => handleNavigation("/get-started")}
            className="hidden md:flex items-center space-x-2 px-5 py-2.5 rounded-full bg-gradient-to-r bg-white text-gray-800 font-semibold text-sm border-2 border-emerald-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-3 group"
           >
             <span> Sign In </span>
             <FaRegArrowAltCircleRight className="size-5 group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
+          </button>
           
           {/* Mobile menu button */}
           <button 
@@ -707,77 +754,137 @@ Need to check your current sick leave balance? I can help with that!`;
         </>
       )}
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Dropdown Menu - FIXED WITH ANCHOR TAGS */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-white/95 backdrop-blur-sm z-40 overflow-y-auto">
-          <div className="px-6 py-4">
-            {navList.map((item, index) => (
-              <div key={index} className="mb-2">
-                {item.dropdown ? (
-                  <div className="mb-2">
-                    <button
-                      onClick={() => toggleDropdown(item.title)}
-                      className="w-full flex items-center justify-between p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+        <>
+          {/* Backdrop */}
+          <div 
+            className="md:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          
+          {/* Mobile Menu Content */}
+          <div className="md:hidden fixed top-22 left-0 right-0 bg-white z-50 max-h-[calc(100vh-50px)] overflow-y-auto shadow-xl">
+            <div className="px-6 py-6">
+              {navList.map((item, index) => (
+                <div key={index} className="mb-3">
+                  {item.dropdown ? (
+                    <div className="mb-3">
+                      <button
+                        onClick={() => toggleDropdown(item.title)}
+                        className="w-full flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-gray-50 to-gray-100/50 hover:from-emerald-50/30 hover:to-emerald-50/10 transition-all duration-300 border border-gray-200 hover:border-emerald-200"
+                      >
+                        <div className="flex items-center">
+                          <span className="font-semibold text-gray-800 text-base">{item.title}</span>
+                          {activeDropdown === item.title && (
+                            <span className="ml-2 px-2 py-0.5 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
+                              Open
+                            </span>
+                          )}
+                        </div>
+                        <FaChevronDown className={`size-4 text-gray-500 transition-transform duration-300 ${
+                          activeDropdown === item.title ? 'rotate-180 text-emerald-600' : ''
+                        }`} />
+                      </button>
+                      
+                      {activeDropdown === item.title && (
+                        <div className="mt-3 ml-3 space-y-3 border-l-2 border-emerald-300 pl-4">
+                          {item.dropdown.map((dropdownItem, idx) => (
+                            <a
+                              key={idx}
+                              href={dropdownItem.href}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleNavigation(dropdownItem.href);
+                              }}
+                              className="block w-full"
+                            >
+                              <div className="flex items-start p-3 rounded-lg hover:bg-emerald-50/70 transition-all duration-200 border border-transparent hover:border-emerald-100">
+                                <div className="mr-3 mt-1">
+                                  {dropdownItem.icon}
+                                </div>
+                                <div className="flex-1">
+                                  <h4 className="font-medium text-gray-800 text-sm">{dropdownItem.title}</h4>
+                                  <p className="text-xs text-gray-600 mt-1">{dropdownItem.description}</p>
+                                </div>
+                                <FaRegArrowAltCircleRight className="size-4 text-gray-400 ml-2 mt-0.5" />
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <a
+                      href={item.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavigation(item.href);
+                      }}
+                      className="block"
                     >
-                      <span className="font-semibold text-gray-800">{item.title}</span>
-                      <FaChevronDown className={`size-4 transition-transform ${activeDropdown === item.title ? 'rotate-180' : ''}`} />
-                    </button>
-                    
-                    {activeDropdown === item.title && (
-                      <div className="mt-2 ml-4 space-y-2 border-l-2 border-emerald-200 pl-4">
-                        {item.dropdown.map((dropdownItem, idx) => (
-                          <Link
-                            key={idx}
-                            to={dropdownItem.href}
-                            onClick={closeAllDropdowns}
-                            className="flex items-start p-3 rounded-lg hover:bg-emerald-50 transition-colors"
-                          >
-                            <div className="mr-3 mt-1">
-                              {dropdownItem.icon}
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-800">{dropdownItem.title}</h4>
-                              <p className="text-sm text-gray-600 mt-1">{dropdownItem.description}</p>
-                            </div>
-                          </Link>
-                        ))}
+                      <div className="w-full p-4 rounded-xl hover:bg-gray-50 transition-colors font-semibold text-gray-800 text-left border border-transparent hover:border-gray-200">
+                        {item.title}
                       </div>
-                    )}
-                  </div>
-                ) : (
-                  <Link
-                    to={item.href}
-                    onClick={closeAllDropdowns}
-                    className="block p-3 rounded-lg hover:bg-gray-100 transition-colors font-semibold text-gray-800"
-                  >
-                    {item.title}
-                  </Link>
-                )}
+                    </a>
+                  )}
+                </div>
+              ))}
+              
+              {/* Mobile CTA Buttons */}
+              <div className="mt-8 space-y-4">
+                <button
+                  onClick={() => {
+                    handleNavigation("/get-started");
+                  }}
+                  className="w-full flex items-center justify-center space-x-3 px-6 py-3.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-base hover:shadow-lg hover:shadow-emerald-300/50 transition-all duration-300"
+                >
+                  <span>Get Started Free</span>
+                  <FaRegArrowAltCircleRight className="size-5" />
+                </button>
+                
+                <button
+                  onClick={() => {
+                    handleNavigation("/get-started");
+                  }}
+                  className="w-full flex items-center justify-center space-x-3 px-6 py-3.5 rounded-full bg-white text-gray-800 font-semibold text-base border-2 border-emerald-300 hover:border-emerald-400 hover:bg-emerald-50 transition-all duration-300"
+                >
+                  <span>Sign In</span>
+                  <FaRegArrowAltCircleRight className="size-5" />
+                </button>
               </div>
-            ))}
-            
-            <Link
-              to="/get-started"
-              onClick={closeAllDropdowns}
-              className="w-full mt-6 flex items-center justify-center space-x-2 px-5 py-3 rounded-full bg-gradient-to-r from-[#17ae9e]/80 to-[#0f766e]/70 text-white font-semibold text-sm"
-            >
-              <span>Get Started Free</span>
-              <FaRegArrowAltCircleRight className="size-5" />
-            </Link>
+              
+              {/* AI Assistant Button in Mobile Menu */}
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsAssistantOpen(true);
+                  }}
+                  className="w-full flex items-center justify-center space-x-3 px-6 py-3.5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-semibold text-base hover:shadow-lg hover:shadow-emerald-400/50 transition-all duration-300"
+                >
+                  <FaRobot className="size-5" />
+                  <span>Open HRM AI Assistant</span>
+                </button>
+                <p className="text-xs text-gray-500 text-center mt-2">
+                  Get instant answers to HR questions
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
+        </>
       )}
 
       {/* Click outside to close dropdowns */}
-      {(activeDropdown || isAssistantOpen) && (
+      {(activeDropdown && !isMobileMenuOpen) || isAssistantOpen ? (
         <div 
-          className="fixed inset-0 z-40"
+          className="fixed inset-0 z-30"
           onClick={() => {
-            closeAllDropdowns();
+            setActiveDropdown(null);
             if (isAssistantOpen) setIsAssistantOpen(false);
           }}
         />
-      )}
+      ) : null}
     </>
   );
 };

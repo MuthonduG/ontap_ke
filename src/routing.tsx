@@ -49,11 +49,11 @@ export const routes: RouteType[] = [
         element: <PricingPage/>
     },
     {
-        path: "hrm_ai",
+        path: "/hrm_ai",
         element: <AiTalentManagementPage/>
     },
     {
-        path: "blogs",
+        path: "/blogs",
         element: <BlogPage/>
     }
 ]

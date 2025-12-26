@@ -1,13 +1,51 @@
-import { useState } from "react";
-import { FaPlay, FaCalendarAlt, FaClock, FaUsers, FaStar, FaChevronRight, FaRegCheckCircle, FaVideo, FaChalkboardTeacher, FaCertificate, FaQuoteLeft, FaRegCalendarCheck, FaLeaf, FaRocket, FaBrain } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { FaPlay, FaCalendarAlt, FaClock, FaUsers, FaStar, FaChevronRight, FaRegCheckCircle, FaVideo, FaChalkboardTeacher, FaCertificate, FaQuoteLeft, FaRegCalendarCheck, FaLeaf, FaRocket, FaBrain, FaArchive, FaRegNewspaper, FaBullhorn } from "react-icons/fa";
 import FooterComponent from "../../components/layout/footer/FooterComponent";
 
 const EventsPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
+  const location = useLocation();
+
+  // Scroll to section based on hash when component mounts or location changes
+  useEffect(() => {
+    if (location.hash) {
+      const elementId = location.hash.replace('#', '');
+      const element = document.getElementById(elementId);
+      if (element) {
+        // Small delay to ensure page is fully rendered
+        setTimeout(() => {
+          element.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 300);
+      }
+    }
+  }, [location]);
+
+  // Scroll to section programmatically
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Update URL without page reload
+      window.history.pushState({}, '', `#${sectionId}`);
+    }
+  };
+
+  // Quick Navigation Links
+  const quickNavSections = [
+    { id: 'featured', label: 'Featured', icon: FaVideo },
+    { id: 'past-events', label: 'Past Events', icon: FaArchive },
+    { id: 'upcoming-events', label: 'Upcoming', icon: FaCalendarAlt },
+    { id: 'newsletter', label: 'Newsletter', icon: FaRegNewspaper },
+    { id: 'certification', label: 'Certification', icon: FaCertificate },
+  ];
 
   // YouTube video embedding with responsive design
   const youtubeEmbed = (
-    <div className="w-full" style={{ minWidth: '400px', maxWidth: '800px' }}>
+    <div className="w-[300px] md:w-[500px]">
       <div className="relative w-full overflow-hidden" style={{ paddingTop: '56.25%' }}>
         <iframe 
           className="absolute top-0 left-0 w-full h-full border-none"
@@ -238,6 +276,27 @@ const EventsPage = () => {
   return (
     <>
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 overflow-hidden">
+      {/* Quick Navigation (Fixed) */}
+      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-30 hidden lg:block">
+        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-2 border border-gray-200">
+          <div className="space-y-2">
+            {quickNavSections.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => scrollToSection(section.id)}
+                className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-emerald-50 transition-colors group relative"
+                aria-label={`Jump to ${section.label}`}
+              >
+                <section.icon className="size-4 text-gray-600 group-hover:text-emerald-600" />
+                <div className="absolute right-full mr-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  {section.label}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Animated Background Particles */}
       <div className="fixed inset-0 pointer-events-none z-0">
         {[...Array(15)].map((_, i) => (
@@ -260,7 +319,7 @@ const EventsPage = () => {
         ))}
       </div>
 
-      {/* Hero Section with Video */}
+      {/* Hero Section with Quick Navigation */}
       <section className="max-w-7xl mx-auto px-4 mb-16 relative z-10 mt-16 py-16">
         <div className="text-center mb-12 animate-fade-in-up leading-10">
           <div className="inline-flex items-center gap-4 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 border border-emerald-200/50 mb-4 animate-pulse-glow">
@@ -275,19 +334,39 @@ const EventsPage = () => {
           </h1>
           
           <p className="text-xl text-gray-600 max-w-3xl mx-auto animate-fade-in-delay leading-10 mt-10">
-            Expert-led sessions to elevate your HR skills, stay updated with industry trends, 
-            and transform your organization's human resource management.
+            Manage employee training, certifications, and learning progress in one place. Employees can
+            request training based on skill gaps or career goals, track completion, and share articles, insights,
+            and internal publications to promote continuous learning.
           </p>
-        </div>
 
-        {/* Featured Video Section */}
+          {/* Quick jump links */}
+          <div className="flex flex-wrap justify-center gap-2 mt-8 animate-buttons-stagger">
+            {quickNavSections.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => scrollToSection(section.id)}
+                className="px-4 py-2 bg-emerald-50 text-emerald-700 text-sm rounded-full hover:bg-emerald-100 transition-all flex items-center gap-2 hover:scale-105 transform-gpu"
+              >
+                <section.icon className="size-3" />
+                {section.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Video Section */}
+      <section id="featured" className="scroll-mt-24 max-w-7xl mx-auto px-4 mb-16 relative z-10">
         <div className="bg-white rounded-2xl p-8 border border-emerald-200 shadow-lg mb-12 animate-slide-in-up hover:shadow-2xl transition-all duration-300 hover:animate-card-lift">
+          <div className="flex items-center justify-center mb-6">
+            <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2 animate-slide-in-left">
+              <FaPlay className="text-emerald-600 animate-pulse" />
+              Featured Session: The Importance of HRM
+            </h2>
+          </div>
+          
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             <div className="lg:w-1/2">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2 animate-slide-in-left">
-                <FaPlay className="text-emerald-600 animate-pulse" />
-                Featured Session: The Importance of HRM
-              </h2>
               <p className="text-gray-600 mb-6 animate-fade-in-delay">
                 Watch this essential overview of how strategic Human Resource Management drives 
                 organizational success in today's competitive business landscape. Learn about the 
@@ -310,21 +389,20 @@ const EventsPage = () => {
               </div>
             </div>
             
-            <div className="hidden md:inline-block lg:w-1/2 animate-slide-in-right">
-              <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl hover:shadow-emerald-200/50 transition-all duration-300">
+            <div className="lg:w-1/2 animate-slide-in-right">
+              <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl hover:shadow-emerald-200/50 transition-all duration-300 w-fit">
                 {youtubeEmbed}
               </div>
-   
             </div>
           </div>
         </div>
       </section>
 
       {/* Past Events Section */}
-      <section className="max-w-7xl mx-auto px-4 mb-16 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
-          <div className="animate-slide-in-left">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 border border-emerald-200/50 mb-4 animate-pulse-glow">
+      <section id="past-events" className="scroll-mt-24 max-w-7xl mx-auto px-4 mb-16 relative z-10">
+        <div className="flex flex-col justify-center items-center mb-8">
+          <div className="animate-slide-in-left flex flex-col justify-center items-center gap-4 mb-6">
+            <div className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 border border-emerald-200/50 mb-4 animate-pulse-glow">
               <FaLeaf className="text-emerald-600 animate-spin-slow" />
               <span className="text-sm font-semibold text-emerald-600">
                 PAST SESSIONS ARCHIVE
@@ -338,22 +416,25 @@ const EventsPage = () => {
             </p>
           </div>
           
-          {/* Category Filters */}
-          <div className="flex flex-wrap gap-2 mt-4 md:mt-0 animate-buttons-stagger">
-            {categories.map((category, index) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all hover:scale-105 active:scale-95 transform-gpu ${
-                  activeCategory === category.id
-                    ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg animate-pulse-glow'
-                    : 'bg-white text-gray-600 border border-gray-300 hover:border-emerald-300 hover:text-emerald-600'
-                }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {category.label}
-              </button>
-            ))}
+          <div className="flex items-center gap-4 mt-4 md:mt-0">
+            {/* Category Filters */}
+            <div className="flex flex-wrap gap-2 animate-buttons-stagger">
+              {categories.map((category, index) => (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all hover:scale-105 active:scale-95 transform-gpu ${
+                    activeCategory === category.id
+                      ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg animate-pulse-glow'
+                      : 'bg-white text-gray-600 border border-gray-300 hover:border-emerald-300 hover:text-emerald-600'
+                  }`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  {category.label}
+                </button>
+              ))}
+            </div>
+
           </div>
         </div>
 
@@ -364,7 +445,6 @@ const EventsPage = () => {
               key={event.id} 
               className="bg-white rounded-2xl border-2 border-emerald-100 shadow-sm hover:shadow-2xl transition-all duration-300 hover:scale-105 transform-gpu animate-stagger-card group"
               style={{ animationDelay: `${index * 0.1}s` }}
-              onMouseEnter={() => {}}
             >
               <div className="p-6">
                 {/* Event Header */}
@@ -448,7 +528,6 @@ const EventsPage = () => {
                     <div 
                       key={idx} 
                       className="bg-gradient-to-r from-emerald-50/50 to-teal-50/50 p-3 rounded-lg border border-emerald-100 hover:border-emerald-300 transition-all hover:scale-105 group/testimonial"
-                      onMouseEnter={() => {}}
                     >
                       <div className="flex items-center gap-2 mb-1">
                         <div className="flex items-center gap-1">
@@ -482,21 +561,23 @@ const EventsPage = () => {
       </section>
 
       {/* Upcoming Events Section */}
-      <section className="max-w-7xl mx-auto px-4 mb-16 relative z-10">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 border border-emerald-200/50 mb-4 animate-pulse-glow">
-            <FaRegCalendarCheck className="text-emerald-600 animate-spin-slow" />
-            <span className="text-sm font-semibold text-emerald-600">
-              UPCOMING SESSIONS
-            </span>
+      <section id="upcoming-events" className="scroll-mt-24 max-w-7xl mx-auto px-4 mb-16 relative z-10">
+        <div className="flex items-center justify-center mb-12">
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 border border-emerald-200/50 mb-4 animate-pulse-glow">
+              <FaRegCalendarCheck className="text-emerald-600 animate-spin-slow" />
+              <span className="text-sm font-semibold text-emerald-600">
+                UPCOMING SESSIONS
+              </span>
+            </div>
+            
+            <h2 className="text-3xl font-bold text-gray-800 mb-4 animate-text-reveal">
+              Register for <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent animate-gradient-flow">Upcoming Events</span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto animate-fade-in-delay">
+              Join our live sessions and interact with industry experts in real-time
+            </p>
           </div>
-          
-          <h2 className="text-3xl font-bold text-gray-800 mb-4 animate-text-reveal">
-            Register for <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent animate-gradient-flow">Upcoming Events</span>
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto animate-fade-in-delay">
-            Join our live sessions and interact with industry experts in real-time
-          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -575,8 +656,8 @@ const EventsPage = () => {
           ))}
         </div>
 
-        {/* CTA Banner */}
-        <div className="mt-12 bg-gradient-to-r from-emerald-600 to-teal-500 rounded-2xl p-8 text-center text-white relative overflow-hidden animate-pulse-border">
+        {/* CTA Banner - Certification */}
+        <div id="certification" className="scroll-mt-24 mt-12 bg-gradient-to-r from-emerald-600 to-teal-500 rounded-2xl p-8 text-center text-white relative overflow-hidden animate-pulse-border">
           {/* Floating Particles */}
           <div className="absolute inset-0">
             {[...Array(5)].map((_, i) => (
@@ -596,7 +677,12 @@ const EventsPage = () => {
           </div>
           
           <div className="relative z-10">
-            <FaCertificate className="text-3xl mx-auto mb-4 animate-bounce-slow" />
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <FaCertificate className="text-3xl animate-bounce-slow" />
+              <div className="text-sm text-emerald-100 bg-white/20 px-3 py-1 rounded-full">
+                ID: #certification
+              </div>
+            </div>
             <h3 className="text-2xl font-bold mb-2 animate-text-reveal">Get Certified in HRM</h3>
             <p className="mb-6 max-w-2xl mx-auto animate-fade-in-delay">
               Complete our webinar series and earn a Professional HRM Certificate recognized by industry leaders
@@ -609,13 +695,18 @@ const EventsPage = () => {
       </section>
 
       {/* Newsletter Signup */}
-      <section className="max-w-3xl mx-auto px-4 mb-16 relative z-10">
+      <section id="newsletter" className="scroll-mt-24 max-w-3xl mx-auto px-4 mb-16 relative z-10">
         <div className="bg-white rounded-2xl p-8 border-2 border-emerald-200 shadow-lg text-center hover:shadow-2xl transition-all duration-300 hover:animate-card-lift">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 border border-emerald-200/50 mb-4 animate-pulse-glow">
-            <FaRocket className="text-emerald-600 animate-spin-slow" />
-            <span className="text-sm font-semibold text-emerald-600">
-              STAY UPDATED
-            </span>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 border border-emerald-200/50 animate-pulse-glow">
+              <FaRocket className="text-emerald-600 animate-spin-slow" />
+              <span className="text-sm font-semibold text-emerald-600">
+                STAY UPDATED
+              </span>
+            </div>
+            <div className="text-sm text-gray-500 bg-emerald-50 px-3 py-1 rounded-full">
+              ID: #newsletter
+            </div>
           </div>
           
           <h3 className="text-2xl font-bold text-gray-800 mb-4 animate-text-reveal">
@@ -641,6 +732,22 @@ const EventsPage = () => {
           </p>
         </div>
       </section>
+
+      {/* Floating Elements */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-emerald-400/20 rounded-full animate-float-particle"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 20}s`,
+              animationDuration: `${15 + Math.random() * 15}s`
+            }}
+          />
+        ))}
+      </div>
     </div>
     <FooterComponent/>
     </>

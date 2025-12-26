@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { 
   FaUsers, 
   FaRocket, 
@@ -16,13 +17,27 @@ import {
   FaGraduationCap,
   FaBriefcase,
   FaCode,
-  FaUserTie,
   FaStar,
   FaCrown,
-  FaGem
+  FaGem,
+  FaHome,
+  FaBook,
+  FaRoad,
+  FaHeartbeat,
+  FaUser,
+  FaUsersCog,
+  FaEnvelope,
 } from "react-icons/fa";
 import { FiTarget, FiTrendingUp, FiZap } from "react-icons/fi";
 import FooterComponent from "../../components/layout/footer/FooterComponent";
+import max_image from "../../assets/max.jpeg";
+import peter_image from "../../assets/peter_tech.jpeg";
+import victor_image from "../../assets/victor.jpeg";
+import owen_image from "../../assets/owen.jpeg";
+import mildred_image from "../../assets/mildred.jpeg";
+import john_image from "../../assets/john.jpeg";
+import ceo_image from "../../assets/ceo.jpeg";
+import { ImUsers } from "react-icons/im";
 
 const AboutusPage = () => {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -38,11 +53,55 @@ const AboutusPage = () => {
   const [teamInView, setTeamInView] = useState(false);
   const [ctaInView, setCtaInView] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const location = useLocation();
   
   // New states for hero animation control
   const [hasHeroAnimated, setHasHeroAnimated] = useState(false);
   const [isHeroInViewport, setIsHeroInViewport] = useState(false);
   const heroSectionRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to section based on hash when component mounts or location changes
+  useEffect(() => {
+    if (location.hash) {
+      const elementId = location.hash.replace('#', '');
+      const element = document.getElementById(elementId);
+      if (element) {
+        // Small delay to ensure page is fully rendered
+        setTimeout(() => {
+          element.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 300);
+      }
+    }
+  }, [location]);
+
+  // Scroll to section programmatically
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Update URL without page reload
+      window.history.pushState({}, '', `#${sectionId}`);
+    }
+  };
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Quick Navigation Links
+  const quickNavSections = [
+    { id: 'hero', label: 'Home', icon: FaHome },
+    { id: 'story', label: 'Our Story', icon: FaBook },
+    { id: 'timeline', label: 'Timeline', icon: FaRoad },
+    { id: 'values', label: 'Values', icon: FaHeartbeat },
+    { id: 'ceo', label: 'CEO Story', icon: FaUser },
+    { id: 'team', label: 'Our Team', icon: FaUsersCog },
+    { id: 'cta', label: 'Contact', icon: FaEnvelope },
+  ];
 
   // Track scroll progress for parallax effects
   useEffect(() => {
@@ -91,14 +150,7 @@ const AboutusPage = () => {
   }, [hasHeroAnimated]);
 
   // Avatar URLs for team section
-  const avatarUrls = [
-    "https://i.pinimg.com/736x/fc/e6/93/fce693e4be192e6943e4a0fc3957a005.jpg",
-    "https://i.pinimg.com/1200x/31/c9/ce/31c9ce479d7c5763f6b620d4370b96c8.jpg",
-    "https://i.pinimg.com/736x/a5/05/e2/a505e2e8e6e4e5b0607a7a438b8984c6.jpg",
-    "https://i.pinimg.com/736x/88/a5/23/88a523523f21ed102bd68d2add317ed5.jpg",
-    "https://i.pinimg.com/736x/10/f9/49/10f94912ec553621e064716ae3026447.jpg",
-    "https://i.pinimg.com/736x/ee/96/af/ee96afc0635e1f531db8ec9ec181fcc3.jpg"
-  ];
+  const avatarUrls = [ mildred_image, peter_image, john_image, victor_image, max_image, owen_image, ceo_image ];
 
   // Stats with enhanced animation data
   const stats = [
@@ -232,14 +284,13 @@ const AboutusPage = () => {
 
   // CEO's credentials and story
   const ceoStory = {
-    name: "Alex Johnson",
+    name: "Thaddeus Onindi",
     title: "CEO & Founder",
     credentials: [
-      "CPA Certified (2015-2020)",
       "Full-Stack Software Developer Certification",
     ],
-    story: "After 8 years in corporate accounting, I discovered my passion for technology while automating financial reports. The transition wasn't easy - countless nights learning to code while managing client accounts - but it revealed a truth: complex workforce challenges need elegant technological solutions. Today, I combine financial rigor with technical excellence to build tools that genuinely empower organizations.",
-    avatar: avatarUrls[0],
+    story: "Thaddeus Onindi is a Tech entrepreneur, Founder and CEO of Belfor Tech Consultants, Ontap Global Workspace, and GlowCare360. A seasoned product leader and project manager, he has guided startups from concept to scale across Africa, the UAE, and North America. With deep expertise in product strategy, market fit, and technology leadership, he helps founders build purpose-driven companies that grow sustainably and make a lasting impact.",
+    avatar: ceo_image,
     stats: [
       { value: "8 Years", label: "Accounting Experience", icon: <FaGraduationCap /> },
       { value: "5 Years", label: "Software Development", icon: <FaCode /> },
@@ -250,52 +301,62 @@ const AboutusPage = () => {
   // Team Members with enhanced animation data
   const teamMembers = [
     {
-      name: "Sarah Chen",
-      role: "Head of Product",
-      expertise: "Product Strategy & UX Design",
-      story: "Former product lead at a Fortune 500 tech company",
-      avatar: avatarUrls[1],
-      icon: <FaUserTie />,
+      name: "Mildred Nanjala",
+      role: "HR Manager",
+      expertise: "Human Resource Management",
+      story: "Lead and developed HR Teams for over 10+ companies",
+      avatar: avatarUrls[0],
+      icon: <ImUsers />,
       color: "from-emerald-400 to-teal-400",
       delay: 0
     },
     {
-      name: "Marcus Rivera",
-      role: "Lead Engineer",
+      name: "Peter Shikuku",
+      role: "Software Engineer",
       expertise: "Full-Stack Development & Architecture",
       story: "Built scalable systems for enterprise clients",
-      avatar: avatarUrls[2],
+      avatar: avatarUrls[1],
       icon: <FaCode />,
       color: "from-blue-400 to-purple-400",
       delay: 0.1
     },
     {
-      name: "Dr. Elena Rodriguez",
-      role: "Head of AI Research",
-      expertise: "Machine Learning & Predictive Analytics",
-      story: "PhD in Computer Science from MIT",
-      avatar: avatarUrls[3],
+      name: "John Thuku",
+      role: "CTO",
+      expertise: "Full-Stack Development and Team Lead",
+      story: "Lead Tech Teams for multiple products",
+      avatar: avatarUrls[2],
       icon: <FaLightbulb />,
       color: "from-amber-400 to-orange-400",
       delay: 0.2
     },
     {
-      name: "James Wilson",
-      role: "Customer Success Director",
-      expertise: "Implementation & Support",
-      story: "20+ years in workforce management consulting",
-      avatar: avatarUrls[4],
+      name: "Victor Emefo",
+      role: "Product Design",
+      expertise: "Product design & UI/UX",
+      story: "Keen eye to detail with an understanding of custoer needs",
+      avatar: avatarUrls[3],
       icon: <FaBriefcase />,
       color: "from-purple-400 to-pink-400",
       delay: 0.3
     },
     {
-      name: "Priya Patel",
-      role: "Head of Security",
-      expertise: "Cybersecurity & Compliance",
-      story: "Former security lead at financial institution",
+      name: "Maxwell Githinji",
+      role: "Sofware Engineer",
+      expertise: "Software Engineer",
+      story: "Full-stack Developer with an experience with AI and Automation",
+      avatar: avatarUrls[4],
+      icon: <FaCode />,
+      color: "from-emerald-500 to-blue-500",
+      delay: 0.4
+    },
+    {
+      name: "Ownen Imbukwa",
+      role: "Frontend Engineer",
+      expertise: "Sofwtware Engineer",
+      story: "Frontend Full-stack Developer with an experience with UI/UX",
       avatar: avatarUrls[5],
-      icon: <FaShieldAlt />,
+      icon: <FaCode />,
       color: "from-emerald-500 to-blue-500",
       delay: 0.4
     }
@@ -388,12 +449,12 @@ const AboutusPage = () => {
     );
 
     // Observe each section
-    const storySection = document.getElementById('story-section');
-    const timelineSection = document.getElementById('timeline-section');
-    const valuesSection = document.getElementById('values-section');
-    const ceoSection = document.getElementById('ceo-section');
-    const teamSection = document.getElementById('team-section');
-    const ctaSection = document.getElementById('cta-section');
+    const storySection = document.getElementById('story');
+    const timelineSection = document.getElementById('timeline');
+    const valuesSection = document.getElementById('values');
+    const ceoSection = document.getElementById('ceo');
+    const teamSection = document.getElementById('team');
+    const ctaSection = document.getElementById('cta');
 
     if (storySection) storyObserver.observe(storySection);
     if (timelineSection) timelineObserver.observe(timelineSection);
@@ -475,7 +536,28 @@ const AboutusPage = () => {
 
   return (
     <>
-    <div ref={aboutRef} className="min-h-screen bg-gradient-to-b from-white to-gray-50 py-10 overflow-hidden">
+    <div ref={aboutRef} className="min-h-screen bg-gradient-to-b from-white to-gray-50 py-10 overflow-hidden relative">
+      {/* Quick Navigation (Fixed) */}
+      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-40 hidden lg:block">
+        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-2 border border-emerald-200">
+          <div className="space-y-2">
+            {quickNavSections.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => scrollToSection(section.id)}
+                className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-emerald-50 transition-colors group relative"
+                aria-label={`Jump to ${section.label}`}
+              >
+                <section.icon className="size-4 text-gray-600 group-hover:text-emerald-600" />
+                <div className="absolute right-full mr-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  {section.label}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Animated Background Elements */}
       <div className="fixed inset-0 pointer-events-none z-0">
         {[...Array(20)].map((_, i) => (
@@ -498,7 +580,7 @@ const AboutusPage = () => {
       </div>
 
       {/* Hero Section - Now with ref for intersection observer */}
-      <section ref={heroSectionRef} className="relative overflow-hidden pt-20 pb-32">
+      <section ref={heroSectionRef} id="hero" className="scroll-mt-24 relative overflow-hidden pt-20 pb-32">
         {/* Enhanced Background Elements */}
         <div className="absolute inset-0 z-0">
           <div 
@@ -551,8 +633,21 @@ const AboutusPage = () => {
               style={heroAnimation(0.4)}
             >
               We're on a mission to transform how organizations manage, engage, and empower their workforce through innovative technology
-
             </p>
+
+            {/* Quick jump links */}
+            <div className="flex flex-wrap justify-center gap-2 mt-6">
+              {quickNavSections.slice(1).map((section) => (
+                <button
+                  key={section.id}
+                  onClick={() => scrollToSection(section.id)}
+                  className="px-3 py-1.5 bg-emerald-500/10 backdrop-blur-sm text-emerald-700 text-sm rounded-full hover:bg-emerald-500/20 transition-all flex items-center gap-2 border border-emerald-200"
+                >
+                  <section.icon className="size-3" />
+                  {section.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Animated Stats Grid - Hero animations */}
@@ -595,13 +690,16 @@ const AboutusPage = () => {
       </section>
 
       {/* Our Story Section - Only animates when scrolled into view */}
-      <section id="story-section" className="py-20 bg-gradient-to-b from-gray-50 to-white relative">
+      <section id="story" className="scroll-mt-24 py-20 bg-gradient-to-b from-gray-50 to-white relative">
         <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-center mb-6">
+            <h2 className="text-4xl font-bold text-gray-800">
+              Our <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Story</span>
+            </h2>
+          </div>
+          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div style={scrollAnimation(0.2, storyInView)}>
-              <h2 className="text-4xl font-bold text-gray-800 mb-6">
-                Our <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Story</span>
-              </h2>
               <p className="text-gray-600 text-lg mb-6 leading-relaxed">
                 Founded in 2018, OnTap began as a simple idea: to make workforce management accessible, intuitive, and powerful for organizations of all sizes. We saw the challenges businesses faced with outdated systems and knew there had to be a better way.
               </p>
@@ -674,14 +772,13 @@ const AboutusPage = () => {
       </section>
 
       {/* Enhanced Timeline Section */}
-      <section id="timeline-section" className="py-20 relative">
+      <section id="timeline" className="scroll-mt-24 py-20 relative">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 
-            className="text-4xl font-bold text-center text-gray-800 mb-12"
-            style={scrollAnimation(0.2, timelineInView)}
-          >
-            Our <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Journey</span>
-          </h2>
+          <div className="flex items-center justify-center mb-6">
+            <h2 className="text-4xl font-bold text-gray-800">
+              Our <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Journey</span>
+            </h2>
+          </div>
 
           <div className="relative">
             {/* Animated Curved Dotted Line */}
@@ -787,14 +884,13 @@ const AboutusPage = () => {
       </section>
 
       {/* Enhanced Values Section */}
-      <section id="values-section" className="py-20 bg-gradient-to-b from-white to-gray-50">
+      <section id="values" className="scroll-mt-24 py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 
-            className="text-4xl font-bold text-center text-gray-800 mb-12"
-            style={scrollAnimation(0.2, valuesInView)}
-          >
-            Our <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Values</span>
-          </h2>
+          <div className="flex items-center justify-center mb-6">
+            <h2 className="text-4xl font-bold text-gray-800">
+              Our <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Values</span>
+            </h2>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, index) => (
@@ -861,12 +957,14 @@ const AboutusPage = () => {
       </section>
 
       {/* CEO's Story Section */}
-      <section id="ceo-section" className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+      <section id="ceo" className="scroll-mt-24 py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-12" style={scrollAnimation(0.2, ceoInView)}>
-            From <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Spreadsheets</span> to{" "}
-            <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Software</span>
-          </h2>
+          <div className="flex items-center justify-center mb-6">
+            <h2 className="text-4xl font-bold text-gray-800">
+              From <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Spreadsheets</span> to{" "}
+              <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Software</span>
+            </h2>
+          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* CEO Image & Credentials */}
@@ -922,7 +1020,7 @@ const AboutusPage = () => {
                 <div className="relative p-4 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200">
                   <FaQuoteLeft className="absolute -top-2 -left-2 text-emerald-400 text-2xl" />
                   <p className="text-gray-700 italic">
-                    "In accounting, I saw how manual processes drained productivity. As a developer, I built solutions. WorkforcePro is the marriage of these worlds - financial precision meets technological innovation."
+                    “Great companies aren’t built by chasing trends - they’re built by understanding people, validating ideas early, and scaling with intention. From Africa to North America, I’ve learned that sustainable growth comes from aligning vision, market fit, and technology - no matter the geography.”
                   </p>
                 </div>
               </div>
@@ -956,11 +1054,14 @@ const AboutusPage = () => {
       </section>
 
       {/* Enhanced Team Section */}
-      <section id="team-section" className="py-20">
+      <section id="team" className="scroll-mt-24 py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-4" style={scrollAnimation(0.2, teamInView)}>
-            Meet Our <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Dream Team</span>
-          </h2>
+          <div className="flex items-center justify-center mb-6">
+            <h2 className="text-4xl font-bold text-gray-800">
+              Meet Our <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Dream Team</span>
+            </h2>
+          </div>
+          
           <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto" style={scrollAnimation(0.3, teamInView)}>
             Experts from diverse backgrounds united by a common mission: transform workforce management
           </p>
@@ -1040,7 +1141,7 @@ const AboutusPage = () => {
       </section>
 
       {/* Enhanced CTA Section */}
-      <section id="cta-section" className="py-20">
+      <section id="cta" className="scroll-mt-24 py-20">
         <div className="max-w-4xl mx-auto px-4">
           <div 
             className="rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 p-8 md:p-12 text-center relative overflow-hidden shadow-2xl"

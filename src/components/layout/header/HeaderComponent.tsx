@@ -5,8 +5,20 @@ const HeaderComponent = () => {
   const [activeFeature, setActiveFeature] = useState("attendance");
   const [isDashboardVisible, setIsDashboardVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const dashboardRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  
+  // Check for mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint in Tailwind
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   // Avatar URLs
   const avatarUrls = [
@@ -60,10 +72,10 @@ const HeaderComponent = () => {
     }
   ];
 
-  // Simple scroll detection
+  // Simple scroll detection - Only for medium/large screens
   useEffect(() => {
     const handleScroll = () => {
-      if (!headerRef.current || !dashboardRef.current || isAnimating) return;
+      if (!headerRef.current || !dashboardRef.current || isAnimating || isMobile) return;
       
       const headerBottom = headerRef.current.getBoundingClientRect().bottom;
       const dashboardTop = dashboardRef.current.getBoundingClientRect().top;
@@ -85,11 +97,13 @@ const HeaderComponent = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); 
+    if (!isMobile) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll();
+    }
     
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isDashboardVisible, isAnimating]);
+  }, [isDashboardVisible, isAnimating, isMobile]);
 
   const activeFeatureData = features.find(f => f.id === activeFeature);
   
@@ -107,16 +121,16 @@ const HeaderComponent = () => {
     <>    
       <header 
         ref={headerRef}
-        className="w-full flex flex-col justify-center items-center bg-gradient-to-b from-white via-emerald-50/30 to-teal-50/20 pt-12 pb-32 px-4 overflow-hidden relative min-h-screen"
+        className="w-full flex flex-col justify-center items-center bg-gradient-to-b from-white via-emerald-50/30 to-teal-50/20 pt-8 md:pt-12 pb-16 md:pb-32 px-4 overflow-hidden relative min-h-screen md:min-h-[90vh]"
       >
         
         {/* Animated Background Elements */}
-        <div className="absolute top-10 left-10 w-72 h-72 bg-emerald-300/10 rounded-full blur-3xl animate-pulse-slow"></div>
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-teal-400/10 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
+        <div className="absolute top-10 left-10 w-48 md:w-72 h-48 md:h-72 bg-emerald-300/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute bottom-10 right-10 w-64 md:w-96 h-64 md:h-96 bg-teal-400/10 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
         
-        {/* All Floating Entries around the headline */}
-        {!isDashboardVisible && (
-          <div className="absolute inset-0 z-30 pointer-events-none">
+        {/* All Floating Entries around the headline - Hidden on mobile */}
+        {!isDashboardVisible && !isMobile && (
+          <div className="absolute inset-0 z-30 pointer-events-none hidden md:block">
             {attendanceData.map((employee, index) => {
               const position = floatingEntryPositions[index];
               return (
@@ -184,81 +198,95 @@ const HeaderComponent = () => {
         <div className="w-full max-w-6xl flex flex-col justify-center items-center relative z-40">
           
           {/* Badge */}
-          <div className="mb-6">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 border border-emerald-200/50">
-              <span className="text-sm font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+          <div className="mb-6 mt-6 md:mt-10 p-4">
+            <div className="inline-flex items-center px-4 md:px-6 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 border border-emerald-200/50">
+              <span className="text-xs md:text-sm font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
                 🎯 TRUSTED BY 500+ HR TEAMS WORLDWIDE
               </span>
             </div>
           </div>
 
           {/* Main Headline */}
-          <div className="text-center mb-8 relative">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight tracking-tight">
-              <span className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                Manage Your Team
+          <div className="text-center mb-6 relative px-2">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight tracking-tight">
+              <span className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent block">
+                AI-Powered Human Operations OS 
               </span>
-              <br />
-              <span className="bg-gradient-to-r from-cyan-700 via-emerald-600 to-teal-500 bg-clip-text text-transparent animate-gradient">
-                in One Platform
+              <span className="bg-gradient-to-r from-cyan-700 via-emerald-600 to-teal-500 bg-clip-text text-transparent animate-gradient block mt-2 md:mt-4">
+                For Modern Teams
               </span>
             </h1>
           </div>
 
           {/* Subheadline */}
-          <p className="text-xl md:text-xl text-gray-400 text-center max-w-3xl mb-12 leading-10">
-            Streamline recruitment, automate payroll, boost engagement, and ensure compliance—all from a single, intuitive HR management platform designed for modern businesses.
+          <p className="text-base sm:text-lg md:text-xl text-gray-400 text-center max-w-3xl leading-relaxed md:leading-10 px-4">
+            Unify HR, payroll, tasks, projects, performance, digital ID, and smart calendar - so your
+            company runs end-to-end in one intelligent workspace.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-20">
-            <button className="px-8 py-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-lg hover:shadow-xl hover:shadow-emerald-300/50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-3 group relative overflow-hidden">
+          <div className="flex flex-col sm:flex-row gap-4 mt-8 md:mt-10 px-4">
+            <button className="px-6 md:px-8 py-3 md:py-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-base md:text-lg hover:shadow-xl hover:shadow-emerald-300/50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-2 md:space-x-3 group relative overflow-hidden w-full sm:w-auto">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" 
                 style={{ 
                   backgroundSize: '200% 100%',
                   animation: 'shimmer 2s infinite linear'
                 }}></div>
               <span className="relative">Start Free Trial</span>
-              <FaRocket className="size-5 group-hover:translate-x-1 transition-transform duration-300 relative" />
+              <FaRocket className="size-4 md:size-5 group-hover:translate-x-1 transition-transform duration-300 relative" />
             </button>
             
-            <button className="px-8 py-4 rounded-full bg-white text-gray-800 font-semibold text-lg border-2 border-emerald-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-3 group">
+            <button className="px-6 md:px-8 py-3 md:py-4 rounded-full bg-white text-gray-800 font-semibold text-base md:text-lg border-2 border-emerald-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-2 md:space-x-3 group w-full sm:w-auto">
               <span>Book a Demo</span>
-              <FaUsers className="size-5 text-emerald-600 group-hover:scale-110 transition-transform duration-300" />
+              <FaUsers className="size-4 md:size-5 text-emerald-600 group-hover:scale-110 transition-transform duration-300" />
             </button>
           </div>
 
+          {/* Mobile Notice for Dashboard */}
+          {isMobile && (
+            <div className="mt-8 px-4 max-w-md">
+              <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200">
+                <p className="text-sm text-emerald-700 text-center">
+                  <span className="font-semibold">📱 Dashboard View:</span> For the full interactive dashboard experience, please use a tablet or desktop device.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Decorative floating elements */}
-        <div className="absolute top-1/4 left-5 animate-float">
-          <div className="w-4 h-4 bg-emerald-300/30 rounded-full"></div>
-        </div>
-        <div className="absolute bottom-1/3 right-8 animate-float delay-700">
-          <div className="w-6 h-6 bg-teal-400/20 rounded-full"></div>
-        </div>
+        {/* Decorative floating elements - Hidden on mobile */}
+        {!isMobile && (
+          <>
+            <div className="absolute top-1/4 left-5 animate-float hidden md:block">
+              <div className="w-4 h-4 bg-emerald-300/30 rounded-full"></div>
+            </div>
+            <div className="absolute bottom-1/3 right-8 animate-float delay-700 hidden md:block">
+              <div className="w-6 h-6 bg-teal-400/20 rounded-full"></div>
+            </div>
+          </>
+        )}
       </header>
 
-      {/* Full Width Dashboard Container */}
+      {/* Full Width Dashboard Container - Hidden on small screens */}
       <div 
         ref={dashboardRef}
-        className="w-full relative z-10 px-4 -mt-16"
+        className={`w-full relative z-10 px-4 ${isMobile ? 'hidden' : '-mt-20 md:-mt-30'}`}
       >
         {/* Feature Navigation Tabs */}
-        <div className="max-w-6xl mx-auto mb-8">
-          <div className="flex flex-wrap justify-center gap-3">
+        <div className="max-w-6xl mx-auto mb-6 md:mb-8">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
             {features.map((feature) => (
               <button
                 key={feature.id}
                 onClick={() => setActiveFeature(feature.id)}
-                className={`px-5 py-3 rounded-full flex items-center gap-2 transition-all duration-300 ${
+                className={`px-4 md:px-5 py-2 md:py-3 rounded-full flex items-center gap-2 transition-all duration-300 text-sm md:text-base ${
                   activeFeature === feature.id
                     ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg'
                     : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:text-gray-700'
                 }`}
               >
-                <span className="text-lg">{feature.icon}</span>
-                <span className="font-medium">{feature.title}</span>
+                <span className="text-base md:text-lg">{feature.icon}</span>
+                <span className="font-medium whitespace-nowrap">{feature.title}</span>
               </button>
             ))}
           </div>
@@ -268,65 +296,65 @@ const HeaderComponent = () => {
         <div className="w-full bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl shadow-emerald-100/50 border border-emerald-100 overflow-hidden max-w-6xl mx-auto">
           
           {/* Feature Header with Animation */}
-          <div className={`bg-gradient-to-r from-${activeFeatureData?.color}-50 to-${activeFeatureData?.color}-100 p-8 border-b border-emerald-100 transition-all duration-500`}>
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+          <div className={`bg-gradient-to-r from-${activeFeatureData?.color}-50 to-${activeFeatureData?.color}-100 p-6 md:p-8 border-b border-emerald-100 transition-all duration-500`}>
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 md:gap-6">
               <div className="flex-1">
-                <div className="flex items-center gap-4 mb-3">
-                  <div className={`p-3 rounded-xl bg-gradient-to-r from-${activeFeatureData?.color}-500 to-${activeFeatureData?.color}-600 text-white text-2xl`}>
+                <div className="flex items-center gap-3 md:gap-4 mb-3">
+                  <div className={`p-2 md:p-3 rounded-xl bg-gradient-to-r from-${activeFeatureData?.color}-500 to-${activeFeatureData?.color}-600 text-white text-xl md:text-2xl`}>
                     {activeFeatureData?.icon}
                   </div>
                   <div>
-                    <h2 className="text-3xl font-bold text-gray-800">{activeFeatureData?.title}</h2>
-                    <p className="text-gray-600 mt-1">{activeFeatureData?.description}</p>
+                    <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">{activeFeatureData?.title}</h2>
+                    <p className="text-gray-600 text-sm md:text-base mt-1">{activeFeatureData?.description}</p>
                   </div>
                 </div>
               </div>
               
               {/* Stats Overview */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white/80 rounded-xl p-4 border border-gray-100">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 w-full lg:w-auto">
+                <div className="bg-white/80 rounded-lg md:rounded-xl p-3 md:p-4 border border-gray-100">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500">Active</p>
-                      <p className="text-2xl font-bold text-emerald-600">{attendanceData.length}</p>
+                      <p className="text-xs md:text-sm text-gray-500">Active</p>
+                      <p className="text-lg md:text-2xl font-bold text-emerald-600">{attendanceData.length}</p>
                     </div>
-                    <FaUserCheck className="size-6 text-emerald-500/30" />
+                    <FaUserCheck className="size-4 md:size-6 text-emerald-500/30" />
                   </div>
                 </div>
                 
-                <div className="bg-white/80 rounded-xl p-4 border border-gray-100">
+                <div className="bg-white/80 rounded-lg md:rounded-xl p-3 md:p-4 border border-gray-100">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500">Present</p>
-                      <p className="text-2xl font-bold text-emerald-600">
+                      <p className="text-xs md:text-sm text-gray-500">Present</p>
+                      <p className="text-lg md:text-2xl font-bold text-emerald-600">
                         {attendanceData.filter(e => e.status === 'present').length}
                       </p>
                     </div>
-                    <FaCheckCircle className="size-6 text-emerald-500/30" />
+                    <FaCheckCircle className="size-4 md:size-6 text-emerald-500/30" />
                   </div>
                 </div>
                 
-                <div className="bg-white/80 rounded-xl p-4 border border-gray-100">
+                <div className="bg-white/80 rounded-lg md:rounded-xl p-3 md:p-4 border border-gray-100">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500">Late</p>
-                      <p className="text-2xl font-bold text-amber-500">
+                      <p className="text-xs md:text-sm text-gray-500">Late</p>
+                      <p className="text-lg md:text-2xl font-bold text-amber-500">
                         {attendanceData.filter(e => e.status === 'late').length}
                       </p>
                     </div>
-                    <FaClock className="size-6 text-amber-500/30" />
+                    <FaClock className="size-4 md:size-6 text-amber-500/30" />
                   </div>
                 </div>
                 
-                <div className="bg-white/80 rounded-xl p-4 border border-gray-100">
+                <div className="bg-white/80 rounded-lg md:rounded-xl p-3 md:p-4 border border-gray-100">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500">Absent</p>
-                      <p className="text-2xl font-bold text-red-500">
+                      <p className="text-xs md:text-sm text-gray-500">Absent</p>
+                      <p className="text-lg md:text-2xl font-bold text-red-500">
                         {attendanceData.filter(e => e.status === 'absent').length}
                       </p>
                     </div>
-                    <FaUsers className="size-6 text-red-500/30" />
+                    <FaUsers className="size-4 md:size-6 text-red-500/30" />
                   </div>
                 </div>
               </div>
@@ -334,20 +362,20 @@ const HeaderComponent = () => {
           </div>
           
           {/* Dynamic Content Based on Active Feature */}
-          <div className="p-6">
+          <div className="p-4 md:p-6">
             {/* Attendance Dashboard */}
             {activeFeature === "attendance" && (
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 <div className="overflow-x-auto rounded-xl border border-gray-100 relative">
-                  <table className="w-full">
+                  <table className="w-full min-w-[640px] md:min-w-full">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th className="text-left py-4 px-6 text-sm font-semibold text-gray-600">Employee</th>
-                        <th className="text-left py-4 px-6 text-sm font-semibold text-gray-600">Role</th>
-                        <th className="text-left py-4 px-6 text-sm font-semibold text-gray-600">Time In</th>
-                        <th className="text-left py-4 px-6 text-sm font-semibold text-gray-600">Time Out</th>
-                        <th className="text-left py-4 px-6 text-sm font-semibold text-gray-600">Status</th>
-                        <th className="text-left py-4 px-6 text-sm font-semibold text-gray-600">Actions</th>
+                        <th className="text-left py-3 px-4 md:py-4 md:px-6 text-xs md:text-sm font-semibold text-gray-600">Employee</th>
+                        <th className="text-left py-3 px-4 md:py-4 md:px-6 text-xs md:text-sm font-semibold text-gray-600">Role</th>
+                        <th className="text-left py-3 px-4 md:py-4 md:px-6 text-xs md:text-sm font-semibold text-gray-600">Time In</th>
+                        <th className="text-left py-3 px-4 md:py-4 md:px-6 text-xs md:text-sm font-semibold text-gray-600">Time Out</th>
+                        <th className="text-left py-3 px-4 md:py-4 md:px-6 text-xs md:text-sm font-semibold text-gray-600">Status</th>
+                        <th className="text-left py-3 px-4 md:py-4 md:px-6 text-xs md:text-sm font-semibold text-gray-600">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
@@ -365,9 +393,9 @@ const HeaderComponent = () => {
                               : `${(attendanceData.length - index - 1) * 0.1}s`,
                           }}
                         >
-                          <td className="py-4 px-6">
-                            <div className="flex items-center gap-3">
-                              <div className="size-10 rounded-full overflow-hidden border-2 border-white shadow-sm relative group">
+                          <td className="py-3 px-4 md:py-4 md:px-6">
+                            <div className="flex items-center gap-2 md:gap-3">
+                              <div className="size-8 md:size-10 rounded-full overflow-hidden border-2 border-white shadow-sm relative group">
                                 <img 
                                   src={employee.avatar} 
                                   alt={employee.name}
@@ -376,45 +404,45 @@ const HeaderComponent = () => {
                                 <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/10 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                               </div>
                               <div>
-                                <p className="font-medium text-gray-800">{employee.name}</p>
-                                <p className="text-sm text-gray-500">ID: EMP{employee.id.toString().padStart(4, '0')}</p>
+                                <p className="font-medium text-gray-800 text-sm md:text-base">{employee.name}</p>
+                                <p className="text-xs text-gray-500">ID: EMP{employee.id.toString().padStart(4, '0')}</p>
                               </div>
                             </div>
                           </td>
-                          <td className="py-4 px-6">
-                            <span className="text-gray-700">{employee.role}</span>
+                          <td className="py-3 px-4 md:py-4 md:px-6">
+                            <span className="text-gray-700 text-sm md:text-base">{employee.role}</span>
                           </td>
-                          <td className="py-4 px-6">
+                          <td className="py-3 px-4 md:py-4 md:px-6">
                             <div className="flex items-center gap-2">
-                              <FaClock className="size-3 text-gray-400" />
-                              <span className={`font-medium ${employee.timeIn === '-' ? 'text-gray-400' : 'text-gray-700'}`}>
+                              <FaClock className="size-2 md:size-3 text-gray-400" />
+                              <span className={`font-medium text-sm md:text-base ${employee.timeIn === '-' ? 'text-gray-400' : 'text-gray-700'}`}>
                                 {employee.timeIn}
                               </span>
                             </div>
                           </td>
-                          <td className="py-4 px-6">
+                          <td className="py-3 px-4 md:py-4 md:px-6">
                             <div className="flex items-center gap-2">
-                              <FaClock className="size-3 text-gray-400" />
-                              <span className={`font-medium ${employee.timeOut === '-' ? 'text-gray-400' : 'text-gray-700'}`}>
+                              <FaClock className="size-2 md:size-3 text-gray-400" />
+                              <span className={`font-medium text-sm md:text-base ${employee.timeOut === '-' ? 'text-gray-400' : 'text-gray-700'}`}>
                                 {employee.timeOut}
                               </span>
                             </div>
                           </td>
-                          <td className="py-4 px-6">
-                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                          <td className="py-3 px-4 md:py-4 md:px-6">
+                            <span className={`inline-flex items-center px-2 md:px-3 py-1 rounded-full text-xs font-medium ${
                               employee.status === 'present' 
                                 ? 'bg-emerald-100 text-emerald-700' 
                                 : employee.status === 'late'
                                 ? 'bg-amber-100 text-amber-700'
                                 : 'bg-red-100 text-red-700'
                             }`}>
-                              {employee.status === 'present' && <FaCheckCircle className="size-3 mr-1" />}
-                              {employee.status.charAt(0).toUpperCase() + employee.status.slice(1)}
+                              {employee.status === 'present' && <FaCheckCircle className="size-2 md:size-3 mr-1" />}
+                              <span className="capitalize">{employee.status}</span>
                             </span>
                           </td>
-                          <td className="py-4 px-6">
-                            <button className="p-2 text-gray-400 hover:text-emerald-600 transition-colors">
-                              <FaEllipsisH />
+                          <td className="py-3 px-4 md:py-4 md:px-6">
+                            <button className="p-1 md:p-2 text-gray-400 hover:text-emerald-600 transition-colors">
+                              <FaEllipsisH className="size-3 md:size-4" />
                             </button>
                           </td>
                         </tr>
@@ -423,15 +451,15 @@ const HeaderComponent = () => {
                   </table>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row justify-between items-center gap-4 p-4 bg-gradient-to-r from-emerald-50/50 to-teal-50/50 rounded-xl border border-emerald-100">
-                  <p className="text-sm text-gray-600">
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-4 p-3 md:p-4 bg-gradient-to-r from-emerald-50/50 to-teal-50/50 rounded-lg md:rounded-xl border border-emerald-100">
+                  <p className="text-xs md:text-sm text-gray-600 text-center sm:text-left">
                     <span className="font-semibold text-emerald-600">Attendance Summary:</span> {Math.round((attendanceData.filter(e => e.status === 'present').length / attendanceData.length) * 100)}% of employees are present today
                   </p>
-                  <div className="flex gap-3">
-                    <button className="px-4 py-2 bg-white text-emerald-600 text-sm font-medium rounded-lg border border-emerald-200 hover:bg-emerald-50 transition-colors">
+                  <div className="flex gap-2 md:gap-3">
+                    <button className="px-3 md:px-4 py-1.5 md:py-2 bg-white text-emerald-600 text-xs md:text-sm font-medium rounded-lg border border-emerald-200 hover:bg-emerald-50 transition-colors whitespace-nowrap">
                       Export Report
                     </button>
-                    <button className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:shadow-lg transition-all">
+                    <button className="px-3 md:px-4 py-1.5 md:py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs md:text-sm font-medium rounded-lg hover:shadow-lg transition-all whitespace-nowrap">
                       Mark All Present
                     </button>
                   </div>
@@ -443,15 +471,15 @@ const HeaderComponent = () => {
           </div>
           
           {/* Dashboard Footer */}
-          <div className="bg-gradient-to-r from-emerald-50/80 to-teal-50/80 p-6 border-t border-emerald-100">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="bg-gradient-to-r from-emerald-50/80 to-teal-50/80 p-4 md:p-6 border-t border-emerald-100">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
               <div>
-                <h3 className="text-lg font-semibold text-gray-800">Experience all features</h3>
-                <p className="text-gray-600 text-sm mt-1">Unlock complete HR management capabilities</p>
+                <h3 className="text-base md:text-lg font-semibold text-gray-800">Experience all features</h3>
+                <p className="text-gray-600 text-xs md:text-sm mt-1">Unlock complete HR management capabilities</p>
               </div>
-              <button className="px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold hover:shadow-lg transition-all duration-300 flex items-center gap-2 group">
+              <button className="px-4 md:px-6 py-2 md:py-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-sm md:text-base hover:shadow-lg transition-all duration-300 flex items-center gap-2 group w-full md:w-auto justify-center">
                 <span>Explore All Features</span>
-                <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                <FaArrowRight className="group-hover:translate-x-1 transition-transform size-3 md:size-4" />
               </button>
             </div>
           </div>

@@ -301,7 +301,7 @@ const AiTalentManagementPage = () => {
 
   return (
     <>
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-emerald-50/20 transform-gpu">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-emerald-50/20 transform-gpu overflow-x-hidden">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 animate-gradient-flow">
         <div className="absolute inset-0 opacity-10">
@@ -309,31 +309,31 @@ const AiTalentManagementPage = () => {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.2)_0%,transparent_50%)]"></div>
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 lg:py-28">
           <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6 animate-pulse-glow">
-              <FaBrain className="h-5 w-5 text-white mr-2" />
-              <span className="text-sm font-semibold text-white">AI-Powered Talent Management</span>
+            <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-4 sm:mb-6">
+              <FaBrain className="h-4 w-4 sm:h-5 sm:w-5 text-white mr-2" />
+              <span className="text-xs sm:text-sm font-semibold text-white">AI-Powered Talent Management</span>
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-text-reveal">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 px-2">
               Transform Talent Management with
-              <span className="block bg-gradient-to-r from-emerald-200 to-teal-200 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-emerald-200 to-teal-200 bg-clip-text text-transparent mt-1 sm:mt-2">
                 Real-time AI Insights
               </span>
             </h1>
             
-            <p className="text-xl text-emerald-100 mb-8 max-w-3xl mx-auto animate-fade-in-up">
+            <p className="text-base sm:text-lg lg:text-xl text-emerald-100 mb-6 sm:mb-8 max-w-3xl mx-auto px-2">
               Leverage cutting-edge AI analytics to optimize every stage of the employee lifecycle, 
               from recruitment to retirement, with data-driven precision.
             </p>
             
-            <div className="animate-buttons-stagger">
-              <button className="bg-white text-emerald-600 px-8 py-3 rounded-full font-semibold hover:bg-emerald-50 transform transition duration-300 hover:scale-105 mr-4 hover:animate-bounce">
-                <FaPlay className="inline-block mr-2 h-5 w-5" />
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <button className="bg-white text-emerald-600 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold hover:bg-emerald-50 transform transition duration-300 hover:scale-105 text-sm sm:text-base">
+                <FaPlay className="inline-block mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 Watch AI in Action
               </button>
-              <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transform transition duration-300 hover:scale-105 animate-pulse-border">
+              <button className="bg-transparent border-2 border-white text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold hover:bg-white/10 transform transition duration-300 hover:scale-105 text-sm sm:text-base">
                 Request Demo
               </button>
             </div>
@@ -342,55 +342,55 @@ const AiTalentManagementPage = () => {
       </div>
 
       {/* Metrics Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 sm:-mt-12 relative z-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {heroMetrics.map((metric, index) => (
             <div 
               key={index}
-              className="bg-white rounded-2xl shadow-xl p-6 animate-stats-card hover:animate-card-lift"
+              className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-all duration-300"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent animate-count-up">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
                 {metric.value}
               </div>
-              <div className="font-semibold text-gray-800 mt-2">{metric.label}</div>
-              <div className="text-sm text-gray-600 mt-1">{metric.description}</div>
+              <div className="font-semibold text-gray-800 text-sm sm:text-base mt-1 sm:mt-2">{metric.label}</div>
+              <div className="text-xs sm:text-sm text-gray-600 mt-1">{metric.description}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         {/* Real-time Data Analysis Section */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 animate-text-reveal">
+        <div className="mb-12 sm:mb-16 lg:mb-20">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
               Real-time Data Analysis for
               <span className="block bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
                 Intelligent Staff Management
               </span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-2">
               Transform raw data into actionable insights with our advanced analytics platform
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {realtimeBenefits.map((benefit, index) => (
               <div 
                 key={index}
-                className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 animate-feature-card hover:animate-card-lift"
+                className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-all duration-300"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="inline-flex p-3 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 mb-4 animate-bounce-slow">
-                  <benefit.icon className="h-6 w-6 text-emerald-600" />
+                <div className="inline-flex p-2 sm:p-3 rounded-lg sm:rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 mb-3 sm:mb-4">
+                  <benefit.icon className="h-5 w-5 sm:h-6 sm:w-6 text-emerald-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3">{benefit.title}</h3>
-                <p className="text-gray-600 mb-4">{benefit.description}</p>
-                <ul className="space-y-2">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-3">{benefit.title}</h3>
+                <p className="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">{benefit.description}</p>
+                <ul className="space-y-1.5 sm:space-y-2">
                   {benefit.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-sm text-gray-500 animate-feature-tag">
-                      <FaStar className="h-3 w-3 text-emerald-500 mr-2" />
+                    <li key={idx} className="flex items-center text-xs sm:text-sm text-gray-500">
+                      <FaStar className="h-3 w-3 text-emerald-500 mr-2 flex-shrink-0" />
                       {feature}
                     </li>
                   ))}
@@ -401,41 +401,39 @@ const AiTalentManagementPage = () => {
         </div>
 
         {/* AI Analytics Insights Section */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 animate-text-reveal">
+        <div className="mb-12 sm:mb-16 lg:mb-20">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
               AI-Powered Insights for
               <span className="block bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
                 Strategic HR Decisions
               </span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-2">
               Our AI algorithms analyze patterns and predict outcomes to guide your talent strategy
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {aiInsights.map((insight, index) => (
               <div 
                 key={index}
-                className={`bg-gradient-to-br ${insight.color} rounded-2xl p-8 text-white animate-slide-in-up`}
-                style={{ animationDelay: `${index * 0.2}s` }}
+                className={`bg-gradient-to-br ${insight.color} rounded-xl sm:rounded-2xl p-6 sm:p-8 text-white`}
               >
-                <div className="flex items-center mb-6">
+                <div className="flex items-center mb-4 sm:mb-6">
                   <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                    <FaChartPie className="h-6 w-6" />
+                    <FaChartPie className="h-5 w-5 sm:h-6 sm:w-6" />
                   </div>
-                  <h3 className="text-xl font-bold ml-3">{insight.category} Analytics</h3>
+                  <h3 className="text-lg sm:text-xl font-bold ml-3">{insight.category} Analytics</h3>
                 </div>
-                <ul className="space-y-4">
+                <ul className="space-y-2 sm:space-y-3">
                   {insight.insights.map((item, idx) => (
                     <li 
                       key={idx}
-                      className="flex items-start animate-feature-reveal"
-                      style={{ animationDelay: `${idx * 0.05}s` }}
+                      className="flex items-start text-sm sm:text-base"
                     >
-                      <div className="mt-1 mr-3">
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      <div className="mt-1.5 sm:mt-2 mr-3">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                       </div>
                       <span>{item}</span>
                     </li>
@@ -446,105 +444,106 @@ const AiTalentManagementPage = () => {
           </div>
         </div>
 
-        {/*Automated Attendance & Leave Management Section */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 animate-text-reveal">
+        {/* Automated Attendance & Leave Management Section - RESPONSIVE */}
+        <div className="mb-12 sm:mb-16 lg:mb-20">
+          <div className="text-center mb-8 sm:mb-12 px-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
               Automated Attendance & Leave Management
               <span className="block bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
                 Powered by AI Intelligence
               </span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
               Streamline attendance tracking and leave management with intelligent automation
             </p>
           </div>
 
-          {/* Attendance Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          {/* Attendance Stats - Responsive Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-12">
             {attendanceStats.map((stat, index) => (
               <div 
                 key={index}
-                className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-6 shadow-lg animate-stagger-card"
+                className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 shadow-lg"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="p-2 bg-white rounded-lg shadow-sm">
-                    <stat.icon className="h-5 w-5 text-emerald-600" />
+                <div className="flex items-center justify-between mb-2 sm:mb-3">
+                  <div className="p-1.5 sm:p-2 bg-white rounded-lg shadow-sm">
+                    <stat.icon className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-emerald-600" />
                   </div>
-                  <span className={`text-sm font-semibold ${stat.change.startsWith('+') ? 'text-emerald-600' : 'text-red-600'}`}>
+                  <span className={`text-xs sm:text-sm font-semibold ${stat.change.startsWith('+') ? 'text-emerald-600' : 'text-red-600'}`}>
                     {stat.change}
                   </span>
                 </div>
-                <div className="text-2xl font-bold text-gray-800 mb-1">{stat.value}</div>
-                <div className="text-sm text-gray-600">{stat.label}</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 mb-1">{stat.value}</div>
+                <div className="text-xs sm:text-sm text-gray-600 leading-tight">{stat.label}</div>
               </div>
             ))}
           </div>
 
-          {/* Tab Navigation */}
-          <div className="flex justify-center mb-8">
-            <div className="inline-flex rounded-full bg-gray-100 p-1">
+          {/* Tab Navigation - Responsive */}
+          <div className="flex justify-center mb-4 sm:mb-6 lg:mb-8">
+            <div className="inline-flex rounded-full bg-gray-100 p-1 w-full sm:w-auto">
               <button
                 onClick={() => setActiveAttendanceTab('employee')}
-                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${
+                className={`px-3 sm:px-4 lg:px-6 py-2 rounded-full font-medium text-xs sm:text-sm lg:text-base transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 w-1/2 sm:w-auto ${
                   activeAttendanceTab === 'employee'
                     ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg'
-                    : 'text-gray-600'
+                    : 'text-gray-600 hover:text-gray-800'
                 }`}
               >
-                <FaUserCheck className="h-4 w-4" />
-                For Employees
+                <FaUserCheck className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="truncate">For Employees</span>
               </button>
               <button
                 onClick={() => setActiveAttendanceTab('hr')}
-                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${
+                className={`px-3 sm:px-4 lg:px-6 py-2 rounded-full font-medium text-xs sm:text-sm lg:text-base transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 w-1/2 sm:w-auto ${
                   activeAttendanceTab === 'hr'
                     ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg'
-                    : 'text-gray-600'
+                    : 'text-gray-600 hover:text-gray-800'
                 }`}
               >
-                <FaUsers className="h-4 w-4" />
-                For HR Teams
+                <FaUsers className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="truncate">For HR Teams</span>
               </button>
             </div>
           </div>
 
-          {/* Tab Content */}
-          <div className="bg-white rounded-2xl shadow-xl overflow-hidden animate-slide-in-up">
-            <div className="p-8">
+          {/* Tab Content - Responsive */}
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden">
+            <div className="p-4 sm:p-6 lg:p-8">
               {activeAttendanceTab === 'employee' ? (
                 <div>
-                  <div className="flex items-center mb-6">
-                    <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
-                      <FaMobileAlt className="h-8 w-8" />
+                  {/* Employee Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white self-start sm:self-auto">
+                      <FaMobileAlt className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8" />
                     </div>
-                    <div className="ml-4">
-                      <h3 className="text-2xl font-bold text-gray-800">Easy Leave Application for Employees</h3>
-                      <p className="text-emerald-600">Apply for leave in minutes, not hours</p>
+                    <div className="flex-1">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 mb-1">Easy Leave Application for Employees</h3>
+                      <p className="text-emerald-600 text-sm sm:text-base">Apply for leave in minutes, not hours</p>
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <div className="space-y-6">
+                  <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+                    {/* Mobile Features Column - Stacked */}
+                    <div className="space-y-3 sm:space-y-4 lg:space-y-6">
                       {attendanceEmployeeFeatures.map((feature, index) => (
                         <div 
                           key={index}
-                          className="p-4 rounded-xl border border-emerald-100 bg-emerald-50/30 hover:bg-emerald-50 transition-all duration-300 animate-feature-reveal"
-                          style={{ animationDelay: `${index * 0.1}s` }}
+                          className="p-3 sm:p-4 rounded-xl border border-emerald-100 bg-emerald-50/30 hover:bg-emerald-50 transition-all duration-300"
                         >
                           <div className="flex items-start gap-3">
-                            <div className="p-2 bg-white rounded-lg shadow-sm">
-                              <feature.icon className="h-5 w-5 text-emerald-600" />
+                            <div className="p-1.5 sm:p-2 bg-white rounded-lg shadow-sm flex-shrink-0">
+                              <feature.icon className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600" />
                             </div>
-                            <div>
-                              <h4 className="font-semibold text-gray-800 mb-1">{feature.title}</h4>
-                              <p className="text-sm text-gray-600 mb-3">{feature.description}</p>
-                              <div className="flex flex-wrap gap-2">
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold text-gray-800 text-sm sm:text-base mb-1 truncate">{feature.title}</h4>
+                              <p className="text-gray-600 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2">{feature.description}</p>
+                              <div className="flex flex-wrap gap-1 sm:gap-2">
                                 {feature.benefits.map((benefit, idx) => (
                                   <span 
                                     key={idx}
-                                    className="px-2 py-1 bg-white text-xs font-medium text-emerald-700 rounded-full border border-emerald-100"
+                                    className="px-1.5 py-0.5 sm:px-2 sm:py-1 bg-white text-xs font-medium text-emerald-700 rounded-full border border-emerald-100 whitespace-nowrap"
                                   >
                                     {benefit}
                                   </span>
@@ -556,55 +555,88 @@ const AiTalentManagementPage = () => {
                       ))}
                     </div>
 
+                    {/* Demo Preview - Mobile Responsive */}
                     <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-tr from-emerald-600/20 to-teal-500/20 rounded-2xl blur-xl"></div>
-                      <div className="relative bg-gradient-to-br from-emerald-100 to-teal-100 rounded-2xl p-6 h-full">
-                        <div className="bg-white rounded-xl shadow-lg p-6 h-full">
-                          <div className="flex items-center justify-between mb-6">
-                            <h4 className="font-bold text-gray-800">Leave Application Demo</h4>
-                            <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-sm font-medium rounded-full">
+                      <div className="absolute inset-0 bg-gradient-to-tr from-emerald-600/20 to-teal-500/20 rounded-xl sm:rounded-2xl blur-xl"></div>
+                      <div className="relative bg-gradient-to-br from-emerald-100 to-teal-100 rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 h-full">
+                        <div className="bg-white rounded-xl shadow-lg p-3 sm:p-4 lg:p-6 h-full">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 sm:mb-4 lg:mb-6">
+                            <h4 className="font-bold text-gray-800 text-sm sm:text-base">Leave Application Demo</h4>
+                            <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs sm:text-sm font-medium rounded-full self-start sm:self-auto">
                               Live Preview
                             </span>
                           </div>
                           
-                          <div className="space-y-4">
-                            <div className="p-3 bg-emerald-50 rounded-lg">
-                              <div className="flex items-center justify-between mb-2">
-                                <span className="text-sm font-medium text-gray-700">Leave Type</span>
-                                <span className="text-emerald-600 text-sm">✓ Auto-detected</span>
+                          <div className="space-y-3 sm:space-y-4">
+                            {/* Leave Type */}
+                            <div className="p-2 sm:p-3 bg-emerald-50 rounded-lg">
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+                                <span className="text-xs sm:text-sm font-medium text-gray-700">Leave Type</span>
+                                <span className="text-emerald-600 text-xs sm:text-sm">✓ Auto-detected</span>
                               </div>
-                              <select className="w-full p-2 border border-emerald-200 rounded-lg bg-white">
-                                <option>Sick Leave</option>
-                                <option>Vacation</option>
-                                <option>Personal Time</option>
-                                <option>Emergency Leave</option>
+                              <select className="w-full p-2 text-sm border border-emerald-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                <option className="text-sm">Sick Leave</option>
+                                <option className="text-sm">Vacation</option>
+                                <option className="text-sm">Personal Time</option>
+                                <option className="text-sm">Emergency Leave</option>
                               </select>
                             </div>
 
-                            <div className="p-3 bg-emerald-50 rounded-lg">
-                              <div className="flex items-center justify-between mb-2">
-                                <span className="text-sm font-medium text-gray-700">Dates</span>
-                                <span className="text-emerald-600 text-sm">AI Suggestions</span>
+                            {/* Dates */}
+                            <div className="p-2 sm:p-3 bg-emerald-50 rounded-lg">
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+                                <span className="text-xs sm:text-sm font-medium text-gray-700">Dates</span>
+                                <span className="text-emerald-600 text-xs sm:text-sm">AI Suggestions</span>
                               </div>
-                              <div className="flex gap-2">
-                                <input type="date" className="flex-1 p-2 border border-emerald-200 rounded-lg" />
-                                <input type="date" className="flex-1 p-2 border border-emerald-200 rounded-lg" />
+                              <div className="flex flex-col sm:flex-row gap-2">
+                                <div className="flex-1">
+                                  <label className="block text-xs text-gray-500 mb-1">From</label>
+                                  <input 
+                                    type="date" 
+                                    className="w-full p-2 text-sm border border-emerald-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <label className="block text-xs text-gray-500 mb-1">To</label>
+                                  <input 
+                                    type="date" 
+                                    className="w-full p-2 text-sm border border-emerald-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                  />
+                                </div>
                               </div>
                             </div>
 
-                            <div className="p-3 bg-emerald-50 rounded-lg">
+                            {/* Attachment */}
+                            <div className="p-2 sm:p-3 bg-emerald-50 rounded-lg">
                               <div className="flex items-center justify-between mb-2">
-                                <span className="text-sm font-medium text-gray-700">Attachment</span>
-                                <FaCloudUploadAlt className="h-4 w-4 text-emerald-600" />
+                                <span className="text-xs sm:text-sm font-medium text-gray-700">Attachment</span>
+                                <FaCloudUploadAlt className="h-3 w-3 sm:h-4 sm:w-4 text-emerald-600" />
                               </div>
-                              <div className="border-2 border-dashed border-emerald-200 rounded-lg p-4 text-center">
-                                <p className="text-sm text-gray-500">Drag & drop or click to upload</p>
+                              <div className="border-2 border-dashed border-emerald-200 rounded-lg p-3 text-center cursor-pointer hover:border-emerald-300 transition-colors">
+                                <p className="text-xs text-gray-500">Drag & drop or click to upload</p>
+                                <p className="text-xs text-gray-400 mt-1">Max file size: 5MB</p>
                               </div>
                             </div>
 
-                            <button className="w-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300">
+                            <button className="w-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white py-2.5 sm:py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 text-sm sm:text-base">
                               Submit Leave Request
                             </button>
+
+                            {/* Quick Stats */}
+                            <div className="grid grid-cols-3 gap-2 pt-3 border-t border-gray-100">
+                              <div className="text-center">
+                                <div className="text-xs font-bold text-emerald-600">2 min</div>
+                                <div className="text-xs text-gray-500">Avg. time</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-xs font-bold text-emerald-600">98%</div>
+                                <div className="text-xs text-gray-500">Approval rate</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-xs font-bold text-emerald-600">24/7</div>
+                                <div className="text-xs text-gray-500">Availability</div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -613,36 +645,37 @@ const AiTalentManagementPage = () => {
                 </div>
               ) : (
                 <div>
-                  <div className="flex items-center mb-6">
-                    <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
-                      <FaUsers className="h-8 w-8" />
+                  {/* HR Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white self-start sm:self-auto">
+                      <FaUsers className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8" />
                     </div>
-                    <div className="ml-4">
-                      <h3 className="text-2xl font-bold text-gray-800">AI-Powered Attendance Management for HR</h3>
-                      <p className="text-emerald-600">Manage all staff attendance with intelligent automation</p>
+                    <div className="flex-1">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 mb-1">AI-Powered Attendance Management for HR</h3>
+                      <p className="text-emerald-600 text-sm sm:text-base">Manage all staff attendance with intelligent automation</p>
                     </div>
                   </div>
 
-                  <div className="grid lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-2 space-y-6">
+                  <div className="grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                    {/* HR Features - Takes 2 columns on desktop, full width on mobile */}
+                    <div className="lg:col-span-2 space-y-3 sm:space-y-4 lg:space-y-6">
                       {attendanceHRFeatures.map((feature, index) => (
                         <div 
                           key={index}
-                          className="p-4 rounded-xl border border-blue-100 bg-blue-50/30 hover:bg-blue-50 transition-all duration-300 animate-feature-reveal"
-                          style={{ animationDelay: `${index * 0.1}s` }}
+                          className="p-3 sm:p-4 rounded-xl border border-blue-100 bg-blue-50/30 hover:bg-blue-50 transition-all duration-300"
                         >
                           <div className="flex items-start gap-3">
-                            <div className="p-2 bg-white rounded-lg shadow-sm">
-                              <feature.icon className="h-5 w-5 text-emerald-600" />
+                            <div className="p-1.5 sm:p-2 bg-white rounded-lg shadow-sm flex-shrink-0">
+                              <feature.icon className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600" />
                             </div>
-                            <div>
-                              <h4 className="font-semibold text-gray-800 mb-1">{feature.title}</h4>
-                              <p className="text-sm text-gray-600 mb-3">{feature.description}</p>
-                              <div className="flex flex-wrap gap-2">
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold text-gray-800 text-sm sm:text-base mb-1 truncate">{feature.title}</h4>
+                              <p className="text-gray-600 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2">{feature.description}</p>
+                              <div className="flex flex-wrap gap-1 sm:gap-2">
                                 {feature.benefits.map((benefit, idx) => (
                                   <span 
                                     key={idx}
-                                    className="px-2 py-1 bg-white text-xs font-medium text-emerald-700 rounded-full border border-blue-100"
+                                    className="px-1.5 py-0.5 sm:px-2 sm:py-1 bg-white text-xs font-medium text-emerald-700 rounded-full border border-blue-100 whitespace-nowrap"
                                   >
                                     {benefit}
                                   </span>
@@ -654,33 +687,68 @@ const AiTalentManagementPage = () => {
                       ))}
                     </div>
 
+                    {/* AI Insights Sidebar - Full width on mobile, sticky on desktop */}
                     <div className="relative">
-                      <div className="sticky top-6">
-                        <div className="bg-gradient-to-br from-emerald-600 to-teal-500 rounded-2xl p-6 text-white">
-                          <h4 className="text-lg font-bold mb-4">AI Attendance Insights</h4>
-                          <div className="space-y-4">
+                      <div className="lg:sticky lg:top-6">
+                        <div className="bg-gradient-to-br from-emerald-600 to-teal-500 rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 text-white">
+                          <h4 className="text-base sm:text-lg lg:text-xl font-bold mb-3 sm:mb-4">AI Attendance Insights</h4>
+                          <div className="space-y-2 sm:space-y-3 lg:space-y-4">
                             {attendanceAIInsights.map((insight, index) => (
                               <div 
                                 key={index}
-                                className="p-3 bg-white/10 backdrop-blur-sm rounded-lg animate-fade-in-up"
-                                style={{ animationDelay: `${index * 0.1}s` }}
+                                className="p-2 sm:p-3 bg-white/10 backdrop-blur-sm rounded-lg"
                               >
-                                <div className="flex items-start gap-3">
-                                  <insight.icon className="h-5 w-5 mt-0.5" />
-                                  <div>
-                                    <div className="font-medium">{insight.title}</div>
-                                    <div className="text-sm text-blue-100 mt-1">{insight.description}</div>
+                                <div className="flex items-start gap-2 sm:gap-3">
+                                  <insight.icon className="h-4 w-4 sm:h-5 sm:w-5 mt-0.5 flex-shrink-0" />
+                                  <div className="flex-1 min-w-0">
+                                    <div className="font-medium text-sm sm:text-base mb-0.5 truncate">{insight.title}</div>
+                                    <div className="text-xs sm:text-sm text-blue-100 line-clamp-2">{insight.description}</div>
                                   </div>
                                 </div>
                               </div>
                             ))}
                           </div>
                           
-                          <div className="mt-6 pt-4 border-t border-white/20">
+                          {/* Real-time Analysis Badge */}
+                          <div className="mt-3 sm:mt-4 lg:mt-6 pt-2 sm:pt-3 lg:pt-4 border-t border-white/20">
                             <div className="text-center">
-                              <div className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg">
-                                <FaSync className="h-4 w-4 mr-2 animate-spin-slow" />
-                                <span className="text-sm">Real-time Analysis</span>
+                              <div className="inline-flex items-center px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 bg-white/20 backdrop-blur-sm rounded-lg text-xs sm:text-sm">
+                                <FaSync className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 animate-spin-slow" />
+                                <span>Real-time Analysis</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Quick Stats Card */}
+                        <div className="mt-3 sm:mt-4 bg-white rounded-xl shadow-lg p-3 sm:p-4">
+                          <h5 className="font-semibold text-gray-800 text-sm sm:text-base mb-2 sm:mb-3">Weekly Overview</h5>
+                          <div className="space-y-1.5 sm:space-y-2">
+                            <div>
+                              <div className="flex justify-between text-xs sm:text-sm">
+                                <span className="text-gray-600">Leave Requests</span>
+                                <span className="font-semibold text-emerald-600">24</span>
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div className="bg-emerald-500 h-1.5 rounded-full w-3/4"></div>
+                              </div>
+                            </div>
+                            <div>
+                              <div className="flex justify-between text-xs sm:text-sm">
+                                <span className="text-gray-600">Approved</span>
+                                <span className="font-semibold text-emerald-600">22</span>
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div className="bg-emerald-500 h-1.5 rounded-full w-11/12"></div>
+                              </div>
+                            </div>
+                            <div>
+                              <div className="flex justify-between text-xs sm:text-sm">
+                                <span className="text-gray-600">Processing</span>
+                                <span className="font-semibold text-amber-600">2</span>
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div className="bg-amber-500 h-1.5 rounded-full w-1/12"></div>
                               </div>
                             </div>
                           </div>
@@ -694,75 +762,74 @@ const AiTalentManagementPage = () => {
           </div>
         </div>
 
-        {/* Employee Lifecycle Section */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 animate-text-reveal">
+        {/* Employee Lifecycle Section - Responsive */}
+        <div className="mb-12 sm:mb-16 lg:mb-20">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
               Complete Employee
               <span className="block bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
                 Lifecycle Management
               </span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-2">
               Seamlessly manage every stage of the employee journey with intelligent automation
             </p>
           </div>
 
-          {/* Lifecycle Stage Selector */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          {/* Lifecycle Stage Selector - Responsive */}
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4 mb-6 sm:mb-8 lg:mb-12">
             {lifecycleStages.map((stage) => (
               <button
                 key={stage.id}
                 onClick={() => setActiveLifecycleStage(stage.id)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${
+                className={`px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 rounded-full font-medium text-xs sm:text-sm lg:text-base transition-all duration-300 flex items-center gap-1 sm:gap-2 ${
                   activeLifecycleStage === stage.id
                     ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg scale-105'
                     : 'bg-white text-gray-600 border border-emerald-200 hover:border-emerald-300 hover:shadow-md'
                 }`}
               >
-                <stage.icon />
-                {stage.title}
+                <stage.icon className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="truncate">{stage.title}</span>
               </button>
             ))}
           </div>
 
-          {/* Lifecycle Stage Details */}
-          <div className="bg-white rounded-2xl shadow-xl overflow-hidden animate-slide-in-up">
+          {/* Lifecycle Stage Details - Responsive */}
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden">
             {lifecycleStages
               .filter(stage => stage.id === activeLifecycleStage)
               .map((stage) => (
-                <div key={stage.id} className="grid lg:grid-cols-2 gap-8 p-8">
+                <div key={stage.id} className="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 p-4 sm:p-6 lg:p-8">
                   <div>
-                    <div className="flex items-center mb-6">
-                      <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
-                        <stage.icon className="h-8 w-8" />
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                      <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white self-start sm:self-auto">
+                        <stage.icon className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8" />
                       </div>
-                      <div className="ml-4">
-                        <h3 className="text-2xl font-bold text-gray-800">{stage.title}</h3>
-                        <p className="text-emerald-600">{stage.description}</p>
+                      <div className="flex-1">
+                        <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 mb-1">{stage.title}</h3>
+                        <p className="text-emerald-600 text-sm sm:text-base">{stage.description}</p>
                       </div>
                     </div>
                     
-                    <div className="space-y-4 mb-8">
-                      <h4 className="text-lg font-semibold text-gray-800">Key Features</h4>
+                    <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6 lg:mb-8">
+                      <h4 className="text-base sm:text-lg font-semibold text-gray-800">Key Features</h4>
                       {stage.features.map((feature, index) => (
                         <div 
                           key={index}
-                          className="flex items-center p-3 bg-emerald-50/50 rounded-lg animate-feature-reveal"
-                          style={{ animationDelay: `${index * 0.1}s` }}
+                          className="flex items-center p-2 sm:p-3 bg-emerald-50/50 rounded-lg"
                         >
-                          <FaArrowRight className="h-4 w-4 text-emerald-500 mr-3" />
-                          <span className="text-gray-700">{feature}</span>
+                          <FaArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-emerald-500 mr-2 sm:mr-3 flex-shrink-0" />
+                          <span className="text-gray-700 text-sm sm:text-base">{feature}</span>
                         </div>
                       ))}
                     </div>
 
-                    <div className="bg-gradient-to-r from-emerald-50 to-teal-50 p-6 rounded-xl">
-                      <div className="flex items-center mb-3">
-                        <FaRobot className="h-5 w-5 text-emerald-600 mr-2" />
-                        <h4 className="font-semibold text-gray-800">AI Enhancement</h4>
+                    <div className="bg-gradient-to-r from-emerald-50 to-teal-50 p-4 sm:p-6 rounded-xl">
+                      <div className="flex items-center mb-2 sm:mb-3">
+                        <FaRobot className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600 mr-2" />
+                        <h4 className="font-semibold text-gray-800 text-sm sm:text-base">AI Enhancement</h4>
                       </div>
-                      <p className="text-gray-600">
+                      <p className="text-gray-600 text-sm sm:text-base">
                         Our AI algorithms optimize this stage by analyzing historical data, 
                         predicting outcomes, and automating routine tasks for maximum efficiency.
                       </p>
@@ -770,23 +837,23 @@ const AiTalentManagementPage = () => {
                   </div>
 
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-emerald-600/20 to-teal-500/20 rounded-2xl blur-xl"></div>
-                    <div className="relative bg-gradient-to-br from-emerald-100 to-teal-100 rounded-2xl p-6 h-full">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-emerald-600/20 to-teal-500/20 rounded-xl sm:rounded-2xl blur-xl"></div>
+                    <div className="relative bg-gradient-to-br from-emerald-100 to-teal-100 rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 h-full">
                       <div className="bg-white rounded-xl shadow-lg overflow-hidden h-full">
                         <img 
                           src={stage.image}
                           alt={stage.title}
-                          className="w-full h-[80%] object-cover animate-float"
+                          className="w-full h-48 sm:h-56 lg:h-64 object-cover"
                         />
-                        <div className="p-4">
-                          <div className="text-sm text-gray-500 mb-2">AI-Powered Stage</div>
+                        <div className="p-3 sm:p-4">
+                          <div className="text-xs sm:text-sm text-gray-500 mb-1 sm:mb-2">AI-Powered Stage</div>
                           <div className="flex items-center justify-between">
-                            <span className="font-semibold text-gray-800">Success Rate</span>
-                            <span className="text-emerald-600 font-bold">94%</span>
+                            <span className="font-semibold text-gray-800 text-sm sm:text-base">Success Rate</span>
+                            <span className="text-emerald-600 font-bold text-sm sm:text-base">94%</span>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                          <div className="w-full bg-gray-200 rounded-full h-1.5 sm:h-2 mt-2">
                             <div 
-                              className="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full animate-flow-line"
+                              className="bg-gradient-to-r from-emerald-500 to-teal-500 h-1.5 sm:h-2 rounded-full"
                               style={{ width: '94%' }}
                             ></div>
                           </div>
@@ -799,40 +866,39 @@ const AiTalentManagementPage = () => {
           </div>
         </div>
 
-        {/* AI Support Section */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 animate-text-reveal">
+        {/* AI Support Section - Responsive */}
+        <div className="mb-12 sm:mb-16 lg:mb-20">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
               How AI Enhances the
               <span className="block bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
                 Employee Lifecycle
               </span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-2">
               Artificial intelligence transforms traditional HR processes into intelligent, predictive systems
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div className="space-y-6">
+          <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+            <div className="space-y-3 sm:space-y-4 lg:space-y-6">
               {aiSupportFeatures.map((feature, index) => (
                 <div 
                   key={index}
-                  className="bg-white rounded-2xl shadow-lg p-6 animate-stagger-card hover:animate-card-lift"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-all duration-300"
                 >
-                  <div className="flex items-start mb-4">
-                    <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg">
-                      <FaLightbulb className="h-5 w-5 text-white" />
+                  <div className="flex items-start mb-3 sm:mb-4">
+                    <div className="p-1.5 sm:p-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg">
+                      <FaLightbulb className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                     </div>
-                    <div className="ml-4">
-                      <h3 className="font-bold text-gray-800">{feature.stage}</h3>
-                      <p className="text-sm text-gray-600">{feature.aiSupport}</p>
+                    <div className="ml-3 sm:ml-4 flex-1">
+                      <h3 className="font-bold text-gray-800 text-sm sm:text-base lg:text-lg mb-1">{feature.stage}</h3>
+                      <p className="text-gray-600 text-xs sm:text-sm mb-2">{feature.aiSupport}</p>
                     </div>
                   </div>
-                  <div className="pl-12">
-                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-sm font-medium">
-                      <FaChartLine className="h-3 w-3 mr-1" />
+                  <div className="pl-10 sm:pl-12">
+                    <div className="inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs sm:text-sm font-medium">
+                      <FaChartLine className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />
                       Impact: {feature.impact}
                     </div>
                   </div>
@@ -841,51 +907,51 @@ const AiTalentManagementPage = () => {
             </div>
 
             <div className="relative">
-              <div className="sticky top-6">
-                <div className="bg-gradient-to-br from-emerald-600 to-teal-500 rounded-2xl p-8 text-white animate-pulse-glow">
-                  <div className="flex items-center mb-6">
-                    <FaBrain className="h-8 w-8 mr-3" />
+              <div className="lg:sticky lg:top-6">
+                <div className="bg-gradient-to-br from-emerald-600 to-teal-500 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 text-white">
+                  <div className="flex items-center mb-4 sm:mb-6">
+                    <FaBrain className="h-6 w-6 sm:h-8 sm:w-8 mr-2 sm:mr-3" />
                     <div>
-                      <h3 className="text-xl font-bold">AI Intelligence Core</h3>
-                      <p className="text-emerald-100">Continuous Learning System</p>
+                      <h3 className="text-lg sm:text-xl font-bold">AI Intelligence Core</h3>
+                      <p className="text-emerald-100 text-sm sm:text-base">Continuous Learning System</p>
                     </div>
                   </div>
                   
-                  <div className="space-y-4 mb-8">
-                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm">Data Processing</span>
-                        <span className="font-bold">24/7</span>
+                  <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6 lg:mb-8">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4">
+                      <div className="flex justify-between items-center mb-1 sm:mb-2">
+                        <span className="text-xs sm:text-sm">Data Processing</span>
+                        <span className="font-bold text-sm sm:text-base">24/7</span>
                       </div>
-                      <div className="w-full bg-white/20 rounded-full h-2">
-                        <div className="bg-white h-2 rounded-full w-3/4 animate-pulse"></div>
-                      </div>
-                    </div>
-
-                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm">Pattern Recognition</span>
-                        <span className="font-bold">94% Accuracy</span>
-                      </div>
-                      <div className="w-full bg-white/20 rounded-full h-2">
-                        <div className="bg-white h-2 rounded-full w-11/12 animate-pulse"></div>
+                      <div className="w-full bg-white/20 rounded-full h-1.5 sm:h-2">
+                        <div className="bg-white h-1.5 sm:h-2 rounded-full w-3/4"></div>
                       </div>
                     </div>
 
-                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm">Prediction Models</span>
-                        <span className="font-bold">85% Success Rate</span>
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4">
+                      <div className="flex justify-between items-center mb-1 sm:mb-2">
+                        <span className="text-xs sm:text-sm">Pattern Recognition</span>
+                        <span className="font-bold text-sm sm:text-base">94% Accuracy</span>
                       </div>
-                      <div className="w-full bg-white/20 rounded-full h-2">
-                        <div className="bg-white h-2 rounded-full w-5/6 animate-pulse"></div>
+                      <div className="w-full bg-white/20 rounded-full h-1.5 sm:h-2">
+                        <div className="bg-white h-1.5 sm:h-2 rounded-full w-11/12"></div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4">
+                      <div className="flex justify-between items-center mb-1 sm:mb-2">
+                        <span className="text-xs sm:text-sm">Prediction Models</span>
+                        <span className="font-bold text-sm sm:text-base">85% Success Rate</span>
+                      </div>
+                      <div className="w-full bg-white/20 rounded-full h-1.5 sm:h-2">
+                        <div className="bg-white h-1.5 sm:h-2 rounded-full w-5/6"></div>
                       </div>
                     </div>
                   </div>
 
                   <div className="text-center">
-                    <div className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg">
-                      <FaSync className="h-4 w-4 mr-2 animate-spin-slow" />
+                    <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-lg text-xs sm:text-sm">
+                      <FaSync className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 animate-spin-slow" />
                       <span>Real-time Model Updates</span>
                     </div>
                   </div>
@@ -895,28 +961,28 @@ const AiTalentManagementPage = () => {
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 rounded-2xl p-12 text-center text-white animate-pulse-glow">
+        {/* CTA Section - Responsive */}
+        <div className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-12 text-center text-white">
           <div className="max-w-3xl mx-auto">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
-              <FaCogs className="h-5 w-5 text-white mr-2" />
-              <span className="text-sm font-semibold text-white">Ready to Transform?</span>
+            <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-4 sm:mb-6">
+              <FaCogs className="h-4 w-4 sm:h-5 sm:w-5 text-white mr-2" />
+              <span className="text-xs sm:text-sm font-semibold text-white">Ready to Transform?</span>
             </div>
             
-            <h2 className="text-3xl font-bold mb-4 animate-text-reveal">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
               Start Your AI Talent Management Journey
             </h2>
-            <p className="mb-6 animate-fade-in-up">
+            <p className="mb-4 sm:mb-6 text-sm sm:text-base">
               Join forward-thinking organizations that have revolutionized their HR processes 
               with AI-powered talent management.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-buttons-stagger">
-              <button className="bg-white text-emerald-600 px-8 py-3 rounded-full font-semibold hover:bg-emerald-50 transform transition duration-300 hover:scale-105 hover:animate-bounce">
-                <FaPlay className="inline-block mr-2 h-5 w-5" />
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <button className="bg-white text-emerald-600 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold hover:bg-emerald-50 transform transition duration-300 hover:scale-105 text-sm sm:text-base">
+                <FaPlay className="inline-block mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 Schedule a Demo
               </button>
-              <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transform transition duration-300 hover:scale-105 animate-pulse-border">
+              <button className="bg-transparent border-2 border-white text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold hover:bg-white/10 transform transition duration-300 hover:scale-105 text-sm sm:text-base">
                 Start Free Trial
               </button>
             </div>

@@ -145,7 +145,7 @@ const TestimonialsComponent = () => {
           </h2>
           
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Join thousands of companies that have transformed their workforce management with our platform
+            Built for fast-growing teams across Africa, the GCC & global markets. Join thousands of companies that have transformed their workforce management with our platform
           </p>
         </div>
 

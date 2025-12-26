@@ -1,13 +1,141 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Core -->
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+    <!-- Primary SEO -->
+    <title>Ontap Global Workspace | AI-Powered HRMS, Payroll, Tasks, Projects & Automation</title>
+    <meta
+      name="description"
+      content="Ontap Global Workspace is an AI-powered Human Operations OS that unifies HRMS, payroll, attendance, leave, onboarding, performance, tasks, projects, digital ID cards, and workflow automation in one intelligent platform for Africa, GCC & global teams."
+    />
+    <meta
+      name="keywords"
+      content="Ontap Global Workspace, HRMS, HR software, payroll software, attendance management, leave management, onboarding, offboarding, performance management, task management, workflow automation, project management, digital employee ID, smart calendar, AI automation, human operations OS, workforce management, Africa HRMS, GCC HR software, remote teams, enterprise HR"
+    />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+
+    <!-- Canonical (replace with your live domain URL) -->
+    <link rel="canonical" href="https://www.ontapke.com/" />
+
+    <!-- Favicons (replace paths with your assets) -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="./src/assets/icon_logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OnTap</title>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ontap Global Workspace" />
+    <meta property="og:title" content="Ontap Global Workspace | AI-Powered HRMS, Payroll, Tasks & Automation" />
+    <meta
+      property="og:description"
+      content="Unify HRMS, payroll, onboarding, performance, tasks, projects, digital identity and automation in one intelligent workspace. Built for modern teams across Africa, the GCC & global markets."
+    />
+    <meta property="og:url" content="https://www.ontapke.com/" />
+    <meta property="og:image" content="https://www.ontapke.com/og/ontap-og.png" />
+    <meta property="og:image:alt" content="Ontap Global Workspace dashboard preview" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Ontap Global Workspace | AI-Powered HRMS, Payroll, Tasks & Automation" />
+    <meta
+      name="twitter:description"
+      content="AI-powered Human Operations OS: HRMS + payroll + onboarding + performance + tasks + projects + digital identity + workflow automation."
+    />
+    <meta name="twitter:image" content="https://www.ontapke.com/og/ontap-og.png" />
+
+    <!-- Core Web Vitals / PageSpeed performance hints -->
+    <!-- 1) Preconnect to critical origins you actually use -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- 2) Load fonts without render-blocking (replace with your actual font choices) -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
+
+    <!-- 3) If you have a hero image, preload it to improve LCP (replace path) -->
+    <!-- <link rel="preload" as="image" href="/images/hero.webp" imagesrcset="/images/hero.webp 1x" /> -->
+
+    <!-- 4) Reduce CLS: define a stable font + default styling -->
+
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Ontap Global Workspace",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "AI-powered Human Operations OS that unifies HRMS, payroll, onboarding, performance, tasks, projects, digital identity and workflow automation for modern teams across Africa, the GCC and global markets.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Ontap Global Workspace",
+          "url": "https://www.ontapke.com/"
+        }
+      }
+    </script>
+
+    <!-- Optional: Organization schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Ontap Global Workspace",
+        "url": "https://www.ontapke.com/",
+        "logo": "https://www.ontapke.com/brand/logo.png",
+        "sameAs": [
+          "https://www.linkedin.com/company/ontap-global-workspace"
+        ]
+      }
+    </script>
+
+    <!-- Optional: Performance monitoring (only if you have it) -->
+    <!-- <meta http-equiv="origin-trial" content="..."> -->
+
   </head>
+
   <body>
-    <div id="root"></div>
+    <!-- Minimal, accessible app shell -->
+    <a href="#main" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to content</a>
+
+    <!-- If JS fails, give a helpful fallback -->
+    <noscript>
+      <div style="padding:16px;font-family:Inter,system-ui,Arial;">
+        Ontap Global Workspace requires JavaScript to run. Please enable JavaScript in your browser.
+      </div>
+    </noscript>
+
+    <div id="root" role="application" aria-label="Ontap Global Workspace"></div>
+
+    <!-- Vite / React entry (keep type=module; it is deferred by default) -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
