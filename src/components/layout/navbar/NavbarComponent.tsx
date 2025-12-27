@@ -576,21 +576,21 @@ Need to check your current sick leave balance? I can help with that!`;
 
         {/* CTA Buttons */}
         <div className="flex items-center space-x-4">
-          <button 
-            onClick={() => handleNavigation("/get-started")}
+          <a 
+            href="#"
             className="hidden md:flex items-center space-x-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#17ae9e]/80 to-[#0f766e]/70 text-white font-semibold text-sm hover:shadow-md hover:shadow-teal-300/70 transition-all duration-300 group"
           >
             <span>Get Started</span>
             <FaRegArrowAltCircleRight className="size-5 group-hover:translate-x-1 transition-transform duration-300" />
-          </button>
+          </a>
 
-          <button 
-            onClick={() => handleNavigation("/get-started")}
+          <a 
+            href="https://hrms.ontapke.com/signin"
            className="hidden md:flex items-center space-x-2 px-5 py-2.5 rounded-full bg-gradient-to-r bg-white text-gray-800 font-semibold text-sm border-2 border-emerald-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-3 group"
           >
             <span> Sign In </span>
             <FaRegArrowAltCircleRight className="size-5 group-hover:translate-x-1 transition-transform duration-300" />
-          </button>
+          </a>
           
           {/* Mobile menu button */}
           <button 
@@ -833,25 +833,21 @@ Need to check your current sick leave balance? I can help with that!`;
               
               {/* Mobile CTA Buttons */}
               <div className="mt-8 space-y-4">
-                <button
-                  onClick={() => {
-                    handleNavigation("/get-started");
-                  }}
+                <a
+                  href="#"
                   className="w-full flex items-center justify-center space-x-3 px-6 py-3.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-base hover:shadow-lg hover:shadow-emerald-300/50 transition-all duration-300"
                 >
                   <span>Get Started Free</span>
                   <FaRegArrowAltCircleRight className="size-5" />
-                </button>
+                </a>
                 
-                <button
-                  onClick={() => {
-                    handleNavigation("/get-started");
-                  }}
+                <a
+                  href="https://hrms.ontapke.com/signin"
                   className="w-full flex items-center justify-center space-x-3 px-6 py-3.5 rounded-full bg-white text-gray-800 font-semibold text-base border-2 border-emerald-300 hover:border-emerald-400 hover:bg-emerald-50 transition-all duration-300"
                 >
                   <span>Sign In</span>
                   <FaRegArrowAltCircleRight className="size-5" />
-                </button>
+                </a>
               </div>
               
               {/* AI Assistant Button in Mobile Menu */}
