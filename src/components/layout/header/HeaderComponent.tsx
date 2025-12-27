@@ -6,6 +6,7 @@ const HeaderComponent = () => {
   const [isDashboardVisible, setIsDashboardVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [shouldSlideBack, setShouldSlideBack] = useState(false);
   const dashboardRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   
@@ -38,8 +39,7 @@ const HeaderComponent = () => {
     "https://i.pinimg.com/736x/88/a5/23/88a523523f21ed102bd68d2add317ed5.jpg",
     "https://i.pinimg.com/736x/10/f9/49/10f94912ec553621e064716ae3026447.jpg",
     "https://i.pinimg.com/736x/ee/96/af/ee96afc0635e1f531db8ec9ec181fcc3.jpg",
-
-  ];
+   ];
   
   // Sample attendance data with avatar URLs
   const attendanceData = [
@@ -307,7 +307,7 @@ const HeaderComponent = () => {
     {
       id: 6,
       candidate: "Lisa Anderson",
-      candidateAvatar: "https://i.pinimg.com/736x/7h/ce/5f/7hce5f9g8h7i6j5k4l3m2n1o0p9q8.jpg",
+      candidateAvatar: candidateAvatars[5],
       position: "Marketing Specialist",
       stage: "rejected",
       status: "inactive",
@@ -364,6 +364,7 @@ const HeaderComponent = () => {
       
       const headerBottom = headerRef.current.getBoundingClientRect().bottom;
       const dashboardTop = dashboardRef.current.getBoundingClientRect().top;
+      const dashboardHeight = dashboardRef.current.offsetHeight;
       const windowHeight = window.innerHeight;
       
       // When header is out of view AND dashboard is in view, show table entries
@@ -373,10 +374,27 @@ const HeaderComponent = () => {
           setIsDashboardVisible(true);
           setTimeout(() => setIsAnimating(false), 800);
         }
+        
+        // Check if we're halfway through the dashboard section
+        const scrollPosition = window.scrollY;
+        const dashboardStart = dashboardRef.current.offsetTop;
+        const scrollProgress = scrollPosition - dashboardStart;
+        
+        // When user has scrolled through 50% of the dashboard, trigger slide back
+        if (scrollProgress > dashboardHeight * 0.5 && !shouldSlideBack) {
+          setShouldSlideBack(true);
+          // Add a short delay before starting the slide animation
+          setTimeout(() => {
+            setIsAnimating(true);
+            // The actual slide animation will be triggered by shouldSlideBack state
+            setTimeout(() => setIsAnimating(false), 800);
+          }, 300); // 300ms delay before sliding starts
+        }
       } else {
         if (isDashboardVisible) {
           setIsAnimating(true);
           setIsDashboardVisible(false);
+          setShouldSlideBack(false); // Reset when leaving dashboard
           setTimeout(() => setIsAnimating(false), 800);
         }
       }
@@ -388,7 +406,7 @@ const HeaderComponent = () => {
     }
     
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isDashboardVisible, isAnimating, isMobile]);
+  }, [isDashboardVisible, isAnimating, isMobile, shouldSlideBack]);
 
   const activeFeatureData = features.find(f => f.id === activeFeature);
   
@@ -465,11 +483,15 @@ const HeaderComponent = () => {
                     right: position.right,
                     '--start-rotation': `${position.rotation * 2}deg`,
                     '--end-rotation': `${position.rotation}deg`,
-                    animation: isDashboardVisible 
+                    animation: shouldSlideBack 
+                      ? `slideToDashboard 1s ease-out ${index * 0.1}s forwards`
+                      : isDashboardVisible 
                       ? `floatOut 0.8s ease-out ${(attendanceData.length - index - 1) * 0.1}s forwards`
                       : `floatIn 0.8s ease-out ${index * 0.1}s forwards`,
-                    opacity: isDashboardVisible ? 0 : 1,
-                    animationDelay: isDashboardVisible 
+                    opacity: shouldSlideBack ? 1 : (isDashboardVisible ? 0 : 1),
+                    animationDelay: shouldSlideBack 
+                      ? `${index * 0.1}s`
+                      : isDashboardVisible 
                       ? `${(attendanceData.length - index - 1) * 0.1}s`
                       : `${index * 0.1}s`,
                   } as React.CSSProperties}
@@ -594,6 +616,7 @@ const HeaderComponent = () => {
         ref={dashboardRef}
         className={`w-full bg-gradient-to-b from-white to-gray-50/50 py-16 md:py-24 px-4 relative ${isMobile ? 'hidden' : ''}`}
       >
+       
         {/* Section Header */}
         <div className="max-w-6xl mx-auto mb-12 md:mb-16">
           <div className="text-center max-w-3xl mx-auto">

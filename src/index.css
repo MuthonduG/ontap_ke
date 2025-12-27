@@ -380,6 +380,65 @@
   }
 }
 
+@keyframes slideToDashboard {
+    0% {
+      transform: translate(var(--start-x, 0), var(--start-y, 0)) rotate(var(--start-rotation, 0deg));
+      opacity: 1;
+    }
+    70% {
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(calc(50vw - 50%), calc(100vh - 50%)) rotate(0deg);
+      opacity: 0;
+    }
+}
+          
+@keyframes floatIn {
+    0% {
+      transform: translateY(100px) rotate(var(--start-rotation, 0deg));
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0) rotate(var(--end-rotation, 0deg));
+      opacity: 1;
+    }
+}
+          
+@keyframes floatOut {
+  0% {
+    transform: translateY(0) rotate(var(--end-rotation, 0deg));
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) rotate(var(--start-rotation, 0deg));
+    opacity: 0;
+  }
+}
+          
+@keyframes slideIntoTable {
+    0% {
+      transform: translateX(-100px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+}
+          
+@keyframes slideOutOfTable {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+}
+
+
 /* Animation Classes */
 .animate-slide-in-left {
   animation: slideInLeft 0.8s ease-out forwards;
